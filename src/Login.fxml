@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
@@ -10,7 +11,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -31,7 +31,7 @@
             <HBox prefHeight="62.0" prefWidth="262.0" />
             <HBox prefHeight="31.0" prefWidth="189.0" styleClass="border" stylesheets="@values/style.css">
                <children>
-                  <Pane prefHeight="27.0" prefWidth="40.0" styleClass="right-side-border">
+                  <Pane prefHeight="27.0" prefWidth="40.0">
                      <children>
                         <ImageView fitHeight="27.0" fitWidth="41.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -39,6 +39,10 @@
                            </image>
                         </ImageView>
                      </children>
+                     <styleClass>
+                        <String fx:value="right-side-border" />
+                        <String fx:value="right-side-border" />
+                     </styleClass>
                   </Pane>
                   <TextField fx:id="txt_nombreUsuario" prefHeight="41.0" prefWidth="163.0" promptText="Usuario" styleClass="transparent">
                      <font>

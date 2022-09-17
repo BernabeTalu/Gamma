@@ -16,12 +16,12 @@ public class Main {
         manager = emf.createEntityManager();
 
         Persona per = new Persona(371223,"Francisco", "Gonzalez", 228455);
-
+        Paciente paciente = new Paciente(37852343,"Carlos", "Gomez",2424242, "OSDE");
 
         if (!Main.manager.getTransaction().isActive())
             Main.manager.getTransaction().begin(); // La abro
 //
-        manager.persist(per);
+        manager.persist(paciente);
 
         List<Persona> personas = (List<Persona>) manager.createQuery("FROM Persona").getResultList();
         System.out.println("En esta base de datos hay " + personas.size() + " personas");
