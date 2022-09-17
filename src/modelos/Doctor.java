@@ -17,11 +17,13 @@ public class Doctor extends Empleado implements Serializable{
     @JoinColumn(name = "idConsultorio") //Guardo el consultorio en el cual el doctor en cuestion ejerce.
     private Consultorio consultorio;
 
-    //@Column(name = "especialidades")
-    //private List<String> especialidades;
+    @ElementCollection
+    @Column(name = "especialidades")
+    private List<String> especialidades;
 
-    //@Column(name = "pacientes")
-    //private List<Paciente> pacientes;
+    @ManyToMany(mappedBy = "doctores")
+    @Column(name = "pacientes")
+    private List<Paciente> pacientes;
 
     public Doctor(){
     }
@@ -30,8 +32,8 @@ public class Doctor extends Empleado implements Serializable{
         super(dni,nombre,apellido,telefono,idEmpleado,sueldo);
         this.matricula = matricula;
         this.consultorio = consultorio;
-        //this.especialidades = new ArrayList<>();
-        //this.pacientes = new ArrayList<>();
+        this.especialidades = new ArrayList<>();
+        this.pacientes = new ArrayList<>();
     }
 
     public void setMatricula(int matricula) {
@@ -43,21 +45,20 @@ public class Doctor extends Empleado implements Serializable{
     }
 
     public List<String> getEspecialidades(){
-        //return new ArrayList<>(this.especialidades);
-        return null;
+        return new ArrayList<>(this.especialidades);
     }
 
     public void setEspecialidades(String e){
-        //this.especialidades.add(e);
+        this.especialidades.add(e);
     }
 
     public void agregarPaciente(Paciente p){
-        //if(!this.pacientes.contains(p))
-          //  this.pacientes.add(p);
+        if(!this.pacientes.contains(p))
+            this.pacientes.add(p);
     }
 
     public void eliminarPaciente(Paciente p){
-        //if(this.pacientes.contains(p))
-          //  this.pacientes.remove(p);
+        if(this.pacientes.contains(p))
+            this.pacientes.remove(p);
     }
 }

@@ -12,7 +12,7 @@ public class Area extends Elemento implements Serializable{
     @Column(name = "idRecepcionista")
     private int dniRecepcionista;
 
-    @ElementCollection
+    //@OneToMany
     @Column(name = "idElemento")
     private List<Elemento> componentes;
 
