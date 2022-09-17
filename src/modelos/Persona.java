@@ -1,13 +1,12 @@
 package modelos;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Persona")
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipoPersona")
+@Table(name = "persona")
 public class Persona {
     @Id
     @Column(name = "dni")
@@ -21,8 +20,6 @@ public class Persona {
 
     @Column(name = "telefono")
     private int telefono;
-
-
 
     public Persona() {
     }
