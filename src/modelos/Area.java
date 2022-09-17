@@ -12,11 +12,12 @@ public class Area extends Elemento implements Serializable{
     @Column(name = "idRecepcionista")
     private int dniRecepcionista;
 
-    //@OneToMany
+    @OneToMany
     @Column(name = "idElemento")
     private List<Elemento> componentes;
 
     public Area(){
+        super();
     }
 
     public Area(int id, String nombre, int dniRecepcionista){

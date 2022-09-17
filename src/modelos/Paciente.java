@@ -27,6 +27,7 @@ public class Paciente extends Persona implements Serializable{
     private List<Doctor> doctores;
 
     public Paciente(){
+        super();
     }
 
     public Paciente(int dni,String nombre, String apellido, int telefono,String coberturaMedica){

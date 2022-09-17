@@ -3,7 +3,7 @@ import modelos.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.print.Doc;
+import javax.persistence.Query;
 import java.util.List;
 
 public class Main {
@@ -16,6 +16,7 @@ public class Main {
         manager = emf.createEntityManager();
 
         Persona per = new Persona(371223,"Francisco", "Gonzalez", 228455);
+
 
         if (!Main.manager.getTransaction().isActive())
             Main.manager.getTransaction().begin(); // La abro

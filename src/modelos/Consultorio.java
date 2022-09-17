@@ -31,6 +31,7 @@ public class Consultorio extends Elemento implements Serializable {
     private List<String> estudiosBrindados;
 
     public Consultorio(){
+        super();
     }
 
     public Consultorio(int id, String nombre, int dniDoctor, double precioTurno){

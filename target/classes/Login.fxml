@@ -1,11 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="194.0" layoutY="118.0" mnemonicParsing="false" text="Button" />
+      <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="355.0" style="-fx-background-color: #a64d79;">
+         <children>
+            <ImageView fitHeight="260.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/imagenGamma.jpg" />
+               </image>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </ImageView>
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="343.0">
+         <children>
+            <HBox prefHeight="62.0" prefWidth="262.0" />
+            <HBox prefHeight="31.0" prefWidth="189.0" styleClass="border" stylesheets="@values/style.css">
+               <children>
+                  <Pane prefHeight="27.0" prefWidth="40.0" styleClass="right-side-border">
+                     <children>
+                        <ImageView fitHeight="27.0" fitWidth="41.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/user.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <TextField fx:id="txt_nombreUsuario" prefHeight="41.0" prefWidth="163.0" promptText="Usuario" styleClass="transparent">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" top="50.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="31.0" prefWidth="189.0" styleClass="border" stylesheets="@values/style.css">
+               <children>
+                  <Pane prefHeight="25.0" prefWidth="30.0" styleClass="right-side-border" stylesheets="@values/style.css">
+                     <children>
+                        <ImageView fitHeight="27.0" fitWidth="33.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/passw.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <PasswordField fx:id="txt_password" prefHeight="25.0" prefWidth="155.0" promptText="Password" styleClass="transparent" stylesheets="@values/style.css">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" top="30.0" />
+               </VBox.margin>
+            </HBox>
+            <Button fx:id="btn_login" mnemonicParsing="false" prefHeight="34.0" prefWidth="189.0" styleClass="left-side-background" stylesheets="@values/style.css" text="Login" textFill="WHITE">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" top="30.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
    </children>
-</AnchorPane>
+</HBox>

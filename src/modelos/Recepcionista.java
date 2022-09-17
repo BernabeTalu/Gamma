@@ -15,6 +15,7 @@ public class Recepcionista extends Empleado implements Serializable{
     private Area area;
 
     public Recepcionista(){
+        super();
     }
 
     public Recepcionista(int dni, String nombre, String apellido, int telefono, int idEmpleado, double sueldo,Area area){

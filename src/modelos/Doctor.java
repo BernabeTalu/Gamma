@@ -26,6 +26,7 @@ public class Doctor extends Empleado implements Serializable{
     private List<Paciente> pacientes;
 
     public Doctor(){
+        super();
     }
 
     public Doctor(int dni, String nombre, String apellido, int telefono, int idEmpleado, double sueldo, int matricula, Consultorio consultorio){
