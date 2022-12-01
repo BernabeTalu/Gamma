@@ -2,17 +2,21 @@ package modelos;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 @Entity
 @DiscriminatorValue("A")
 @Table(name = "area")
 public class Area extends Elemento implements Serializable{
-    @Column(name = "idRecepcionista")
-    private int dniRecepcionista;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn (name = "idRecepcionista")
+    private Recepcionista recepcionista;
 
-    @OneToMany
+    @ElementCollection
     @Column(name = "idElemento")
     private List<Elemento> componentes;
 
@@ -20,9 +24,10 @@ public class Area extends Elemento implements Serializable{
         super();
     }
 
-    public Area(int id, String nombre, int dniRecepcionista){
+    public Area(int id, String nombre, Recepcionista recepcionista){
         super(id,nombre);
-        this.dniRecepcionista = dniRecepcionista;
+        recepcionista.setArea(this);
+        this.recepcionista = recepcionista;
         this.componentes = new ArrayList<>();
     }
 
@@ -65,22 +70,26 @@ public class Area extends Elemento implements Serializable{
     }
 
     @Override
-    public void setTurno(Turno t){
+    public boolean turnoOcupado(LocalDate date, LocalTime time) {
+        for(Elemento e: this.componentes)
+            if(e.turnoOcupado(date,time))
+                return true;
+        return false;
+    }
 
+    @Override
+    public void setTurno(Turno t){ //Los turnos duran hora siempre.
+        for(Elemento e : this.componentes){
+            if(!e.turnoOcupado(t.getFecha(),t.getHora()))
+                e.setTurno(t);
+        }
     }
 
     @Override
     public void cancelarTurno(Turno t){
-
+        for(Elemento e : this.componentes){
+            e.cancelarTurno(t);
+        }
     }
 
-    @Override
-    public void setOcupado(boolean ocupado){
-
-    }
-
-    @Override
-    public boolean isOcupado(){
-        return false; //queda asi hasta que defina el comportamiento.
-    }
 }

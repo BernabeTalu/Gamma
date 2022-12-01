@@ -13,8 +13,7 @@ public class Doctor extends Empleado implements Serializable{
     @Column(name = "matricula")
     private int matricula;
 
-    @OneToOne//Un doctor solo ejerce en un consultorio.
-    @JoinColumn(name = "idConsultorio") //Guardo el consultorio en el cual el doctor en cuestion ejerce.
+    @OneToOne(mappedBy = "doctor",fetch = FetchType.LAZY)//Un doctor solo ejerce en un consultorio.
     private Consultorio consultorio;
 
     @ElementCollection
@@ -22,17 +21,15 @@ public class Doctor extends Empleado implements Serializable{
     private List<String> especialidades;
 
     @ManyToMany(mappedBy = "doctores")
-    @Column(name = "pacientes")
     private List<Paciente> pacientes;
 
     public Doctor(){
         super();
     }
 
-    public Doctor(int dni, String nombre, String apellido, int telefono, int idEmpleado, double sueldo, int matricula, Consultorio consultorio){
+    public Doctor(int dni, String nombre, String apellido, int telefono, int idEmpleado, double sueldo, int matricula){
         super(dni,nombre,apellido,telefono,idEmpleado,sueldo);
         this.matricula = matricula;
-        this.consultorio = consultorio;
         this.especialidades = new ArrayList<>();
         this.pacientes = new ArrayList<>();
     }
@@ -51,6 +48,14 @@ public class Doctor extends Empleado implements Serializable{
 
     public void setEspecialidades(String e){
         this.especialidades.add(e);
+    }
+
+    public Consultorio getConsultorio() {
+        return consultorio;
+    }
+
+    public void setConsultorio(Consultorio consultorio) {
+        this.consultorio = consultorio;
     }
 
     public void agregarPaciente(Paciente p){
