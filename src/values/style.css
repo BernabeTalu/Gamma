@@ -1,6 +1,15 @@
 
-.button{
-    -fx-background-color: #a64d79;
+
+
+@font-face {
+    font-family:"Marcellus";
+    src: local("src/img/Marcellus-Regular.ttf");
+}
+
+
+
+  .button{
+    -fx-background-color: #82255d;
 }
 
 .button:pressed{
@@ -27,4 +36,11 @@
 .right-side-border{
     -fx-border-color: #a64d79;
     -fx-border-width: 0 1.5 0 0 ;
+}
+
+Pane{
+    -fx-font-family: 'Marcellus', serif;
+}
+.fuente {
+    -fx-font-family: 'Marcellus', serif;
 }
