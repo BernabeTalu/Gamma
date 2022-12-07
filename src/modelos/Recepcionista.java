@@ -17,8 +17,8 @@ public class Recepcionista extends Empleado implements Serializable{
         super();
     }
 
-    public Recepcionista(int dni, String nombre, String apellido, int telefono, int idEmpleado, double sueldo){
-        super(dni,nombre,apellido,telefono,idEmpleado,sueldo);
+    public Recepcionista(int dni, String nombre, String apellido, int telefono,String password, int idEmpleado, double sueldo) {
+        super(dni, nombre, apellido, telefono, password, sueldo);
     }
 
     public void setTurnosEnAgenda(Turno t){
