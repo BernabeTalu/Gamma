@@ -16,13 +16,17 @@ public class Empleado extends Persona implements Serializable{
     @Column(name = "password")
     private String password;
 
+    @Column(name = "tipo")
+    private String tipo;
+
     public Empleado(){
         super();
     }
 
-    public Empleado(int dni, String nombre, String apellido, int telefono, String password, double sueldo){
+    public Empleado(int dni, String nombre, String apellido, int telefono, String password,String tipo, double sueldo){
         super(dni,nombre,apellido,telefono);
         this.password = password;
+        this.tipo = tipo;
         this.sueldo = sueldo;
     }
 
@@ -41,4 +45,8 @@ public class Empleado extends Persona implements Serializable{
     public double getSueldo() {
         return this.sueldo;
     }
+
+    public String getTipo() {return tipo;}
+
+    public void setTipo(String tipo) {this.tipo = tipo;}
 }

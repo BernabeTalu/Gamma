@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelos.*;
 
@@ -49,6 +50,7 @@ public class Main extends Application {
                     "root",
                     0,
                     "root123",
+                    "Administrador",
                     0);
 
             if (!Main.manager.getTransaction().isActive())
@@ -80,9 +82,9 @@ public class Main extends Application {
 //            Consulta consulta1 = new Consulta(404,LocalDate.now(),"Resonancia",paciente);
 //            paciente.setConsultaHistoriaClinica(consulta1);
 //
-//            Area area1 = new Area(51, "AreaConsultorios", rec);
-//            Area area2 = new Area(52, "AreaDeAreas",rec2);
-//
+            Area area1 = new Area(51, "AreaConsultorios", null);
+            Area area2 = new Area(52, "AreaDeAreas",null);
+
 //            area1.setComponente(cons);
 //            area1.setComponente(cons2);
 //            area2.setComponente(cons3);
@@ -120,8 +122,8 @@ public class Main extends Application {
 //            manager.persist(turno);
 //            manager.persist(turno2);
 //            //manager.persist(turno3);
-//            manager.persist(area1);
-//            manager.persist(area2);
+            manager.persist(area1);
+            manager.persist(area2);
 //
 //            List<Persona> personas = (List<Persona>) manager.createQuery("FROM Persona").getResultList();
 //            System.out.println("En esta base de datos hay " + personas.size() + " personas");
@@ -141,7 +143,6 @@ public class Main extends Application {
          */
 
             Main.manager.getTransaction().commit();
-            Main.manager.close();
 
         }
         launch(args);
@@ -155,5 +156,18 @@ public class Main extends Application {
         //Parent pane = FXMLLoader.load(getClass().getResource(fxml));
         stg.getScene().setRoot(pane);
         stg.setTitle(titulo);
+    }
+
+    public void changeSceneOnParent(String fxml, String titulo) throws IOException {
+        // abrir sobre la otra pantalla
+        URL url = new File(fxml).toURI().toURL();
+        Parent pane = FXMLLoader.load(url);
+
+        Scene scene = new Scene(pane);
+        Stage stage = new Stage();
+        stage.setTitle(titulo);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 }

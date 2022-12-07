@@ -28,8 +28,8 @@ public class Doctor extends Empleado implements Serializable{
     }
 
 
-    public Doctor(int dni, String nombre, String apellido, int telefono,String password, int idEmpleado, double sueldo, int matricula){
-        super(dni,nombre,apellido,telefono,password,sueldo);
+    public Doctor(int dni, String nombre, String apellido, int telefono,String password,double sueldo, int matricula){
+        super(dni,nombre,apellido,telefono,password,"Doctor", sueldo);
 
         this.matricula = matricula;
         this.especialidades = new ArrayList<>();

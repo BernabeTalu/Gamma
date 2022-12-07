@@ -26,7 +26,9 @@ public class Area extends Elemento implements Serializable{
 
     public Area(int id, String nombre, Recepcionista recepcionista){
         super(id,nombre);
-        recepcionista.setArea(this);
+        if(recepcionista != null) {
+            recepcionista.setArea(this);
+        }
         this.recepcionista = recepcionista;
         this.componentes = new ArrayList<>();
     }
