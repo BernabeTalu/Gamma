@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Table(name = "Consulta")
 public class Consulta {
     @Id
-    @Column(name = "IdCOnsulta")
+    @Column(name = "IdConsulta")
     private int idConsulta;
 
     @Column(name = "Date")
@@ -20,17 +20,18 @@ public class Consulta {
     @Column(name = "Descripcion")
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "paciente")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dni_paciente")
     private Paciente paciente;
 
     public Consulta(){
     }
 
-    public Consulta(int idConsulta, LocalDate fecha, String descripcion){
+    public Consulta(int idConsulta, LocalDate fecha, String descripcion, Paciente p){
         this.idConsulta = idConsulta;
         this.fecha = fecha;
         this.descripcion = descripcion;
+        this.paciente = p;
     }
 
     public int getIdConsulta() {

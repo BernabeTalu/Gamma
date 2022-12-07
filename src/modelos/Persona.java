@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipoPersona")
 @Table(name = "persona")
-public class Persona {
+public class Persona implements Serializable {
     @Id
     @Column(name = "dni")
     private int dni;
@@ -66,5 +66,16 @@ public class Persona {
     public Persona setTelefono(int telefono) {
         this.telefono = telefono;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "dni=" + dni +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", telefono=" + telefono +
+                '\n'+
+                '}';
     }
 }
