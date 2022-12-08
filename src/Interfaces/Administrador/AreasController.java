@@ -4,8 +4,12 @@ import Interfaces.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 
 public class AreasController {
+
+    @FXML
+    private TableView<?> btn_addElem;
 
     @FXML
     private Button btn_agregar;
@@ -15,6 +19,16 @@ public class AreasController {
 
     @FXML
     private Button btn_eliminar;
+
+    @FXML
+    void addButtonClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void delActionClicked(ActionEvent event) {
+
+    }
 
     @FXML
     void backButtonClicked(ActionEvent event) {

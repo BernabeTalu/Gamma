@@ -10,7 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import modelos.Consultorio;
+import modelos.Doctor;
 import modelos.Empleado;
+import modelos.Paciente;
 
 import java.io.IOException;
 import java.net.URL;
@@ -79,6 +82,24 @@ public class EmpleadosController implements Initializable {
     @FXML
     void eliminarButtonClicked(ActionEvent event) {
 
+        Empleado empleadoAEliminar = (Empleado) this.table_empleados.getSelectionModel().getSelectedItem();
+
+        switch (empleadoAEliminar.getTipo()){
+            case ("Doctor"):
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
+
+                //Elimino el doctor del consultorio donde ejerce.
+                Consultorio c = Main.manager.find(Consultorio.class,empleadoAEliminar.getDni());
+                if(c != null) {
+                    c.setDoctor(null);
+                    Main.manager.merge(c);
+                }
+
+                Main.manager.remove(empleadoAEliminar);
+                Main.manager.getTransaction().commit();
+                this.actualizarTabla();
+        }
     }
 
     @Override

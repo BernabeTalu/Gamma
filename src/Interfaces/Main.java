@@ -24,6 +24,7 @@ public class Main extends Application {
     public static EntityManager manager;
     public static EntityManagerFactory emf;
     public static Empleado usuarioLogeado;
+    public static Paciente pacienteConsultado;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -58,7 +59,7 @@ public class Main extends Application {
                 //manager.persist(paciente);
                 manager.persist(root);
 //
-//            Paciente paciente = new Paciente(37852343,"Carlos", "Gomez",2424242, "OSDE");
+            Paciente paciente = new Paciente(37852343,"Carlos", "Gomez",2424242, "OSDE");
 //            Paciente paciente2 = new Paciente(20807233,"Cesar", "Basualdo",343434, "IOMA");
 //
 //            Doctor doc1 = new Doctor(35678890,"Bernabe", "Talu", 24946014,"pass",25, 80000, 234789);
@@ -79,7 +80,7 @@ public class Main extends Application {
 //            Turno turno2 = new Turno(2, paciente, LocalDate.now(), LocalTime.now(),100.50, false, cons);
 //            Turno turno3 = new Turno(3, paciente2, LocalDate.now(), LocalTime.now(),100.50, false, cons3);
 //
-//            Consulta consulta1 = new Consulta(404,LocalDate.now(),"Resonancia",paciente);
+            Consulta consulta1 = new Consulta(404,LocalDate.now(),"Resonancia",paciente,123);
 //            paciente.setConsultaHistoriaClinica(consulta1);
 //
             Area area1 = new Area(51, "AreaConsultorios", null);
@@ -111,9 +112,9 @@ public class Main extends Application {
 //            if (!Main.manager.getTransaction().isActive())
 //                Main.manager.getTransaction().begin(); // La abro
 //
+            manager.persist(paciente);
 //            manager.persist(paciente);
-//            manager.persist(paciente);
-//            manager.persist(cons);
+            manager.persist(consulta1);
 //            manager.persist(cons2);
 //            manager.persist(cons3);
 //            manager.persist(doc1);

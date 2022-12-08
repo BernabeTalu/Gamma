@@ -1,5 +1,7 @@
 package modelos;
 
+import javafx.scene.control.Button;
+
 import javax.persistence.*;
 import java.io.Serializable;
 

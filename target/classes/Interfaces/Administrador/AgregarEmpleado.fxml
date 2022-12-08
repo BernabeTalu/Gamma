@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="277.0" prefWidth="359.0" style="-fx-background-color: #82255d;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.AgregarEmpleadoController">
+   <children>
+      <AnchorPane prefHeight="279.0" prefWidth="359.0">
+         <children>
+            <Label layoutX="25.0" layoutY="8.0" prefHeight="44.0" prefWidth="215.0" text="Nuevo empleado" textFill="#f2e5f0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txt_DNI" layoutX="31.0" layoutY="68.0" prefHeight="25.0" prefWidth="149.0" promptText="DNI" />
+            <TextField fx:id="txt_nombre" layoutX="31.0" layoutY="100.0" promptText="Nombre" />
+            <TextField fx:id="txt_apellido" layoutX="31.0" layoutY="132.0" promptText="Apellido" />
+            <TextField fx:id="txt_telefono" layoutX="31.0" layoutY="163.0" promptText="Telefono" />
+            <TextField fx:id="txt_password" layoutX="31.0" layoutY="194.0" promptText="Contraseña" />
+            <TextField fx:id="txt_sueldo" layoutX="31.0" layoutY="225.0" promptText="Sueldo" />
+            <ImageView fitHeight="44.0" fitWidth="47.0" layoutX="309.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../img/add.png" />
+               </image>
+            </ImageView>
+            <ComboBox fx:id="cbox_area" layoutX="189.0" layoutY="107.0" prefWidth="150.0" promptText="Area Especialización" />
+            <Button fx:id="btn_agregar" layoutX="195.0" layoutY="147.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: green;" text="Agregar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <ComboBox fx:id="cbox_tipoEmpleado" layoutX="189.0" layoutY="68.0" prefWidth="150.0" promptText="Tipo Empleado" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

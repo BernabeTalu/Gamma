@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #53263C;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.AreasController">
    <children>
-      <TableView fx:id="btn_addElem" layoutX="5.0" layoutY="107.0" prefHeight="263.0" prefWidth="591.0" style="-fx-background-color: #d2a6bc;">
+      <TableView layoutX="5.0" layoutY="107.0" prefHeight="263.0" prefWidth="591.0" style="-fx-background-color: #d2a6bc;">
         <columns>
           <TableColumn prefWidth="75.0" text="Nombre " />
           <TableColumn prefWidth="75.0" text="Área padre" />
@@ -44,12 +44,12 @@
                   </ImageView>
                </graphic></Button>
          </children></Pane>
-      <Button fx:id="btn_agregar" layoutX="347.0" layoutY="68.0" mnemonicParsing="false" onAction="#addButtonClicked" prefHeight="23.0" prefWidth="115.0" style="-fx-background-color: #65D26E#65D26E #65D26E#65D26E;" text="Agregar Elemento">
+      <Button fx:id="btn_agregar" layoutX="384.0" layoutY="77.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="90.0" style="-fx-background-color: #65D26E#65D26E #65D26E#65D26E;" text="Agregar área">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Button>
-      <Button fx:id="btn_eliminar" layoutX="471.0" layoutY="68.0" mnemonicParsing="false" onAction="#delActionClicked" prefHeight="23.0" prefWidth="115.0" style="-fx-background-color: #CE375C#CE375C #CE375C#CE375C;" text="Eliminar Elemento">
+      <Button fx:id="eliminarCanchaButton11" layoutX="487.0" layoutY="77.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="90.0" style="-fx-background-color: #CE375C#CE375C #CE375C#CE375C;" text="Eliminar área">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>

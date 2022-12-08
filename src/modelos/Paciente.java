@@ -1,8 +1,6 @@
 package modelos;
 
-import org.hibernate.annotations.OnDelete;
 import javax.persistence.*;
-import javax.print.Doc;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("P")
 @Table(name = "Paciente")
-public class Paciente extends Persona implements Serializable{
+public class Paciente extends Persona implements Serializable {
 
     @OneToMany(mappedBy = "paciente", cascade = {CascadeType.ALL})
     @Column(name = "historia")
@@ -19,7 +17,10 @@ public class Paciente extends Persona implements Serializable{
     @Column(name = "coberturaMedica")
     private String coberturaMedica;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade ={CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "rel_pacientes_doctores",
+               joinColumns = @JoinColumn(name = "dni_paciente"),
+               inverseJoinColumns = @JoinColumn(name = "dni_doctor"))
     private List<Doctor> doctores;
 
     public Paciente(){
@@ -56,6 +57,15 @@ public class Paciente extends Persona implements Serializable{
 
     public List<Doctor> getDoctores() {
         return this.doctores;
+    }
+
+    public void eliminarDoctor(Doctor d){
+        if(this.doctores.contains(d))
+            this.doctores.remove(d);
+    }
+
+    public void setHistoriaClinica(List<Consulta> historiaClinica) {
+        this.historiaClinica = historiaClinica;
     }
 
     @Override

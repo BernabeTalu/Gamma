@@ -24,14 +24,19 @@ public class Consulta {
     @JoinColumn(name = "dni_paciente")
     private Paciente paciente;
 
+    @Column(name = "Doctor")
+    private int dniDoctor;
+
+
     public Consulta(){
     }
 
-    public Consulta(int idConsulta, LocalDate fecha, String descripcion, Paciente p){
+    public Consulta(int idConsulta, LocalDate fecha, String descripcion, Paciente p,int dniDoctor){
         this.idConsulta = idConsulta;
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.paciente = p;
+        this.dniDoctor = dniDoctor;
     }
 
     public int getIdConsulta() {
@@ -56,5 +61,21 @@ public class Consulta {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getDniDoctor() {
+        return dniDoctor;
+    }
+
+    public int getPaciente() {
+        return paciente.getDni();
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public void setDniDoctor(int dniDoctor) {
+        this.dniDoctor = dniDoctor;
     }
 }

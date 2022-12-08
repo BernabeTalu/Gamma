@@ -7,18 +7,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #a64d79;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Doctor.MenuPrincipalDoctorController">
+<AnchorPane prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #a64d79;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.MenuPrincipalRootController">
    <children>
-      <ImageView fitHeight="321.0" fitWidth="358.0" layoutX="140.0" layoutY="-25.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="234.0" fitWidth="368.0" layoutX="183.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../img/gammalogo.png" />
          </image>
       </ImageView>
       <AnchorPane layoutY="135.0" prefHeight="265.0" prefWidth="600.0">
          <children>
-            <VBox layoutX="175.0" layoutY="69.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="168.0" prefWidth="251.0">
+            <VBox layoutX="175.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="246.0" prefWidth="251.0">
                <children>
-                  <Button fx:id="btn_pacientes" mnemonicParsing="false" onAction="#pacientesButtonClicked" prefHeight="35.0" prefWidth="252.0" style="-fx-border-color: #a64d79; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@../../values/style.css" text="Pacientes" textFill="#fff6f6">
+                  <Button fx:id="btn_resumen" mnemonicParsing="false" onAction="#resumenButtonClicked" prefHeight="35.0" prefWidth="252.0" style="-fx-border-color: #a64d79; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@../../values/style.css" text="Resumen" textFill="#fff6f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_empleado" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#empleadosButtonClicked" prefHeight="35.0" prefWidth="252.0" style="-fx-border-color: #a64d79; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@../../values/style.css" text="Empleados" textFill="#fff6f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_areas" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#areasButtonClicked" prefHeight="35.0" prefWidth="252.0" style="-fx-border-color: #a64d79; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@../../values/style.css" text="Areas de Especialización" textFill="#fff6f6">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
