@@ -1,5 +1,6 @@
-package Interfaces;
+package Interfaces.Administrador;
 
+import Interfaces.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,7 +61,7 @@ public class EmpleadosController implements Initializable {
     @FXML
     void agregarButtonClicked(ActionEvent event) throws IOException {
         Main m = new Main();
-        m.changeSceneOnParent("src/Interfaces/AgregarEmpleado.fxml", "Nuevo empleado");
+        m.changeSceneOnParent("src/Interfaces/Administrador/AgregarEmpleado.fxml", "Nuevo empleado");
         actualizarTabla();
     }
 
@@ -68,7 +69,7 @@ public class EmpleadosController implements Initializable {
     void backButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-            m.changeScene("src/Interfaces/MenuPrincipalRoot.fxml", "Menu Gamma");
+            m.changeScene("src/Interfaces/Administrador/MenuPrincipalRoot.fxml", "Menu Gamma");
         }
         catch (Exception e) {
             e.printStackTrace();

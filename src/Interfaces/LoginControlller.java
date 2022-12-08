@@ -42,8 +42,18 @@ public class LoginControlller {
                         txt_password.setText("Ingreso exitoso!");
                         System.out.println("Ingreso exitoso!");
 
+                        switch (Main.usuarioLogeado.getTipo()){
+                            case "Administrador":
+                                m.changeScene("src/Interfaces/Administrador/MenuPrincipalRoot.fxml", "Menu Principal Administrador");
+                                break;
+                            case "Doctor":
+                                m.changeScene("src/Interfaces/Doctor/MenuPrincipalDoctor.fxml", "Menu Principal Doctor");
+                                break;
+                            case "Recepcionista":
+                                m.changeScene("src/Interfaces/Recepcionista/MenuPrincipalRecepcionista.fxml", "Menu Principal Recepcionista");
+                                break;
+                        }
 
-                        m.changeScene("src/Interfaces/MenuPrincipalRoot.fxml", "Menu Principal");
                     } else {
                         txt_password.setText("Contraseña incorrecta!");
                         System.out.println("Contraseña incorrecta!");

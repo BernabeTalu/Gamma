@@ -1,4 +1,4 @@
-package Interfaces;
+package Interfaces.Administrador;
 
 public class TurnosController {
 }

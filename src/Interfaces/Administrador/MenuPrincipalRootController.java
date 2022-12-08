@@ -1,9 +1,11 @@
-package Interfaces;
+package Interfaces.Administrador;
 
+import Interfaces.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class MenuPrincipalRootController {
 
@@ -29,7 +31,7 @@ public class MenuPrincipalRootController {
     void areasButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-                m.changeScene("src/Interfaces/AreaEspecializacion.fxml", "Áreas de especialización");
+                m.changeScene("src/Interfaces/Administrador/AreaEspecializacion.fxml", "Áreas de especialización");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +53,7 @@ public class MenuPrincipalRootController {
     void empleadosButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-            m.changeScene("src/Interfaces/Empleados.fxml", "Empleados");
+            m.changeScene("src/Interfaces/Administrador/Empleados.fxml", "Empleados");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -65,14 +67,15 @@ public class MenuPrincipalRootController {
 
     @FXML
     void salirButtonClicked(ActionEvent event) {
-        Main m = new Main();
+        Stage stage = (Stage) btn_salir.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     void turnosButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-            m.changeScene("src/Interfaces/Turnos.fxml", "Turnos");
+            m.changeScene("src/Interfaces/Administrador/Turnos.fxml", "Turnos");
         }
         catch (Exception e) {
             e.printStackTrace();

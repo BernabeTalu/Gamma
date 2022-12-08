@@ -148,8 +148,7 @@ public class Main extends Application {
         launch(args);
     }
     public void changeScene(String fxml, String titulo) throws IOException {
-        //cambiar pantalla 100%
-        System.out.println("ENTRA======================================");
+
         URL url = new File(fxml).toURI().toURL();
         Parent pane = FXMLLoader.load(url);
 

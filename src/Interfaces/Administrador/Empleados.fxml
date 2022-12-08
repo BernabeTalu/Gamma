@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #53263C;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.EmpleadosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #53263C;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.EmpleadosController">
    <children>
       <TableView fx:id="table_empleados" layoutX="5.0" layoutY="107.0" prefHeight="263.0" prefWidth="591.0" style="-fx-background-color: #d2a6bc;">
         <columns>
@@ -36,7 +36,7 @@
             </Text>
             <ImageView fitHeight="45.0" fitWidth="48.0" layoutX="547.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../img/medical-team.png" />
+                  <Image url="@../../img/medical-team.png" />
                </image>
             </ImageView>
             <Separator layoutY="59.0" prefHeight="5.0" prefWidth="606.0" />
@@ -44,7 +44,7 @@
                <graphic>
                   <ImageView fitHeight="38.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../img/anterior%20(1).png" />
+                        <Image url="@../../img/anterior%20(1).png" />
                      </image>
                   </ImageView>
                </graphic></Button>

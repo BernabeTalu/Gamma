@@ -18,7 +18,7 @@
             <TextField layoutX="23.0" layoutY="147.0" prefHeight="34.0" prefWidth="292.0" promptText="Nombre" />
             <ImageView fitHeight="33.0" fitWidth="36.0" layoutX="315.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../img/office-building.png" />
+                  <Image url="@../../img/office-building.png" />
                </image>
             </ImageView>
             <ComboBox layoutX="23.0" layoutY="87.0" prefHeight="33.0" prefWidth="211.0" promptText="Area de Especialización" />

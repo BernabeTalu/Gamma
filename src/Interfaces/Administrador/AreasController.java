@@ -1,5 +1,6 @@
-package Interfaces;
+package Interfaces.Administrador;
 
+import Interfaces.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ public class AreasController {
     void backButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-            m.changeScene("src/Interfaces/MenuPrincipalRoot.fxml", "Menu Gamma");
+            m.changeScene("src/Interfaces/Administrador/MenuPrincipalRoot.fxml", "Menu Gamma");
         }
         catch (Exception e) {
             e.printStackTrace();

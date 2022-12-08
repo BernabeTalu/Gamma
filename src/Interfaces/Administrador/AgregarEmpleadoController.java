@@ -1,5 +1,6 @@
-package Interfaces;
+package Interfaces.Administrador;
 
+import Interfaces.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
