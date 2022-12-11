@@ -108,7 +108,7 @@
       </Button>
       <ComboBox fx:id="cbox_areasEliminar" layoutX="431.0" layoutY="297.0" prefHeight="25.0" prefWidth="89.0" promptText="Select" />
       <Button fx:id="btn_eliminarSeleccion" layoutX="431.0" layoutY="329.0" mnemonicParsing="false" onAction="#delSeleccionClicked" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: D40C43;" text="Eliminar" textFill="WHITE" />
-      <TreeView fx:id="cod_treeView" layoutX="8.0" layoutY="63.0" prefHeight="309.0" prefWidth="204.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #a64d79; -fx-background-image: #a64d79; -fx-skin: #a64d79;">
+      <TreeView fx:id="cod_treeView" layoutX="8.0" layoutY="63.0" prefHeight="309.0" prefWidth="204.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #a64d79;">
          <opaqueInsets>
             <Insets />
          </opaqueInsets></TreeView>
