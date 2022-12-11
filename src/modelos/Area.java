@@ -94,4 +94,11 @@ public class Area extends Elemento implements Serializable{
         }
     }
 
+    public void setRecepcionista(Recepcionista recepcionista) {
+        this.recepcionista = recepcionista;
+    }
+
+    public Recepcionista getRecepcionista() {
+        return recepcionista;
+    }
 }

@@ -10,10 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import modelos.Consultorio;
-import modelos.Doctor;
-import modelos.Empleado;
-import modelos.Paciente;
+import modelos.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -90,7 +87,8 @@ public class EmpleadosController implements Initializable {
                     Main.manager.getTransaction().begin();
 
                 //Elimino el doctor del consultorio donde ejerce.
-                Consultorio c = Main.manager.find(Consultorio.class,empleadoAEliminar.getDni());
+                List <Consultorio> listCons = Main.manager.createQuery("from Consultorio where doctor ="+empleadoAEliminar.getDni()).getResultList();
+                Consultorio c = listCons.get(0);
                 if(c != null) {
                     c.setDoctor(null);
                     Main.manager.merge(c);
@@ -99,6 +97,25 @@ public class EmpleadosController implements Initializable {
                 Main.manager.remove(empleadoAEliminar);
                 Main.manager.getTransaction().commit();
                 this.actualizarTabla();
+
+            case ("Recepcionista"):
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
+                System.out.println("Entro aca");
+
+                //Eliminio el recepcionista del area donde trabaja
+                List <Area> listaArea = Main.manager.createQuery("from Area where idRecepcionista ="+empleadoAEliminar.getDni()).getResultList();
+                if(!listaArea.isEmpty()) {
+                    Area a = listaArea.get(0);
+                    if (a != null) {
+                        a.setRecepcionista(null);
+                        Main.manager.merge(a);
+                    }
+                }
+                Main.manager.remove(empleadoAEliminar);
+                Main.manager.getTransaction().commit();
+                this.actualizarTabla();
+
         }
     }
 

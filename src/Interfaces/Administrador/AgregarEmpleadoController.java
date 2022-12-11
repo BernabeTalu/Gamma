@@ -24,7 +24,7 @@ public class AgregarEmpleadoController implements Initializable {
     private Button btn_agregar;
 
     @FXML
-    private ComboBox<String> cbox_area;
+    private ComboBox<Integer> cbox_area;
 
     @FXML
     private ComboBox<String>  cbox_tipoEmpleado;
@@ -47,7 +47,7 @@ public class AgregarEmpleadoController implements Initializable {
     @FXML
     private TextField txt_telefono;
 
-    private ObservableList<String> areas;
+    private ObservableList<Integer> areas;
 
 
     @FXML
@@ -77,8 +77,16 @@ public class AgregarEmpleadoController implements Initializable {
                     Integer.parseInt(this.txt_telefono.getText()),
                     this.txt_password.getText(),
                     Double.parseDouble(this.txt_sueldo.getText())
-
             );
+
+            if(this.cbox_area.isVisible()) {
+                Area a = Main.manager.find(Area.class, this.cbox_area.getSelectionModel().getSelectedItem());
+                a.setRecepcionista(nuevoRecepcionista);
+            }
+
+            if(Main.agregandoRecepcionista)
+                Main.nuevoRecepcionista = nuevoRecepcionista;
+
             if (!Main.manager.getTransaction().isActive())
                 Main.manager.getTransaction().begin();
 
@@ -98,7 +106,7 @@ public class AgregarEmpleadoController implements Initializable {
         List<Area> areasDisponibles = Main.manager.createQuery("FROM Area WHERE idRecepcionista is null").getResultList();
 
         for(Area a:areasDisponibles)
-            this.areas.add(a.getNombre());
+            this.areas.add(a.getId());
         this.cbox_area.setItems(this.areas);
 
         ObservableList<String> tipos;
@@ -106,6 +114,10 @@ public class AgregarEmpleadoController implements Initializable {
         tipos = FXCollections.observableArrayList();
         tipos.addAll(tiposEmpleado);
         this.cbox_tipoEmpleado.setItems(tipos);
+
+        if(Main.agregandoRecepcionista){
+            this.cbox_area.setVisible(false);
+        }
 
     }
 }

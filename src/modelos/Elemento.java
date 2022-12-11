@@ -49,4 +49,12 @@ public abstract class Elemento {
     public abstract boolean turnoOcupado(LocalDate date, LocalTime time); //Done
     public abstract void setTurno(Turno t); //Done
     public abstract void cancelarTurno(Turno t);
+
+    @Override
+    public String toString() {
+        return "Elemento{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                '}';
+    }
 }

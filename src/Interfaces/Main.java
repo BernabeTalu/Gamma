@@ -25,6 +25,10 @@ public class Main extends Application {
     public static EntityManagerFactory emf;
     public static Empleado usuarioLogeado;
     public static Paciente pacienteConsultado;
+    public static boolean agregandoRecepcionista = false;
+    public static Recepcionista nuevoRecepcionista;
+    public static Area areaSeleccionada;
+    public static boolean agregandoSubArea = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -83,8 +87,9 @@ public class Main extends Application {
             Consulta consulta1 = new Consulta(404,LocalDate.now(),"Resonancia",paciente,123);
 //            paciente.setConsultaHistoriaClinica(consulta1);
 //
-            Area area1 = new Area(51, "AreaConsultorios", null);
-            Area area2 = new Area(52, "AreaDeAreas",null);
+            Area areaGral = new Area(0,"Area",null);
+            Area area1 = new Area(51, "Kinesiologia", null);
+            Area area2 = new Area(52, "Cardiologia",null);
 
 //            area1.setComponente(cons);
 //            area1.setComponente(cons2);
@@ -125,6 +130,7 @@ public class Main extends Application {
 //            //manager.persist(turno3);
             manager.persist(area1);
             manager.persist(area2);
+            manager.persist(areaGral);
 //
 //            List<Persona> personas = (List<Persona>) manager.createQuery("FROM Persona").getResultList();
 //            System.out.println("En esta base de datos hay " + personas.size() + " personas");
