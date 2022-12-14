@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelos.*;
@@ -26,9 +27,11 @@ public class Main extends Application {
     public static Empleado usuarioLogeado;
     public static Paciente pacienteConsultado;
     public static boolean agregandoRecepcionista = false;
+    public static boolean agregandoDoctor = false;
     public static Recepcionista nuevoRecepcionista;
     public static Area areaSeleccionada;
-    public static boolean agregandoSubArea = false;
+    public static Consultorio consultorioSeleccionado;
+    public static Doctor nuevoDoctor;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -73,7 +76,6 @@ public class Main extends Application {
 //            Recepcionista rec = new Recepcionista(27908889, "Javier", "Perez",22845677, "pass",27, 40000);
 //            Recepcionista rec2 = new Recepcionista(45678908,"Leo","Messi",345678,"pass",28,40000);
 //
-//            Consultorio cons = new Consultorio(01, "FalsoConsultorio", doc1, 50.50);
 //            Consultorio cons2 = new Consultorio(02, "FalsoConsultorio2", doc2, 80.90);
 //            Consultorio cons3 = new Consultorio(03,"FalsoConsultorio3",doc3,100.00);
 //
@@ -88,8 +90,8 @@ public class Main extends Application {
 //            paciente.setConsultaHistoriaClinica(consulta1);
 //
             Area areaGral = new Area(0,"Area",null);
-            Area area1 = new Area(51, "Kinesiologia", null);
-            Area area2 = new Area(52, "Cardiologia",null);
+            //Area area1 = new Area(51, "Kinesiologia", null);
+            //Area area2 = new Area(52, "Cardiologia",null);
 
 //            area1.setComponente(cons);
 //            area1.setComponente(cons2);
@@ -120,7 +122,6 @@ public class Main extends Application {
             manager.persist(paciente);
 //            manager.persist(paciente);
             manager.persist(consulta1);
-//            manager.persist(cons2);
 //            manager.persist(cons3);
 //            manager.persist(doc1);
 //            manager.persist(doc2);
@@ -128,8 +129,8 @@ public class Main extends Application {
 //            manager.persist(turno);
 //            manager.persist(turno2);
 //            //manager.persist(turno3);
-            manager.persist(area1);
-            manager.persist(area2);
+            //manager.persist(area1);
+            //manager.persist(area2);
             manager.persist(areaGral);
 //
 //            List<Persona> personas = (List<Persona>) manager.createQuery("FROM Persona").getResultList();
@@ -159,13 +160,11 @@ public class Main extends Application {
         URL url = new File(fxml).toURI().toURL();
         Parent pane = FXMLLoader.load(url);
 
-        //Parent pane = FXMLLoader.load(getClass().getResource(fxml));
         stg.getScene().setRoot(pane);
         stg.setTitle(titulo);
     }
 
     public void changeSceneOnParent(String fxml, String titulo) throws IOException {
-        // abrir sobre la otra pantalla
         URL url = new File(fxml).toURI().toURL();
         Parent pane = FXMLLoader.load(url);
 
@@ -175,5 +174,13 @@ public class Main extends Application {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.showAndWait();
+    }
+
+    public void sendAlert(Alert.AlertType alertType, String title, String content){
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(null);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

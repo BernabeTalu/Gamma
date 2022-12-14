@@ -55,6 +55,9 @@ public class EmpleadosController implements Initializable {
     private TableColumn<?, ?> col_password;
 
     @FXML
+    private TableColumn<?, ?> col_trabajaEn;
+
+    @FXML
     private TableView table_empleados;
 
 
@@ -88,12 +91,13 @@ public class EmpleadosController implements Initializable {
 
                 //Elimino el doctor del consultorio donde ejerce.
                 List <Consultorio> listCons = Main.manager.createQuery("from Consultorio where doctor ="+empleadoAEliminar.getDni()).getResultList();
-                Consultorio c = listCons.get(0);
-                if(c != null) {
-                    c.setDoctor(null);
-                    Main.manager.merge(c);
+                if(!listCons.isEmpty()) {
+                    Consultorio c = listCons.get(0);
+                    if (c != null) {
+                        c.setDoctor(null);
+                        Main.manager.merge(c);
+                    }
                 }
-
                 Main.manager.remove(empleadoAEliminar);
                 Main.manager.getTransaction().commit();
                 this.actualizarTabla();

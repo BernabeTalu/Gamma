@@ -13,7 +13,7 @@ public class Doctor extends Empleado implements Serializable{
     @Column(name = "matricula")
     private int matricula;
 
-    @OneToOne(mappedBy = "doctor",fetch = FetchType.LAZY)//Un doctor solo ejerce en un consultorio.
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "doctor",fetch = FetchType.LAZY)//Un doctor solo ejerce en un consultorio.
     private Consultorio consultorio;
 
     @ElementCollection

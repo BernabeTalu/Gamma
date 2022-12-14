@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="277.0" prefWidth="359.0" style="-fx-background-color: #82255d;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.AgregarAreaController">
+<VBox prefHeight="277.0" prefWidth="359.0" style="-fx-background-color: #a64d79;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.AgregarAreaController">
    <children>
       <AnchorPane prefHeight="279.0" prefWidth="359.0">
          <children>
@@ -20,7 +20,7 @@
                   <Image url="@../../img/addArea.png" />
                </image>
             </ImageView>
-            <Button fx:id="btn_addArea" layoutX="102.0" layoutY="217.0" mnemonicParsing="false" onAction="#addButtonClicked" prefHeight="40.0" prefWidth="155.0" style="-fx-background-color: green;" text="Agregar" textFill="WHITE">
+            <Button fx:id="btn_addArea" layoutX="102.0" layoutY="217.0" mnemonicParsing="false" onAction="#addButtonClicked" prefHeight="40.0" prefWidth="155.0" style="-fx-background-color: #82255d;" text="Agregar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -31,7 +31,7 @@
                </font>
             </Label>
             <TextField fx:id="txt_nuevaArea" layoutX="28.0" layoutY="102.0" prefHeight="34.0" prefWidth="303.0" promptText="Nombre" />
-            <Button fx:id="btn_addRecepcionista" layoutX="284.0" layoutY="146.0" mnemonicParsing="false" onAction="#addButtonRecepcionistaClicked" prefHeight="33.0" prefWidth="47.0" style="-fx-background-color: green;" text="+" textFill="WHITE">
+            <Button fx:id="btn_addRecepcionista" layoutX="284.0" layoutY="146.0" mnemonicParsing="false" onAction="#addButtonRecepcionistaClicked" prefHeight="33.0" prefWidth="47.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
