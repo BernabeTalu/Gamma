@@ -1,5 +1,9 @@
 package modelos;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,7 +20,8 @@ public class Area extends Elemento implements Serializable{
     @JoinColumn (name = "idRecepcionista")
     private Recepcionista recepcionista;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
+    //@Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     @Column(name = "idElemento")
     private List<Elemento> componentes;
 
@@ -94,6 +99,15 @@ public class Area extends Elemento implements Serializable{
         }
     }
 
+    @Override
+    public List<Elemento> obtenerElementos() {
+        List<Elemento> elementosArea = new ArrayList<>();
+        for(Elemento e: this.componentes){
+            elementosArea.addAll(e.obtenerElementos());
+        }
+        return elementosArea;
+    }
+
     public void setRecepcionista(Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
     }
@@ -101,4 +115,5 @@ public class Area extends Elemento implements Serializable{
     public Recepcionista getRecepcionista() {
         return recepcionista;
     }
+
 }

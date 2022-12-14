@@ -49,6 +49,7 @@ public class Consultorio extends Elemento implements Serializable {
         this.coberturasMedicas = new ArrayList<>();
         this.estudiosBrindados = new ArrayList<>();
         this.gananciaMensual = 0.0;
+        this.ocupado = false;
     }
 
     public void eliminarCoberturaMedica(String c){
@@ -161,6 +162,13 @@ public class Consultorio extends Elemento implements Serializable {
             if(t.isPagado())
                 this.gananciaMensual -= t.getPrecioTurno();
         }
+    }
+
+    @Override
+    public List<Elemento> obtenerElementos() {
+        List<Elemento> retorno = new ArrayList<>();
+        retorno.add(this);
+        return retorno;
     }
 
 }

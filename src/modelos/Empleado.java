@@ -21,6 +21,7 @@ public class Empleado extends Persona implements Serializable{
     @Column(name = "tipo")
     private String tipo;
 
+
     public Empleado(){
         super();
     }
@@ -51,4 +52,5 @@ public class Empleado extends Persona implements Serializable{
     public String getTipo() {return tipo;}
 
     public void setTipo(String tipo) {this.tipo = tipo;}
+
 }

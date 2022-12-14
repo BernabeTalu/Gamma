@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "recepcionista")
 public class Recepcionista extends Empleado implements Serializable{
 
-    @OneToOne(mappedBy = "recepcionista",fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy = "recepcionista",fetch = FetchType.LAZY)
     private Area area;
 
     public Recepcionista(){

@@ -30,13 +30,15 @@
                   <Image url="@../../img/add.png" />
                </image>
             </ImageView>
-            <ComboBox fx:id="cbox_area" layoutX="189.0" layoutY="107.0" prefWidth="150.0" promptText="Area Especialización" />
+            <ComboBox fx:id="cbox_area" layoutX="189.0" layoutY="107.0" prefWidth="150.0" promptText="Area Especialización" visible="false" />
             <Button fx:id="btn_agregar" layoutX="195.0" layoutY="147.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: green;" text="Agregar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="cbox_tipoEmpleado" layoutX="189.0" layoutY="68.0" prefWidth="150.0" promptText="Tipo Empleado" />
+            <ComboBox fx:id="cbox_tipoEmpleado" layoutX="189.0" layoutY="68.0" prefHeight="25.0" prefWidth="114.0" promptText="Tipo Empleado" />
+            <ComboBox fx:id="cbox_consultorios" layoutX="189.0" layoutY="107.0" prefHeight="25.0" prefWidth="150.0" promptText="Consultorio" visible="false" />
+            <Button fx:id="btn_verificarEmpleado" layoutX="309.0" layoutY="68.0" mnemonicParsing="false" onAction="#verificarEmpleadoButtonClicked" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: green;" text="✓" textFill="#fffafa" />
          </children>
       </AnchorPane>
    </children>

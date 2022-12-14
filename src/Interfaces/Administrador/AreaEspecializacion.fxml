@@ -2,9 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -27,7 +29,7 @@
                   <Image url="@../../img/hospital.png" />
                </image>
             </ImageView>
-            <Separator layoutX="-2.0" layoutY="52.0" prefHeight="6.0" prefWidth="600.0" />
+            <Separator layoutX="-2.0" layoutY="52.0" prefHeight="6.0" prefWidth="606.0" />
             <Button fx:id="btn_back" layoutY="7.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="24.0" prefWidth="35.0" style="-fx-background-color: #5e384f;">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
@@ -38,80 +40,114 @@
                </graphic>
             </Button>
          </children></Pane>
-      <AnchorPane layoutX="232.0" layoutY="63.0" prefHeight="213.0" prefWidth="359.0" style="-fx-background-color: #a64d79; -fx-border-radius: 10px; -fx-background-radius: 10px;">
+      <AnchorPane layoutX="211.0" layoutY="56.0" prefHeight="320.0" prefWidth="389.0" style="-fx-background-color: #a64d79;">
          <children>
-            <Label layoutX="153.0" layoutY="14.0" text="Area" textFill="WHITE" underline="true">
+            <Label fx:id="labelArea" layoutX="168.0" text="Area" textFill="WHITE" underline="true" visible="false">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="46.0" text="Nombre :" textFill="WHITE">
+            <Label fx:id="labelNombreElemento" layoutX="14.0" layoutY="38.0" text="Nombre :" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="txt_nombreArea" layoutX="97.0" layoutY="46.0" prefHeight="28.0" prefWidth="255.0" textFill="WHITE">
+            <Label fx:id="txt_nombreElemento" layoutX="97.0" layoutY="38.0" prefHeight="28.0" prefWidth="255.0" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="74.0" text="Id Area :" textFill="WHITE">
+            <Label fx:id="labelIdArea" layoutX="14.0" layoutY="66.0" text="Id Area :" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="txt_idArea" layoutX="91.0" layoutY="74.0" prefHeight="28.0" prefWidth="255.0" textFill="WHITE">
+            <Label fx:id="txt_idArea" layoutX="91.0" layoutY="66.0" prefHeight="28.0" prefWidth="255.0" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="102.0" text="Dni Recep. :" textFill="WHITE">
+            <Label fx:id="labelDniRecep" layoutX="14.0" layoutY="94.0" text="Dni Recep. :" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="txt_dniRec" layoutX="117.0" layoutY="102.0" prefHeight="28.0" prefWidth="239.0" textFill="WHITE">
+            <Label fx:id="txt_dniPersona" layoutX="117.0" layoutY="94.0" prefHeight="28.0" prefWidth="239.0" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="130.0" text="Cant. Comp :" textFill="WHITE">
+            <Label fx:id="labelCantComp" layoutX="14.0" layoutY="122.0" text="Cant. Comp :" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="txt_cantElementos" layoutX="126.0" layoutY="130.0" prefHeight="28.0" prefWidth="228.0" textFill="WHITE">
+            <Label fx:id="txt_cantElementos" layoutX="126.0" layoutY="122.0" prefHeight="28.0" prefWidth="228.0" textFill="WHITE" visible="false">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Button fx:id="btn_addSubArea" layoutX="235.0" layoutY="174.0" mnemonicParsing="false" onAction="#addSubAreaButtonClicked" text="Agregar Sub Area" />
+            <Label fx:id="labelConsultorio" layoutX="135.0" text="Consultorio" textFill="WHITE" underline="true" visible="false">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelIdConsultorio" layoutX="14.0" layoutY="66.0" text="Id Consultorio :" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="txt_idConsultorio" layoutX="148.0" layoutY="66.0" prefHeight="28.0" prefWidth="198.0" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelDniDoctor" layoutX="14.0" layoutY="94.0" text="Dni Doctor :" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelOcupado" layoutX="14.0" layoutY="122.0" text="Ocupado :" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="txt_Ocupado" layoutX="105.0" layoutY="122.0" prefHeight="28.0" prefWidth="249.0" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelGanancia" layoutX="14.0" layoutY="150.0" text="Ganancia Mensual :" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="txt_Ganancia" layoutX="180.0" layoutY="150.0" prefHeight="28.0" prefWidth="191.0" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <TableView fx:id="cod_detallesConsultorio" layoutX="6.0" layoutY="179.0" prefHeight="94.0" prefWidth="380.0" visible="false">
+              <columns>
+                <TableColumn fx:id="col_Coberturas" prefWidth="181.0" text="Coberturas" />
+                <TableColumn fx:id="colEstudios" prefWidth="179.0" text="Estudios Brindados" />
+              </columns>
+            </TableView>
+            <ButtonBar layoutX="-4.0" layoutY="273.0" prefHeight="40.0" prefWidth="380.0">
+              <buttons>
+                  <Button fx:id="btn_addSubArea" mnemonicParsing="false" onAction="#addSubAreaButtonClicked" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #5e384f;" text="Add Area" textFill="WHITE" visible="false" />
+                  <Button fx:id="btn_addConsultorio" mnemonicParsing="false" onAction="#addConsultorioButtonClicked" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #5e384f;" text="Add Consultorio" textFill="WHITE" visible="false" />
+                  <Button fx:id="btn_eliminarSeleccion" mnemonicParsing="false" onAction="#delSeleccionClicked" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #5e384f;" text="Remove Elemento" textFill="WHITE" visible="false" />
+              </buttons>
+            </ButtonBar>
          </children>
       </AnchorPane>
-      <Button fx:id="btn_addArea" layoutX="232.0" layoutY="297.0" mnemonicParsing="false" onAction="#addAreaClicked" prefHeight="57.0" prefWidth="89.0">
-         <graphic>
-            <ImageView fitHeight="37.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../img/addArea.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="btn_delArea" layoutX="330.0" layoutY="297.0" mnemonicParsing="false" onAction="#eliminarAreaClicked" prefHeight="57.0" prefWidth="89.0">
-         <graphic>
-            <ImageView fitHeight="37.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../img/delArea.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <ComboBox fx:id="cbox_areasEliminar" layoutX="431.0" layoutY="297.0" prefHeight="25.0" prefWidth="89.0" promptText="Select" />
-      <Button fx:id="btn_eliminarSeleccion" layoutX="431.0" layoutY="329.0" mnemonicParsing="false" onAction="#delSeleccionClicked" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: D40C43;" text="Eliminar" textFill="WHITE" />
-      <TreeView fx:id="cod_treeView" layoutX="8.0" layoutY="63.0" prefHeight="309.0" prefWidth="204.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-background-color: #a64d79;">
+      <TreeView fx:id="cod_treeView" editable="true" layoutX="-2.0" layoutY="56.0" prefHeight="320.0" prefWidth="214.0">
          <opaqueInsets>
             <Insets />
-         </opaqueInsets></TreeView>
+         </opaqueInsets>
+      </TreeView>
+      <Separator layoutX="208.0" layoutY="56.0" orientation="VERTICAL" prefHeight="320.0" prefWidth="6.0" />
       
    </children>
 </AnchorPane>
