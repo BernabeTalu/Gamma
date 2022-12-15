@@ -102,8 +102,10 @@ public class TurnosDisponiblesController implements Initializable {
         this.filtroConsultorio = new FiltroConsultorio();
         this.filtroFecha = new FiltroFecha();
         this.filtroHora = new FiltroHora();
-
+        this.filtroAnd.agregarFiltro(new FiltroAsignado(false));
         this.cargarHorarios();
+
+        this.actualizarTabla();
 
         StringConverter<Area> converterArea = new StringConverter<Area>() {
             @Override
@@ -266,6 +268,7 @@ public class TurnosDisponiblesController implements Initializable {
         Main.turnoActual = (Turno) table_turnos.getSelectionModel().getSelectedItem();
         Main m = new Main();
         m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarTurno.fxml", "Asignar Turno");
+        this.actualizarTabla();
     }
 
     @FXML

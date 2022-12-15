@@ -70,10 +70,8 @@ public class Paciente extends Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Paciente{" +
-                "historiaClinica=" + historiaClinica +
-                ", coberturaMedica='" + coberturaMedica + '\'' +
-                ", doctores=" + doctores +
-                '}';
+        return Integer.toString(this.getDni());
     }
+
+
 }

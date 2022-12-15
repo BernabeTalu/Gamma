@@ -55,9 +55,6 @@ public class EmpleadosController implements Initializable {
     private TableColumn<?, ?> col_password;
 
     @FXML
-    private TableColumn<?, ?> col_trabajaEn;
-
-    @FXML
     private TableView table_empleados;
 
 

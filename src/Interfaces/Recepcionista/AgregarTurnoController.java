@@ -1,17 +1,27 @@
 package Interfaces.Recepcionista;
 
 import Interfaces.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import modelos.Area;
 import modelos.Paciente;
+import modelos.Recepcionista;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class AgregarTurnoController {
+public class AgregarTurnoController implements Initializable {
 
     @FXML
     private Button btn_agregar;
@@ -20,22 +30,23 @@ public class AgregarTurnoController {
     private Button btn_nuevoPaciente;
 
     @FXML
-    private TextField txt_dni;
+    private ComboBox<Paciente> cbox_pacientes;
 
     @FXML
     private Label label_error;
 
+    private ObservableList<Paciente> listPacientes;
 
     @FXML
     void agregarButtonClicked(ActionEvent event)  {
         Main m = new Main();
 
-        if(txt_dni.getText().isEmpty()) {
+        if(this.cbox_pacientes.getSelectionModel().getSelectedItem() == null) {
             label_error.setText("Por favor ingresa el DNI del paciente");
         }
         else {
-            int dniIngresado = Integer.parseInt(txt_dni.getText());
-            Paciente paciente = Main.manager.find(Paciente.class, dniIngresado);
+
+            Paciente paciente = this.cbox_pacientes.getSelectionModel().getSelectedItem();
             if (paciente != null) {
                 Main.turnoActual.setPaciente(paciente);
                 if (!Main.manager.getTransaction().isActive()) {
@@ -66,4 +77,23 @@ public class AgregarTurnoController {
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.listPacientes = FXCollections.observableArrayList();
+        this.listPacientes.addAll(Main.manager.createQuery("FROM Paciente ").getResultList());
+        this.cbox_pacientes.setItems(this.listPacientes);
+
+        StringConverter<Paciente> converterPaciente = new StringConverter<Paciente>() {
+            @Override
+            public String toString(Paciente paciente) {
+                return paciente.getDni() +" - "+paciente.getNombre();
+            }
+
+            @Override
+            public Paciente fromString(String string) {
+                return null;
+            }
+        };
+        this.cbox_pacientes.setConverter(converterPaciente);
+    }
 }

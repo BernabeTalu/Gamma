@@ -86,7 +86,7 @@ public class TurnosController implements Initializable {
 
         this.filtroConsultorio = new FiltroConsultorio();
         this.filtroAnd = new FiltroAnd();
-        this.filtroAnd.agregarFiltro(new FiltroAsignado());
+        this.filtroAnd.agregarFiltro(new FiltroAsignado(true));
 
         StringConverter<Area> converterArea = new StringConverter<Area>() {
             @Override
@@ -212,7 +212,7 @@ public class TurnosController implements Initializable {
         this.cb_area.getSelectionModel().clearSelection();
         this.cb_consultorio.getSelectionModel().clearSelection();
         this.filtroAnd.removerFiltros();
-        this.filtroAnd.agregarFiltro(new FiltroAsignado());
+        this.filtroAnd.agregarFiltro(new FiltroAsignado(true));
         this.actualizarTabla();
     }
 

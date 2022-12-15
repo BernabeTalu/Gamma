@@ -67,7 +67,7 @@ public class Persona implements Serializable {
         this.telefono = telefono;
         return this;
     }
-
+/*
     @Override
     public String toString() {
         return "Persona{" +
@@ -77,5 +77,5 @@ public class Persona implements Serializable {
                 ", telefono=" + telefono +
                 '\n'+
                 '}';
-    }
+    }*/
 }
