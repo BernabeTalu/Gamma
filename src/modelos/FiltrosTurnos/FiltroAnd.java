@@ -41,6 +41,10 @@ public class FiltroAnd implements Filtro{
         return this.filtros.contains(f);
     }
 
+    public void removerFiltros(){
+        this.filtros.clear();
+    }
+
     @Override
     public boolean cumple(Turno t) {
        for (Filtro f:this.filtros){

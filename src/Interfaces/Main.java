@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelos.*;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Main extends Application {
     private static Stage stg;
@@ -189,6 +192,27 @@ public class Main extends Application {
         alert.showAndWait();
     }
 
+//    public void sendYesNoAlert(String title, String content){
+//        ButtonType foo = new ButtonType("foo", ButtonBar.ButtonData.OK_DONE);
+//        ButtonType bar = new ButtonType("bar", ButtonBar.ButtonData.CANCEL_CLOSE);
+//        Alert alert = new Alert(Alert.AlertType.WARNING,content,foo,bar);
+//        alert.setTitle(title);
+//
+//        alert.showAndWait().ifPresent(type -> {
+//            if (type == foo) {
+//                // do something
+//            }
+//            else
+//                if (type == bar) {
+//                    // do something
+//            }
+//        });
+//    }
+
+
+
+
+
 
 
 
@@ -197,7 +221,7 @@ public class Main extends Application {
         LocalDate diaActual = LocalDate.now();
         List<Consultorio> consultorios = (ArrayList<Consultorio>) Main.manager.createQuery("FROM Consultorio").getResultList();
         if (consultorios.size() > 0) {
-            boolean enPunto = true;
+
             Turno turno;
             for (Consultorio consultorio : consultorios) {
                 List<LocalDate> listaFechas = (ArrayList<LocalDate>) Main.manager.createQuery("SELECT max(fecha) FROM Turno WHERE consultorio = " + consultorio.getId()).getResultList();
@@ -207,16 +231,17 @@ public class Main extends Application {
                 } else {
                     fechaUltimoTurno = listaFechas.get(0);
                 }
+
                 int i = 1;
                 while (i <= 30 && fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
                     int h = 9;
+                    boolean enPunto = true;
                     while (h <= 15) {
                         if (!Main.manager.getTransaction().isActive()) {
                             Main.manager.getTransaction().begin(); // La abro
                         }
                         if (enPunto) {
                             turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio, false);
-                            consultorio.setTurno(turno);
                             Main.manager.merge(consultorio);
                             Main.manager.persist(turno);
                             consultorio.setTurno(turno);
@@ -224,7 +249,6 @@ public class Main extends Application {
                         }
                         else {
                             turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio, false);
-                            consultorio.setTurno(turno);
                             Main.manager.merge(consultorio);
                             Main.manager.persist(turno);
                             consultorio.setTurno(turno);
