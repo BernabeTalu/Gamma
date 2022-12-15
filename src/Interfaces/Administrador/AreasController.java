@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
 import modelos.*;
 
 import java.net.URL;
@@ -17,6 +18,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AreasController implements Initializable {
+
+    private boolean editoConsultorio = false;
+
+    private boolean editoArea = false;
 
     private String seleccion;
 
@@ -35,16 +40,16 @@ public class AreasController implements Initializable {
     private Button btn_addSubArea;
 
     @FXML
+    private Button btn_editarElem;
+
+    @FXML
     private TreeView<String> cod_treeView;
 
     @FXML
-    private TableView<?> cod_detallesConsultorio;
+    private Label labelCobertuas;
 
     @FXML
-    private TableColumn<?, ?> colEstudios;
-
-    @FXML
-    private TableColumn<?, ?> col_Coberturas;
+    private Label labelEstudios;
 
     @FXML
     private Label labelArea;
@@ -104,6 +109,12 @@ public class AreasController implements Initializable {
     private Button btn_addConsultorio;
 
     @FXML
+    private ListView<String> listCoberturas;
+
+    @FXML
+    private ListView<String> listEstudios;
+
+    @FXML
     void addSubAreaButtonClicked(ActionEvent event) {
         Main m = new Main();
         if(Main.areaSeleccionada != null) {
@@ -132,6 +143,32 @@ public class AreasController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void editarElemButtonClicked(ActionEvent event) {
+        Main m = new Main();
+        try {
+            if(this.editoConsultorio) {
+                Main.editandoConsultorio = true;
+                Main.editandoArea = false;
+            }
+            else{
+                if(this.editoArea){
+                    Main.editandoArea = true;
+                    Main.editandoConsultorio = false;
+                }
+            }
+            m.changeSceneOnParent("src/Interfaces/Administrador/EditarElemento.fxml", "Editar elemento existente");
+            this.elementosTree.clear();
+            this.actualizarTreeView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.ocultarDatosArea();
+        this.ocultarDatosCons();
+        Main.editandoConsultorio = false;
+        Main.editandoArea = false;
     }
 
     @FXML
@@ -201,10 +238,7 @@ public class AreasController implements Initializable {
             }
             else{
                 Consultorio cons = Main.manager.find(Consultorio.class,e.getId());
-                System.out.println("Consultorio:"+cons.getNombre());
-                System.out.println(cons.getTurnos());
                 if(!cons.getTurnos().isEmpty()){
-                    System.out.println(cons.getNombre() + " tiene turnos");
                     for(Turno t : cons.getTurnos()){
                         if (!Main.manager.getTransaction().isActive()) {
                             Main.manager.getTransaction().begin(); // La abro
@@ -236,6 +270,8 @@ public class AreasController implements Initializable {
                     this.seleccion = "Area";
                     Main.areaSeleccionada = (Area)areas.get(0);
                     this.eliminoArea = true;
+                    this.editoArea = true;
+                    this.editoConsultorio = false;
                     this.eliminoConsultorio = false;
                     this.adminEtiquetasArea();
                 }
@@ -243,6 +279,8 @@ public class AreasController implements Initializable {
                     this.seleccion = "Consultorio";
                     Main.consultorioSeleccionado = (Consultorio) Main.manager.createQuery("SELECT c FROM Consultorio c join Elemento e on e.id = c.id where e.nombre like : nameCons").setParameter("nameCons",newSelection.getValue()).getSingleResult();
                     this.eliminoConsultorio = true;
+                    this.editoConsultorio = true;
+                    this.editoArea = false;
                     this.eliminoArea = false;
                     this.adminEtiquetasConsultorio();
                 }
@@ -342,28 +380,28 @@ public class AreasController implements Initializable {
                 else
                     this.txt_Ocupado.setText("No");
                 this.txt_Ganancia.setText(Double.toString(Main.consultorioSeleccionado.getGananciaMensual()));
+
+                ObservableList<String> coberturas = FXCollections.observableArrayList();
+                coberturas.addAll(Main.consultorioSeleccionado.getCoberturasMedicas());
+                this.listCoberturas.setItems(coberturas);
+
+                ObservableList<String> estudios = FXCollections.observableArrayList();
+                estudios.addAll(Main.consultorioSeleccionado.getEstudiosBrindados());
+                this.listEstudios.setItems(estudios);
             }
         }
     }
 
     public void adminEtiquetasArea(){
-        this.labelConsultorio.setVisible(false);
-        this.labelNombreElemento.setVisible(false);
-        this.txt_nombreElemento.setVisible(false);
-        this.labelIdConsultorio.setVisible(false);
-        this.txt_idConsultorio.setVisible(false);
-        this.labelDniDoctor.setVisible(false);
-        this.labelOcupado.setVisible(false);
-        this.txt_Ocupado.setVisible(false);
-        this.labelGanancia.setVisible(false);
-        this.txt_Ganancia.setVisible(false);
-        this.cod_detallesConsultorio.setVisible(false);
+
+        this.ocultarDatosCons();
 
         this.actualizarElementosArea();
 
         this.btn_addSubArea.setVisible(true);
         this.btn_addConsultorio.setVisible(true);
         this.btn_eliminarSeleccion.setVisible(true);
+        this.btn_editarElem.setVisible(true);
         this.labelArea.setVisible(true);
         this.labelNombreElemento.setVisible(true);
         this.txt_nombreElemento.setVisible(true);
@@ -376,20 +414,12 @@ public class AreasController implements Initializable {
     }
 
     public void adminEtiquetasConsultorio(){
-        this.labelArea.setVisible(false);
-        this.labelNombreElemento.setVisible(false);
-        this.txt_nombreElemento.setVisible(false);
-        this.labelIdArea.setVisible(false);
-        this.txt_idArea.setVisible(false);
-        this.labelDniRecep.setVisible(false);
-        this.labelCantComp.setVisible(false);
-        this.txt_cantElementos.setVisible(false);
-        this.btn_addSubArea.setVisible(false);
-        this.btn_addConsultorio.setVisible(false);
+        this.ocultarDatosArea();
 
         this.actualizarElementosArea();
 
         this.btn_eliminarSeleccion.setVisible(true);
+        this.btn_editarElem.setVisible(true);
         this.labelConsultorio.setVisible(true);
         this.labelNombreElemento.setVisible(true);
         this.txt_nombreElemento.setVisible(true);
@@ -401,8 +431,41 @@ public class AreasController implements Initializable {
         this.txt_Ocupado.setVisible(true);
         this.labelGanancia.setVisible(true);
         this.txt_Ganancia.setVisible(true);
-        this.cod_detallesConsultorio.setVisible(true);
+        this.labelEstudios.setVisible(true);
+        this.labelCobertuas.setVisible(true);
+        this.listCoberturas.setVisible(true);
+        this.listEstudios.setVisible(true);
+    }
+
+    public void ocultarDatosCons(){
+        this.labelConsultorio.setVisible(false);
+        this.labelNombreElemento.setVisible(false);
+        this.txt_nombreElemento.setVisible(false);
+        this.labelIdConsultorio.setVisible(false);
+        this.txt_idConsultorio.setVisible(false);
+        this.labelDniDoctor.setVisible(false);
+        this.txt_dniPersona.setVisible(false);
+        this.labelOcupado.setVisible(false);
+        this.txt_Ocupado.setVisible(false);
+        this.labelGanancia.setVisible(false);
+        this.txt_Ganancia.setVisible(false);
+        this.labelEstudios.setVisible(false);
+        this.labelCobertuas.setVisible(false);
+        this.listCoberturas.setVisible(false);
+        this.listEstudios.setVisible(false);
+    }
+
+    public void ocultarDatosArea(){
+        this.labelArea.setVisible(false);
+        this.labelNombreElemento.setVisible(false);
+        this.txt_nombreElemento.setVisible(false);
+        this.labelIdArea.setVisible(false);
+        this.txt_idArea.setVisible(false);
+        this.txt_dniPersona.setVisible(false);
+        this.labelDniRecep.setVisible(false);
+        this.labelCantComp.setVisible(false);
+        this.txt_cantElementos.setVisible(false);
+        this.btn_addSubArea.setVisible(false);
+        this.btn_addConsultorio.setVisible(false);
     }
 }
-
-

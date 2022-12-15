@@ -93,10 +93,18 @@ public class Consultorio extends Elemento implements Serializable {
             this.estudiosBrindados.add(nuevoEstudio);
     }
 
-    private boolean consultarDisponibilidadDeEstudio(String estudio){ //Consulto si un consultorio brinda un estudio en particular.
+    public boolean consultarDisponibilidadDeEstudio(String estudio){ //Consulto si un consultorio brinda un estudio en particular.
         if(this.estudiosBrindados.contains(estudio))
             return true;
         return false;
+    }
+
+    public void agregarNuevasCoberturas(List<String> nuevasCoberturas){
+        this.coberturasMedicas.addAll(nuevasCoberturas);
+    }
+
+    public void agregarNuevosEstudios(List<String> nuevosEstudios){
+        this.estudiosBrindados.addAll(nuevosEstudios);
     }
 
     public boolean isOcupado() { //Chequea si un consultorio esta ocupado en el momento de la consulta.

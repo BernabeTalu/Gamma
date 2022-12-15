@@ -34,6 +34,8 @@ public class Main extends Application {
     public static Consultorio consultorioSeleccionado;
     public static Doctor nuevoDoctor;
     public static Turno turnoActual;
+    public static boolean editandoConsultorio = false;
+    public static boolean editandoArea = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="277.0" prefWidth="359.0" style="-fx-background-color: #a64d79;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Administrador.EditarElementoController">
+   <children>
+      <AnchorPane prefHeight="279.0" prefWidth="359.0">
+         <children>
+            <Label layoutX="25.0" layoutY="8.0" prefHeight="44.0" prefWidth="215.0" text="Editar datos" textFill="#f2e5f0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txt_nombreCons" layoutX="26.0" layoutY="114.0" promptText="Nuevo nombre" visible="false" />
+            <TextField fx:id="txt_precioTurno" layoutX="26.0" layoutY="114.0" promptText="Nuevo precio turno" visible="false" />
+            <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="307.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../img/actualizarpagina.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btn_agregar" layoutX="207.0" layoutY="220.0" mnemonicParsing="false" onAction="#actualizarButtonClicked" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #82255d;" text="Actualizar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <ComboBox fx:id="cbox_doctores" layoutX="25.0" layoutY="114.0" prefHeight="25.0" prefWidth="155.0" promptText="Nuevo doctor" visible="false" />
+            <Button fx:id="btn_addDoctor" layoutX="192.0" layoutY="114.0" mnemonicParsing="false" onAction="#addDoctorButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" visible="false" />
+            <TextField fx:id="txt_coberturas" layoutX="26.0" layoutY="114.0" promptText="Nueva cobertura" visible="false" />
+            <Button fx:id="btn_addCobertura" layoutX="192.0" layoutY="114.0" mnemonicParsing="false" onAction="#addCobButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" visible="false" />
+            <TextField fx:id="txt_estudios" layoutX="26.0" layoutY="114.0" promptText="Nuevo estudio" visible="false" />
+            <Button fx:id="btn_addEstudio" layoutX="192.0" layoutY="114.0" mnemonicParsing="false" onAction="#addestudioButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" visible="false" />
+            <ComboBox fx:id="cbox_recepcionistas" layoutX="26.0" layoutY="114.0" prefHeight="25.0" prefWidth="155.0" promptText="Nuevo recepcionista" visible="false" />
+            <Button fx:id="btn_addRec" layoutX="192.0" layoutY="114.0" mnemonicParsing="false" onAction="#addRecButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" visible="false" />
+            <ComboBox fx:id="cbox_seleccionAtributos" layoutX="25.0" layoutY="79.0" prefHeight="25.0" prefWidth="280.0" promptText="Seleccione atributo a modificar" />
+            <TextField fx:id="txt_nombreArea" layoutX="36.0" layoutY="124.0" promptText="Nuevo nombre" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

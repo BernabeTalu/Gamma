@@ -12,6 +12,9 @@ import modelos.Consultorio;
 import modelos.Doctor;
 import modelos.Elemento;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class AgregarConsultorioController {
 
@@ -42,6 +45,9 @@ public class AgregarConsultorioController {
     @FXML
     private TextField txt_precioTurno;
 
+    private List<String> nuevasCoberturas = new ArrayList<>();
+
+    private List<String> nuevosEstudios = new ArrayList<>();
     @FXML
     void agregarButtonClicked(ActionEvent event) {
 
@@ -54,8 +60,12 @@ public class AgregarConsultorioController {
                 Double.parseDouble(this.txt_precioTurno.getText())
         );
 
-        if (!Main.manager.getTransaction().isActive())
+        cons.agregarNuevasCoberturas(this.nuevasCoberturas);
+        cons.agregarNuevosEstudios(this.nuevosEstudios);
+
+        if (!Main.manager.getTransaction().isActive()) {
             Main.manager.getTransaction().begin();
+        }
         Main.areaSeleccionada.setComponente(cons);
         Main.manager.persist(cons);
         Main.manager.merge(Main.areaSeleccionada);
@@ -69,12 +79,18 @@ public class AgregarConsultorioController {
 
     @FXML
     void addCobButtonClicked(ActionEvent event) {
-
+        if(!this.txt_coberturas.getText().equals("")) {
+            this.nuevasCoberturas.add(this.txt_coberturas.getText());
+            this.txt_coberturas.clear();
+        }
     }
 
     @FXML
     void addestudioButtonClicked(ActionEvent event) {
-
+        if(this.txt_estudios.getText().equals("")) {
+            this.nuevosEstudios.add(this.txt_estudios.getText());
+            this.txt_estudios.clear();
+        }
     }
 
     @FXML
