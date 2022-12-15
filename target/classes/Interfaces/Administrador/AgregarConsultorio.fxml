@@ -19,25 +19,24 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_IdCons" layoutX="31.0" layoutY="68.0" prefHeight="25.0" prefWidth="149.0" promptText="Id Consultorio" />
-            <TextField fx:id="txt_nombreCons" layoutX="31.0" layoutY="100.0" promptText="Nombre" />
-            <TextField fx:id="txt_precioTurno" layoutX="31.0" layoutY="132.0" promptText="Precio turno" />
+            <TextField fx:id="txt_nombreCons" layoutX="25.0" layoutY="68.0" promptText="Nombre" />
+            <TextField fx:id="txt_precioTurno" layoutX="25.0" layoutY="100.0" promptText="Precio turno" />
             <ImageView fitHeight="44.0" fitWidth="47.0" layoutX="301.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img/addArea.png" />
                </image>
             </ImageView>
-            <Button fx:id="btn_agregar" layoutX="207.0" layoutY="236.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #82255d;" text="Agregar" textFill="WHITE">
+            <Button fx:id="btn_agregar" layoutX="207.0" layoutY="220.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #82255d;" text="Agregar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
             <ComboBox fx:id="cbox_doctores" layoutX="190.0" layoutY="68.0" prefHeight="25.0" prefWidth="109.0" promptText="Doctor" />
             <Button fx:id="btn_addDoctor" layoutX="307.0" layoutY="68.0" mnemonicParsing="false" onAction="#addDoctorButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" />
-            <TextField fx:id="txt_coberturas" layoutX="31.0" layoutY="163.0" promptText="Coberturas" />
-            <Button fx:id="btn_addCobertura" layoutX="190.0" layoutY="163.0" mnemonicParsing="false" onAction="#addCobButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" />
-            <TextField fx:id="txt_estudios" layoutX="31.0" layoutY="194.0" promptText="Estudios brindados" />
-            <Button fx:id="btn_addEstudio" layoutX="190.0" layoutY="194.0" mnemonicParsing="false" onAction="#addestudioButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" />
+            <TextField fx:id="txt_coberturas" layoutX="25.0" layoutY="131.0" promptText="Coberturas" />
+            <Button fx:id="btn_addCobertura" layoutX="184.0" layoutY="131.0" mnemonicParsing="false" onAction="#addCobButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" />
+            <TextField fx:id="txt_estudios" layoutX="25.0" layoutY="162.0" promptText="Estudios brindados" />
+            <Button fx:id="btn_addEstudio" layoutX="184.0" layoutY="162.0" mnemonicParsing="false" onAction="#addestudioButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE" />
          </children>
       </AnchorPane>
    </children>

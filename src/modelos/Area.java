@@ -20,8 +20,8 @@ public class Area extends Elemento implements Serializable{
     @JoinColumn (name = "idRecepcionista")
     private Recepcionista recepcionista;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    //@Cascade({org.hibernate.annotations.CascadeType.REMOVE})
+    @ElementCollection()
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @Column(name = "idElemento")
     private List<Elemento> componentes;
 
@@ -29,8 +29,8 @@ public class Area extends Elemento implements Serializable{
         super();
     }
 
-    public Area(int id, String nombre, Recepcionista recepcionista){
-        super(id,nombre);
+    public Area(String nombre, Recepcionista recepcionista){
+        super(nombre);
         if(recepcionista != null) {
             recepcionista.setArea(this);
         }

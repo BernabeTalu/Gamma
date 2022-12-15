@@ -16,7 +16,7 @@ public class Consultorio extends Elemento implements Serializable {
     @JoinColumn(name = "doctor")
     private Doctor doctor;
 
-    @OneToMany(mappedBy = "consultorio", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "consultorio", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(name = "turnos")
     private List<Turno> turnos;
 
@@ -41,8 +41,8 @@ public class Consultorio extends Elemento implements Serializable {
         super();
     }
 
-    public Consultorio(int id, String nombre, Doctor doctor, double precioTurno){
-        super(id,nombre);
+    public Consultorio(String nombre, Doctor doctor, double precioTurno){
+        super(nombre);
         this.doctor = doctor;
         this.precioTurno = precioTurno;
         this.turnos = new ArrayList<>();

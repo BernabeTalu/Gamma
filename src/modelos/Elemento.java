@@ -13,6 +13,8 @@ import java.util.List;
 @Table(name = "elemento")
 public abstract class Elemento {
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="elemid_generator")
+    @SequenceGenerator(name = "elemid_generator",initialValue=1,allocationSize=1,sequenceName="elemid_seq")
     @Column(name = "idElemento")
     private int id;
 
@@ -22,8 +24,7 @@ public abstract class Elemento {
     public Elemento(){
     }
 
-    public Elemento(int id, String nombre){
-        this.id = id;
+    public Elemento(String nombre){
         this.nombre = nombre;
     }
 

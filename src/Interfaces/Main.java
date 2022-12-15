@@ -91,7 +91,7 @@ public class Main extends Application {
             Consulta consulta1 = new Consulta(404,LocalDate.now(),"Resonancia",paciente,123);
 //            paciente.setConsultaHistoriaClinica(consulta1);
 //
-            Area areaGral = new Area(0,"Area",null);
+            Area areaGral = new Area("Area",null);
             //Area area1 = new Area(51, "Kinesiologia", null);
             //Area area2 = new Area(52, "Cardiologia",null);
 

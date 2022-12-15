@@ -44,29 +44,20 @@ public class AgregarAreaController implements Initializable {
         if (this.cbox_recepcionistas.getSelectionModel().getSelectedItem() != null) {
             Main.nuevoRecepcionista = Main.manager.find(Recepcionista.class, this.cbox_recepcionistas.getSelectionModel().getSelectedItem());
         }
-        Elemento areaExistente = Main.manager.find(Elemento.class, Integer.parseInt(this.txt_idNuevaArea.getText()));
-        if(areaExistente == null) {
+        Area nuevaArea = new Area(
+                this.txt_nuevaArea.getText(),
+                Main.nuevoRecepcionista
+        );
 
-            Area nuevaArea = new Area(
-                    Integer.parseInt(this.txt_idNuevaArea.getText()),
-                    this.txt_nuevaArea.getText(),
-                    Main.nuevoRecepcionista
-            );
+        if (!Main.manager.getTransaction().isActive())
+            Main.manager.getTransaction().begin();
+        Main.areaSeleccionada.setComponente(nuevaArea);
+        Main.manager.persist(nuevaArea);
+        Main.manager.merge(Main.areaSeleccionada);
+        Main.manager.getTransaction().commit();
 
-            if (!Main.manager.getTransaction().isActive())
-                Main.manager.getTransaction().begin();
-            Main.areaSeleccionada.setComponente(nuevaArea);
-            Main.manager.persist(nuevaArea);
-            Main.manager.merge(Main.areaSeleccionada);
-            Main.manager.getTransaction().commit();
-
-            Stage stage = (Stage) btn_addArea.getScene().getWindow();
-            stage.close();
-        }
-        else{
-            Main m = new Main();
-            m.sendAlert(Alert.AlertType.ERROR,"Error de identificador","Ya existe un elemento con ese identificador presente en el sistema. Vuelva a ingresar los datos");
-        }
+        Stage stage = (Stage) btn_addArea.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

@@ -31,9 +31,6 @@ public class AgregarConsultorioController {
     private ComboBox<?> cbox_doctores;
 
     @FXML
-    private TextField txt_IdCons;
-
-    @FXML
     private TextField txt_coberturas;
 
     @FXML
@@ -51,31 +48,23 @@ public class AgregarConsultorioController {
         if(this.cbox_doctores.getSelectionModel().getSelectedItem() != null){
             Main.nuevoDoctor = Main.manager.find(Doctor.class,this.cbox_doctores.getSelectionModel().getSelectedItem());
         }
-        Elemento c = Main.manager.find(Elemento.class,Integer.parseInt(this.txt_IdCons.getText()));
-        if(c == null) {
+        Consultorio cons = new Consultorio(
+                this.txt_nombreCons.getText(),
+                Main.nuevoDoctor,
+                Double.parseDouble(this.txt_precioTurno.getText())
+        );
 
-            Consultorio cons = new Consultorio(
-                    Integer.parseInt(this.txt_IdCons.getText()),
-                    this.txt_nombreCons.getText(),
-                    Main.nuevoDoctor,
-                    Double.parseDouble(this.txt_precioTurno.getText())
-            );
+        if (!Main.manager.getTransaction().isActive())
+            Main.manager.getTransaction().begin();
+        Main.areaSeleccionada.setComponente(cons);
+        Main.manager.persist(cons);
+        Main.manager.merge(Main.areaSeleccionada);
+        Main.manager.getTransaction().commit();
 
-            if (!Main.manager.getTransaction().isActive())
-                Main.manager.getTransaction().begin();
-            Main.areaSeleccionada.setComponente(cons);
-            Main.manager.persist(cons);
-            Main.manager.merge(Main.areaSeleccionada);
-            Main.manager.getTransaction().commit();
+        Main.cargarTurnos();
+        Stage stage = (Stage) btn_agregar.getScene().getWindow();
+        stage.close();
 
-            Main.cargarTurnos();
-            Stage stage = (Stage) btn_agregar.getScene().getWindow();
-            stage.close();
-        }
-        else{
-            Main m = new Main();
-            m.sendAlert(Alert.AlertType.ERROR,"Error de identificador","Ya existe un elemento con ese identificador presente en el sistema. Vuelva a ingresar los datos");
-        }
     }
 
     @FXML

@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name = "turno")
 public class Turno {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="empid_generator")
-    @SequenceGenerator(name = "empid_generator",initialValue=1,allocationSize=1,sequenceName="empid_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="turnoid_generator")
+    @SequenceGenerator(name = "turnoid_generator",initialValue=1,allocationSize=1,sequenceName="turnoid_seq")
     @Column(name = "idTurno")
     private Integer idTurno;
 
@@ -35,7 +35,7 @@ public class Turno {
     @Column(name = "asignado")
     private boolean asignado;
 
-    @ManyToOne(fetch = FetchType.LAZY) //Gracias a este fetch, solo se carga el consultorio del turno cuando haga un getConsultorio.
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "consultorio")
     private Consultorio consultorio;
 

@@ -14,7 +14,6 @@
    <children>
       <AnchorPane prefHeight="279.0" prefWidth="359.0">
          <children>
-            <TextField fx:id="txt_idNuevaArea" layoutX="28.0" layoutY="59.0" prefHeight="34.0" prefWidth="303.0" promptText="Id Area" />
             <ImageView fitHeight="33.0" fitWidth="36.0" layoutX="315.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../img/addArea.png" />
@@ -30,13 +29,13 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <TextField fx:id="txt_nuevaArea" layoutX="28.0" layoutY="102.0" prefHeight="34.0" prefWidth="303.0" promptText="Nombre" />
-            <Button fx:id="btn_addRecepcionista" layoutX="284.0" layoutY="146.0" mnemonicParsing="false" onAction="#addButtonRecepcionistaClicked" prefHeight="33.0" prefWidth="47.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE">
+            <TextField fx:id="txt_nuevaArea" layoutX="28.0" layoutY="80.0" prefHeight="34.0" prefWidth="303.0" promptText="Nombre" />
+            <Button fx:id="btn_addRecepcionista" layoutX="284.0" layoutY="124.0" mnemonicParsing="false" onAction="#addButtonRecepcionistaClicked" prefHeight="33.0" prefWidth="47.0" style="-fx-background-color: #82255d;" text="+" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <ComboBox fx:id="cbox_recepcionistas" layoutX="28.0" layoutY="146.0" prefHeight="33.0" prefWidth="243.0" promptText="Recepcionista" />
+            <ComboBox fx:id="cbox_recepcionistas" layoutX="28.0" layoutY="124.0" prefHeight="33.0" prefWidth="243.0" promptText="Recepcionista" />
             <Label fx:id="txt_recepCreado" layoutX="28.0" layoutY="187.0" prefHeight="4.0" prefWidth="292.0" text="*Recepcionista creado exitosamente" textFill="#f2e5f0" visible="false">
                <font>
                   <Font name="System Italic" size="12.0" />

@@ -1,6 +1,7 @@
 package Interfaces.Administrador;
 
 import Interfaces.Main;
+import com.mysql.cj.exceptions.CJOperationNotSupportedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import modelos.Area;
-import modelos.Consultorio;
-import modelos.Elemento;
-import modelos.Persona;
+import modelos.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -153,21 +151,13 @@ public class AreasController implements Initializable {
 
     @FXML
     void delSeleccionClicked(ActionEvent event) {
-        if (!Main.manager.getTransaction().isActive()) {
-            Main.manager.getTransaction().begin();
-        }
 
         if(this.eliminoArea) {
             List<Area> areas = (List<Area>) Main.manager.createQuery("SELECT a FROM Area a JOIN a.componentes c where c = :idArea").setParameter("idArea", Main.areaSeleccionada).getResultList();
             if (!areas.isEmpty()) {
                 Area ar = areas.get(0);
-                List<Elemento> elems = Main.areaSeleccionada.obtenerElementos();
-                System.out.println(elems);
-                for(Elemento e :elems){
-                    Main.areaSeleccionada.eliminarComponente(e);
-                    Main.manager.remove(e);
-                }
-                Main.manager.merge(Main.areaSeleccionada);
+                if(!Main.areaSeleccionada.getComponentes().isEmpty())
+                    this.removerElementos(Main.areaSeleccionada.getComponentes(),Main.areaSeleccionada);
                 ar.eliminarComponente(Main.areaSeleccionada);
                 Main.manager.remove(Main.areaSeleccionada);
                 Main.manager.merge(ar);
@@ -184,12 +174,53 @@ public class AreasController implements Initializable {
             }
         }
 
+        if (!Main.manager.getTransaction().isActive()) {
+            Main.manager.getTransaction().begin();
+        }
         this.adminEtiquetasConsultorio();
         this.adminEtiquetasArea();
         this.elementosTree.clear();
         this.actualizarTreeView();
         Main.manager.getTransaction().commit();
        // this.btn_eliminarSeleccion.setVisible(false);
+    }
+
+    public void removerElementos(List<Elemento> elementos,Area padre){
+        for(Elemento e : elementos){
+            List<Area> areas = (List<Area>) Main.manager.createQuery("SELECT a FROM Area a join Elemento e on e.id = a.id where e.nombre like : nameArea").setParameter("nameArea",e.getNombre()).getResultList();
+            if(!areas.isEmpty()){ //Me fijo si es un area.
+                Area ar = areas.get(0);
+                if(!ar.getComponentes().isEmpty()){
+                    removerElementos(ar.getComponentes(),ar);
+                }
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
+                padre.eliminarComponente(e);
+                Main.manager.remove(ar);
+                Main.manager.getTransaction().commit();
+            }
+            else{
+                Consultorio cons = Main.manager.find(Consultorio.class,e.getId());
+                System.out.println("Consultorio:"+cons.getNombre());
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
+                System.out.println(cons.getTurnos());
+                if(!cons.getTurnos().isEmpty()){
+                    System.out.println(cons.getNombre() + " tiene turnos");
+                    for(Turno t : cons.getTurnos()){
+                        t.setConsultorio(null);
+                        cons.cancelarTurno(t);
+                        Main.manager.merge(t);
+                        Main.manager.remove(t);
+                        Main.manager.getTransaction().commit();
+                    }
+                }
+                padre.eliminarComponente(e);
+                Main.manager.remove(e);
+                Main.manager.merge(padre);
+                Main.manager.getTransaction().commit();
+            }
+        }
     }
 
     @Override
