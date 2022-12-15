@@ -16,7 +16,7 @@ import modelos.Paciente;
 import java.net.URL;
 import java.util.*;
 
-public class AgregarPacientesController {
+public class AgregarPacienteController {
 
     @FXML
     private Button btn_agregar;

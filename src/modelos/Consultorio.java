@@ -147,12 +147,16 @@ public class Consultorio extends Elemento implements Serializable {
     @Override
     public void setTurno(Turno t) {
         if(t.getConsultorio().equals(this)) {
-            if (this.coberturasMedicas.contains(t.getPaciente().getCoberturaMedica())) {
-                this.turnos.add(t); //Seteo el turno para una fecha y hora libres, con chequeo previo desde Area.
-                if(t.isPagado())
-                    this.gananciaMensual += t.getPrecioTurno();
+            if (t.getPaciente() != null) {
+                if (this.coberturasMedicas.contains(t.getPaciente().getCoberturaMedica())) {
+                    this.turnos.add(t); //Seteo el turno para una fecha y hora libres, con chequeo previo desde Area.
+                    if (t.isPagado())
+                        this.gananciaMensual += t.getPrecioTurno();
+                }
             }
         }
+        else
+            this.turnos.add(t);
     }
 
     @Override

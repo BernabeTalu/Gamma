@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MenuPrincipalRecepcionistaController {
 
     @FXML
@@ -57,8 +59,9 @@ public class MenuPrincipalRecepcionistaController {
     }
 
     @FXML
-    void turnosButtonClicked(ActionEvent event) {
-
+    void turnosButtonClicked(ActionEvent event) throws IOException {
+        Main m = new Main();
+        m.changeScene("src/Interfaces/Recepcionista/Turnos.fxml", "Turnos");
     }
 
 }

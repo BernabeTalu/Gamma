@@ -52,7 +52,7 @@ public class AdministrarPacientesController implements Initializable {
     void addPacienteButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-            m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarPacientes.fxml", "Nuevo Paciente");
+            m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarPaciente.fxml", "Nuevo Paciente");
         } catch (Exception e) {
             e.printStackTrace();
         }

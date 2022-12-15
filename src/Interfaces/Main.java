@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
@@ -32,6 +33,7 @@ public class Main extends Application {
     public static Area areaSeleccionada;
     public static Consultorio consultorioSeleccionado;
     public static Doctor nuevoDoctor;
+    public static Turno turnoActual;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -153,6 +155,9 @@ public class Main extends Application {
             Main.manager.getTransaction().commit();
 
         }
+
+        cargarTurnos();
+
         launch(args);
     }
     public void changeScene(String fxml, String titulo) throws IOException {
@@ -182,5 +187,67 @@ public class Main extends Application {
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public static void cargarTurnos() {
+        LocalDate diaActual = LocalDate.now();
+        List<Consultorio> consultorios = (ArrayList<Consultorio>) Main.manager.createQuery("FROM Consultorio").getResultList();
+        System.out.println(consultorios);
+        if (consultorios.size() > 0) {
+
+            List<LocalDate> listaFechas = (ArrayList<LocalDate>) Main.manager.createQuery("SELECT max(fecha) FROM Turno").getResultList();
+            System.out.println(listaFechas);
+            LocalDate fechaUltimoTurno;
+            if(listaFechas.get(0)==null){
+                fechaUltimoTurno = diaActual;
+            }
+            else{
+                fechaUltimoTurno = listaFechas.get(0);
+                System.out.println("lwsnhfonhowqfn");
+            }
+
+            boolean enPunto = true;
+            Turno turno;
+            int idTurnoMax = 0;
+            if (fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
+                int i = 1;
+
+                while (i <= 30 && fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
+                    for (Consultorio consultorio : consultorios) {
+                        //Maximo id de turno
+
+                        if (Main.manager.createQuery("SELECT max(idTurno) FROM Turno").getResultList().get(0) != null)
+                            idTurnoMax = (Integer) Main.manager.createQuery("SELECT max(idTurno) FROM Turno").getResultList().get(0);
+
+
+                        int h = 9;
+                        while(h<= 15) {
+                            if (!Main.manager.getTransaction().isActive())
+                                Main.manager.getTransaction().begin(); // La abro
+                            if (enPunto) {
+                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio);
+                                consultorio.setTurno(turno);
+                                Main.manager.persist(turno);
+                                enPunto = false;
+                            } else {
+                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio);
+                                consultorio.setTurno(turno);
+                                Main.manager.persist(turno);
+                                h++;
+                                enPunto = true;
+                            }
+
+                            Main.manager.getTransaction().commit();
+                        }
+
+
+                    }
+
+                    fechaUltimoTurno = fechaUltimoTurno.plusDays(1);
+                    i= i+1;
+
+                }
+            }
+        }
     }
 }

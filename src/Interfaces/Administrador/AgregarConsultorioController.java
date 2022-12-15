@@ -68,6 +68,7 @@ public class AgregarConsultorioController {
             Main.manager.merge(Main.areaSeleccionada);
             Main.manager.getTransaction().commit();
 
+            Main.cargarTurnos();
             Stage stage = (Stage) btn_agregar.getScene().getWindow();
             stage.close();
         }

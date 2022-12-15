@@ -11,8 +11,10 @@ import java.util.List;
 @Table(name = "turno")
 public class Turno {
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="empid_generator")
+    @SequenceGenerator(name = "empid_generator",initialValue=1,allocationSize=1,sequenceName="empid_seq")
     @Column(name = "idTurno")
-    private int idTurno;
+    private Integer idTurno;
 
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}) //Si borro un turno, no necesariamente tengo q borrar el paciente-
     @JoinColumn(name = "paciente")
@@ -37,12 +39,13 @@ public class Turno {
     public Turno(){
     }
 
-    public Turno(int idTurno, Paciente paciente, LocalDate fecha, LocalTime hora, double precioTurno, boolean pagado, Consultorio c) {
-        this.idTurno = idTurno;
+    public Turno( Paciente paciente, LocalDate fecha, LocalTime hora, double precioTurno, boolean pagado, Consultorio c) {
         this.paciente = paciente;
-        if(!paciente.getDoctores().contains(c.getDoctor())) {
-            paciente.setDoctores(c.getDoctor()); //Seteo como nuevo doctor del paciente, el asignado en el turno.
-            c.getDoctor().agregarPaciente(paciente); //Y viceversa.
+        if (paciente != null) {
+            if (!paciente.getDoctores().contains(c.getDoctor())) {
+                paciente.setDoctores(c.getDoctor()); //Seteo como nuevo doctor del paciente, el asignado en el turno.
+                c.getDoctor().agregarPaciente(paciente); //Y viceversa.
+            }
         }
         this.fecha = fecha;
         this.hora = hora;
