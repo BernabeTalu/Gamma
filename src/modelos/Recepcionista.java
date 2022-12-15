@@ -31,7 +31,7 @@ public class Recepcionista extends Empleado implements Serializable{
             }
         }
         else
-            System.out.println("El recepcionista no administra ese consultoriooo");
+            System.out.println("El recepcionista no administra ese consultorio");
     }
 
     public Area getArea() {
