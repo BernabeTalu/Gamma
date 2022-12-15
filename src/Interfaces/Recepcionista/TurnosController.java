@@ -71,7 +71,7 @@ public class TurnosController implements Initializable {
         this.col_fecha.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
         this.col_hora.setCellValueFactory(new PropertyValueFactory<>("Hora"));
         this.col_paciente.setCellValueFactory(new PropertyValueFactory<>("Paciente"));
-        this.col_pago.setCellValueFactory(new PropertyValueFactory<>("Pago"));
+        this.col_pago.setCellValueFactory(new PropertyValueFactory<>("Pagado"));
         this.col_precio.setCellValueFactory(new PropertyValueFactory<>("Precio"));
         this.col_doctor.setCellValueFactory(new PropertyValueFactory<>("Doctor"));
 
@@ -121,6 +121,8 @@ public class TurnosController implements Initializable {
                 actualizarTabla();
             }
         });
+
+        actualizarTabla();
     }
 
     private void actualizarConsultorios() {
@@ -134,14 +136,14 @@ public class TurnosController implements Initializable {
         List<Turno> listaTurnos;
 
         if(this.cb_area.getSelectionModel().getSelectedItem() == null){
-            listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno").getResultList();
+            listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno where asignado = true").getResultList();
         }
         else{
             if (cb_consultorio.getSelectionModel().getSelectedItem() == null){
-                listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno WHERE Area = :nombreArea").setParameter("nombreArea", cb_area.getSelectionModel().getSelectedItem()).getResultList();
+                listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno WHERE Area = :nombreArea AND asignado = true").setParameter("nombreArea", cb_area.getSelectionModel().getSelectedItem()).getResultList();
             }
             else{
-                Query query = Main.manager.createQuery("FROM Turno WHERE Area = :nombreArea AND Consultorio = :nombreConsultorio");
+                Query query = Main.manager.createQuery("FROM Turno WHERE Area = :nombreArea AND Consultorio = :nombreConsultorio AND asignado = true");
                 query.setParameter("nombreArea",cb_area.getSelectionModel().getSelectedItem());
                 query.setParameter("nombreConsultorio",cb_consultorio.getSelectionModel().getSelectedItem());
                 listaTurnos = query.getResultList();

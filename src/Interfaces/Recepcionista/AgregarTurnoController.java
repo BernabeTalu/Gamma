@@ -45,6 +45,11 @@ public class AgregarTurnoController {
                     Main.manager.getTransaction().commit();
 
                 label_error.setText("Turno registrado exitosamente");
+                Main.manager.getTransaction().begin();
+                Main.turnoActual.setAsignado(true);
+                Main.manager.merge(Main.turnoActual);
+                Main.manager.getTransaction().commit();
+
                 Stage stage = (Stage) btn_agregar.getScene().getWindow();
                 stage.close();
             }

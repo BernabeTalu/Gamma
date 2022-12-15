@@ -78,9 +78,6 @@ public class TurnosDisponiblesController implements Initializable {
     private TableColumn<?, ?> col_hora;
 
     @FXML
-    private TableColumn<?, ?> col_obraSocial;
-
-    @FXML
     private TableColumn<?, ?> col_precio;
 
     @FXML
@@ -94,7 +91,7 @@ public class TurnosDisponiblesController implements Initializable {
         this.col_precio.setCellValueFactory(new PropertyValueFactory<>("Precio"));
         this.col_doctor.setCellValueFactory(new PropertyValueFactory<>("Doctor"));
         this.col_consultorio.setCellValueFactory(new PropertyValueFactory<>("Consultorio"));
-        this.col_obraSocial.setCellValueFactory(new PropertyValueFactory<>("Obra Social"));
+
 
         this.filtroAnd = new FiltroAnd();
 
@@ -181,6 +178,15 @@ public class TurnosDisponiblesController implements Initializable {
                 actualizarConsultorios();
             }
         });
+
+
+        actualizarTabla();
+
+        table_turnos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                btn_seleccionar.setVisible(true);
+            }
+        });
     }
 
     private void actualizarTabla() {
@@ -206,12 +212,14 @@ public class TurnosDisponiblesController implements Initializable {
     @FXML
     void backButtonClicked(ActionEvent event) throws IOException {
         Main m = new Main();
-        m.changeScene("src/Interfaces/Recepcionista/Turnos.fxml", "Menu Gamma");
+        m.changeScene("src/Interfaces/Recepcionista/Turnos.fxml", "Turnos");
     }
 
     @FXML
-    void seleccionarButtonClicked(ActionEvent event) {
-
+    void seleccionarButtonClicked(ActionEvent event) throws IOException {
+        Main.turnoActual = (Turno) table_turnos.getSelectionModel().getSelectedItem();
+        Main m = new Main();
+        m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarTurno.fxml", "Asignar Turno");
     }
 
 

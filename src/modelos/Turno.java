@@ -32,6 +32,9 @@ public class Turno {
     @Column(name = "pagado")
     private boolean pagado;
 
+    @Column(name = "asignado")
+    private boolean asignado;
+
     @ManyToOne(fetch = FetchType.LAZY) //Gracias a este fetch, solo se carga el consultorio del turno cuando haga un getConsultorio.
     @JoinColumn(name = "consultorio")
     private Consultorio consultorio;
@@ -39,7 +42,7 @@ public class Turno {
     public Turno(){
     }
 
-    public Turno( Paciente paciente, LocalDate fecha, LocalTime hora, double precioTurno, boolean pagado, Consultorio c) {
+    public Turno( Paciente paciente, LocalDate fecha, LocalTime hora, double precioTurno, boolean pagado, Consultorio c, boolean asignado) {
         this.paciente = paciente;
         if (paciente != null) {
             if (!paciente.getDoctores().contains(c.getDoctor())) {
@@ -52,6 +55,7 @@ public class Turno {
         this.precioTurno = this.checkPrecioTurno(c,precioTurno); //Restrinjo el precio del turno al del consultorio al que pertenece.
         this.pagado = pagado;
         this.consultorio = c;
+        this.asignado = asignado;
     }
 
     public int getIdTurno() {
@@ -75,6 +79,9 @@ public class Turno {
     }
 
     public boolean isPagado() {
+        return pagado;
+    }
+    public boolean getPagado() {
         return pagado;
     }
 
@@ -106,6 +113,7 @@ public class Turno {
         return consultorio;
     }
 
+
     public void setConsultorio(Consultorio consultorio) {
         this.consultorio = consultorio;
     }
@@ -114,6 +122,17 @@ public class Turno {
         if(precio != c.getPrecioTurno())
             return c.getPrecioTurno();
         return precio;
+    }
+
+    public String getDoctor(){
+        if (this.getConsultorio().getDoctor() != null)
+            return this.getConsultorio().getDoctor().getApellido();
+        else
+            return "No asignado";
+    }
+
+    public double getPrecio(){
+        return this.getConsultorio().getPrecioTurno();
     }
 
     @Override
@@ -128,5 +147,13 @@ public class Turno {
                 ", consultorio=" + consultorio +
                 '\n'+
                 '}';
+    }
+
+    public boolean isAsignado() {
+        return asignado;
+    }
+
+    public void setAsignado(boolean asignado) {
+        this.asignado = asignado;
     }
 }

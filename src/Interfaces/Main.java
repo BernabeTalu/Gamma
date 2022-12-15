@@ -225,12 +225,12 @@ public class Main extends Application {
                             if (!Main.manager.getTransaction().isActive())
                                 Main.manager.getTransaction().begin(); // La abro
                             if (enPunto) {
-                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio);
+                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio,false);
                                 consultorio.setTurno(turno);
                                 Main.manager.persist(turno);
                                 enPunto = false;
                             } else {
-                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio);
+                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio,false);
                                 consultorio.setTurno(turno);
                                 Main.manager.persist(turno);
                                 h++;
