@@ -1,5 +1,7 @@
 package modelos;
 
+import modelos.FiltrosTurnos.Filtro;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -173,6 +175,15 @@ public class Consultorio extends Elemento implements Serializable {
         List<Elemento> retorno = new ArrayList<>();
         retorno.add(this);
         return retorno;
+    }
+
+    @Override
+    public List<Turno> getTurnosFiltrados (Filtro filtro) {
+        List<Turno> turnosSalida = new ArrayList<>();
+        for(Turno turno:this.turnos)
+            if (filtro.cumple(turno))
+                turnosSalida.add(turno);
+        return turnosSalida;
     }
 
 }

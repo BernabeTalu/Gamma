@@ -16,6 +16,7 @@ import modelos.Area;
 import modelos.Consultorio;
 import modelos.FiltrosTurnos.Filtro;
 import modelos.FiltrosTurnos.FiltroAnd;
+import modelos.FiltrosTurnos.FiltroConsultorio;
 import modelos.FiltrosTurnos.FiltroEstudio;
 import modelos.Turno;
 
@@ -34,6 +35,7 @@ public class TurnosDisponiblesController implements Initializable {
     private ObservableList<Consultorio> consultorios;
 
     private FiltroAnd filtroAnd;
+    private FiltroConsultorio filtroConsultorio;
 
     @FXML
     private Button btn_atras;
@@ -127,7 +129,6 @@ public class TurnosDisponiblesController implements Initializable {
 
         this.cb_area.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-
                 actualizarTabla();
                 actualizarConsultorios();
             }
@@ -135,6 +136,15 @@ public class TurnosDisponiblesController implements Initializable {
 
         this.cb_consultorio.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                if (this.filtroAnd.contieneFiltro(filtroConsultorio)){
+                    this.filtroAnd.eliminarFiltro(filtroConsultorio);
+                    this.filtroConsultorio.setConsultorio(this.cb_consultorio.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroConsultorio);
+                }
+                else{
+                    this.filtroAnd.eliminarFiltro(filtroConsultorio);
+                }
+
                 actualizarTabla();
 
             }
@@ -192,11 +202,23 @@ public class TurnosDisponiblesController implements Initializable {
     private void actualizarTabla() {
         List<Turno> listaTurnos;
         if(this.cb_area.getSelectionModel().getSelectedItem() == null){
-            listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno").getResultList();
-            this.turnos = FXCollections.observableArrayList(listaTurnos);
-            this.table_turnos.setItems(this.turnos);
-            this.table_turnos.refresh();
+            this.table_turnos.setItems(null);
+
         }
+        else {
+            if (filtroAnd.tieneFiltrosCargados()){
+                listaTurnos = this.cb_area.getSelectionModel().getSelectedItem().getTurnosFiltrados(this.filtroAnd);
+                this.turnos = FXCollections.observableArrayList(listaTurnos);
+                this.table_turnos.setItems(this.turnos);
+            }
+            else {
+                listaTurnos = this.cb_area.getSelectionModel().getSelectedItem().getTurnos();
+                this.turnos = FXCollections.observableArrayList(listaTurnos);
+                this.table_turnos.setItems(this.turnos);
+            }
+        }
+
+        this.table_turnos.refresh();
     }
 
     private void actualizarConsultorios() {

@@ -202,12 +202,13 @@ public class AreasController implements Initializable {
             else{
                 Consultorio cons = Main.manager.find(Consultorio.class,e.getId());
                 System.out.println("Consultorio:"+cons.getNombre());
-                if (!Main.manager.getTransaction().isActive())
-                    Main.manager.getTransaction().begin();
                 System.out.println(cons.getTurnos());
                 if(!cons.getTurnos().isEmpty()){
                     System.out.println(cons.getNombre() + " tiene turnos");
                     for(Turno t : cons.getTurnos()){
+                        if (!Main.manager.getTransaction().isActive()) {
+                            Main.manager.getTransaction().begin(); // La abro
+                        }
                         t.setConsultorio(null);
                         cons.cancelarTurno(t);
                         Main.manager.merge(t);
@@ -215,6 +216,8 @@ public class AreasController implements Initializable {
                         Main.manager.getTransaction().commit();
                     }
                 }
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
                 padre.eliminarComponente(e);
                 Main.manager.remove(e);
                 Main.manager.merge(padre);

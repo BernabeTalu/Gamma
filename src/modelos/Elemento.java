@@ -1,5 +1,7 @@
 package modelos;
 
+import modelos.FiltrosTurnos.Filtro;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -51,12 +53,10 @@ public abstract class Elemento {
     public abstract void setTurno(Turno t); //Done
     public abstract void cancelarTurno(Turno t);
     public abstract List<Elemento> obtenerElementos();
+    public abstract List<Turno> getTurnosFiltrados(Filtro filtro);
 
     @Override
     public String toString() {
-        return "Elemento{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                '}';
+        return this.nombre;
     }
 }

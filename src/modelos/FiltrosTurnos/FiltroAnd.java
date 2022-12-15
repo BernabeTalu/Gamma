@@ -2,6 +2,7 @@ package modelos.FiltrosTurnos;
 
 import modelos.Turno;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FiltroAnd implements Filtro{
@@ -12,7 +13,9 @@ public class FiltroAnd implements Filtro{
         this.filtros = filtros;
     }
 
-    public FiltroAnd(){};
+    public FiltroAnd(){
+        this.filtros = new ArrayList<>();
+    };
 
     public void agregarFiltro(Filtro f){
         this.filtros.add(f);
@@ -32,6 +35,10 @@ public class FiltroAnd implements Filtro{
 
     public void  setFiltros(List<Filtro> filtros) {
         this.filtros = filtros;
+    }
+
+    public boolean contieneFiltro(Filtro f){
+        return this.filtros.contains(f);
     }
 
     @Override

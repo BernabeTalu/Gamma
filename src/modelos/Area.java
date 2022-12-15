@@ -1,5 +1,6 @@
 package modelos;
 
+import modelos.FiltrosTurnos.Filtro;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -107,6 +108,16 @@ public class Area extends Elemento implements Serializable{
         }
         return elementosArea;
     }
+
+    @Override
+    public List<Turno> getTurnosFiltrados(Filtro filtro) {
+        List<Turno> turnos = new ArrayList<>();
+        for(Elemento componente:this.componentes)
+            turnos.addAll(componente.getTurnosFiltrados(filtro));
+        return turnos;
+    }
+
+
 
     public void setRecepcionista(Recepcionista recepcionista) {
         this.recepcionista = recepcionista;

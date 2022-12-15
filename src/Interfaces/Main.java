@@ -189,65 +189,96 @@ public class Main extends Application {
         alert.showAndWait();
     }
 
+
+
+
+    //Metodo para asegurarse que haya turnos desde la fecha actual hasta 30 dias en adelante para todos los consultorios.
     public static void cargarTurnos() {
         LocalDate diaActual = LocalDate.now();
         List<Consultorio> consultorios = (ArrayList<Consultorio>) Main.manager.createQuery("FROM Consultorio").getResultList();
-        System.out.println(consultorios);
         if (consultorios.size() > 0) {
-
-            List<LocalDate> listaFechas = (ArrayList<LocalDate>) Main.manager.createQuery("SELECT max(fecha) FROM Turno").getResultList();
-            System.out.println(listaFechas);
-            LocalDate fechaUltimoTurno;
-            if(listaFechas.get(0)==null){
-                fechaUltimoTurno = diaActual;
-            }
-            else{
-                fechaUltimoTurno = listaFechas.get(0);
-                System.out.println("lwsnhfonhowqfn");
-            }
-
             boolean enPunto = true;
             Turno turno;
-            int idTurnoMax = 0;
-            if (fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
+            for (Consultorio consultorio : consultorios) {
+                List<LocalDate> listaFechas = (ArrayList<LocalDate>) Main.manager.createQuery("SELECT max(fecha) FROM Turno WHERE consultorio = " + consultorio.getId()).getResultList();
+                LocalDate fechaUltimoTurno;
+                if (listaFechas.get(0) == null) {
+                    fechaUltimoTurno = diaActual;
+                } else {
+                    fechaUltimoTurno = listaFechas.get(0);
+                }
                 int i = 1;
-
                 while (i <= 30 && fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
-                    for (Consultorio consultorio : consultorios) {
-                        //Maximo id de turno
-
-                        if (Main.manager.createQuery("SELECT max(idTurno) FROM Turno").getResultList().get(0) != null)
-                            idTurnoMax = (Integer) Main.manager.createQuery("SELECT max(idTurno) FROM Turno").getResultList().get(0);
-
-
-                        int h = 9;
-                        while(h<= 15) {
-                            if (!Main.manager.getTransaction().isActive())
-                                Main.manager.getTransaction().begin(); // La abro
-                            if (enPunto) {
-                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio,false);
-                                consultorio.setTurno(turno);
-                                Main.manager.persist(turno);
-                                enPunto = false;
-                            } else {
-                                turno = new Turno( null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio,false);
-                                consultorio.setTurno(turno);
-                                Main.manager.persist(turno);
-                                h++;
-                                enPunto = true;
-                            }
-
-                            Main.manager.getTransaction().commit();
+                    int h = 9;
+                    while (h <= 15) {
+                        if (!Main.manager.getTransaction().isActive()) {
+                            Main.manager.getTransaction().begin(); // La abro
+                        }
+                        if (enPunto) {
+                            turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio, false);
+                            consultorio.setTurno(turno);
+                            Main.manager.merge(consultorio);
+                            Main.manager.persist(turno);
+                            consultorio.setTurno(turno);
+                            enPunto = false;
+                        }
+                        else {
+                            turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio, false);
+                            consultorio.setTurno(turno);
+                            Main.manager.merge(consultorio);
+                            Main.manager.persist(turno);
+                            consultorio.setTurno(turno);
+                            h++;
+                            enPunto = true;
                         }
 
-
+                        Main.manager.getTransaction().commit();
                     }
-
                     fechaUltimoTurno = fechaUltimoTurno.plusDays(1);
-                    i= i+1;
-
+                    i++;
                 }
             }
         }
     }
+
+    //Metodo para poblar la base con turnos sin asignar para un nuevo consultorio
+    public static void cargarTurnosConsultorio(Consultorio c) {
+        LocalDate diaActual = LocalDate.now();
+        LocalDate fechaUltimoTurno = diaActual;
+
+        boolean enPunto = true;
+        Turno turno;
+        int i = 1;
+        while (i <= 30 && fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
+            int h = 9;
+            while (h <= 15) {
+                if (!Main.manager.getTransaction().isActive()) {
+                    Main.manager.getTransaction().begin(); // La abro
+                }
+                if (enPunto) {
+                    turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), c.getPrecioTurno(), false, c, false);
+                    c.setTurno(turno);
+                    Main.manager.merge(c);
+                    Main.manager.persist(turno);
+                    c.setTurno(turno);
+                    enPunto = false;
+                }
+                else {
+                    turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), c.getPrecioTurno(), false, c, false);
+                    c.setTurno(turno);
+                    Main.manager.merge(c);
+                    Main.manager.persist(turno);
+                    c.setTurno(turno);
+                    h++;
+                    enPunto = true;
+                }
+
+                Main.manager.getTransaction().commit();
+            }
+            fechaUltimoTurno = fechaUltimoTurno.plusDays(1);
+            i++;
+        }
+
+    }
+
 }
