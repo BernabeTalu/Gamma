@@ -28,12 +28,12 @@
                   <Font size="40.0" />
                </font>
             </Text>
-            <ImageView fitHeight="45.0" fitWidth="48.0" layoutX="547.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="45.0" fitWidth="51.0" layoutX="554.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/medical-team.png" />
+                  <Image url="@../../img/booked.png" />
                </image>
             </ImageView>
-            <Separator layoutX="-146.0" layoutY="31.0" prefHeight="61.0" prefWidth="750.0" />
+            <Separator layoutX="-137.0" layoutY="31.0" prefHeight="61.0" prefWidth="743.0" />
             <Button fx:id="btn_atras" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="38.0" prefWidth="45.0" style="-fx-background-color: #5e384f;">
                <graphic>
                   <ImageView fitHeight="42.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
