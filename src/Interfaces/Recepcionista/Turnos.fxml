@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #53263C;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Recepcionista.TurnosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #53263C;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Recepcionista.TurnosController">
    <children>
-      <TableView fx:id="table_turnos" layoutX="41.0" layoutY="108.0" prefHeight="234.0" prefWidth="520.0" style="-fx-background-color: #d2a6bc;">
+      <TableView fx:id="table_turnos" layoutX="9.0" layoutY="110.0" prefHeight="233.0" prefWidth="582.0" style="-fx-background-color: #d2a6bc;">
         <columns>
           <TableColumn fx:id="col_fecha" prefWidth="75.0" text="Fecha" />
           <TableColumn fx:id="col_hora" prefWidth="75.0" text="Hora" />
             <TableColumn fx:id="col_doctor" prefWidth="75.0" text="Doctor" />
             <TableColumn fx:id="col_paciente" prefWidth="75.0" text="Paciente" />
+            <TableColumn fx:id="col_consultorio" prefWidth="35.0" text="Consultorio" />
             <TableColumn fx:id="col_precio" prefWidth="130.0" text="Precio" />
             <TableColumn fx:id="col_pago" prefWidth="35.0" text="Pago" />
         </columns>
@@ -34,12 +28,12 @@
                   <Font size="40.0" />
                </font>
             </Text>
-            <ImageView fitHeight="45.0" fitWidth="48.0" layoutX="547.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="45.0" fitWidth="51.0" layoutX="554.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/medical-team.png" />
+                  <Image url="@../../img/booked.png" />
                </image>
             </ImageView>
-            <Separator layoutX="-146.0" layoutY="31.0" prefHeight="61.0" prefWidth="750.0" />
+            <Separator layoutX="-137.0" layoutY="31.0" prefHeight="61.0" prefWidth="743.0" />
             <Button fx:id="btn_atras" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="38.0" prefWidth="45.0" style="-fx-background-color: #5e384f;">
                <graphic>
                   <ImageView fitHeight="42.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
@@ -48,17 +42,22 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <ComboBox fx:id="cb_area" layoutX="16.0" layoutY="74.0" prefHeight="17.0" prefWidth="125.0" promptText="Area" />
-            <Button fx:id="btn_eliminar" layoutX="547.0" layoutY="76.0" mnemonicParsing="false" onAction="#eliminarButtonClicked" prefHeight="17.0" prefWidth="54.0" style="-fx-background-color: #CE375C#CE375C #CE375C#CE375C;" text="Eliminar">
+            <ComboBox fx:id="cb_area" layoutX="16.0" layoutY="74.0" prefHeight="25.0" prefWidth="116.0" promptText="Area" />
+            <Button fx:id="btn_eliminar" layoutX="541.0" layoutY="76.0" mnemonicParsing="false" onAction="#eliminarButtonClicked" prefHeight="16.0" prefWidth="58.0" style="-fx-background-color: #CE375C#CE375C #CE375C#CE375C;" text="Cancelar" visible="false">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <ComboBox fx:id="cb_consultorio" layoutX="154.0" layoutY="74.0" prefHeight="25.0" prefWidth="125.0" promptText="Consultorio" />
+            <ComboBox fx:id="cb_consultorio" layoutX="142.0" layoutY="74.0" prefHeight="25.0" prefWidth="116.0" promptText="Consultorio" />
+            <Button fx:id="btn_reset" layoutX="269.0" layoutY="77.0" mnemonicParsing="false" onAction="#resetButtonClicked" style="-fx-background-color: #5e384f;" text="Reset" textFill="WHITE">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Button>
          </children></Pane>
-      <Button fx:id="btn_agregar" layoutX="219.0" layoutY="349.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="21.0" prefWidth="142.0" style="-fx-background-color: #65D26E#65D26E #65D26E#65D26E;" text="Agregar nuevo turno" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="btn_agregar" layoutX="220.0" layoutY="351.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="19.0" prefWidth="156.0" style="-fx-background-color: #65D26E#65D26E #65D26E#65D26E;" text="Agregar nuevo turno" textAlignment="CENTER" wrapText="true">
          <font>
-            <Font name="System Bold" size="11.0" />
+            <Font name="System Bold" size="10.0" />
          </font>
       </Button>
    </children>

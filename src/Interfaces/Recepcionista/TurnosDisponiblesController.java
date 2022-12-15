@@ -6,22 +6,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
+import javafx.util.converter.LocalTimeStringConverter;
 import modelos.Area;
 import modelos.Consultorio;
-import modelos.FiltrosTurnos.Filtro;
-import modelos.FiltrosTurnos.FiltroAnd;
-import modelos.FiltrosTurnos.FiltroConsultorio;
-import modelos.FiltrosTurnos.FiltroEstudio;
+import modelos.FiltrosTurnos.*;
 import modelos.Turno;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,9 +30,15 @@ public class TurnosDisponiblesController implements Initializable {
     private ObservableList<Turno> turnos;
     private ObservableList<Area> areas;
     private ObservableList<Consultorio> consultorios;
+    private ObservableList<LocalTime> horarios;
 
     private FiltroAnd filtroAnd;
     private FiltroConsultorio filtroConsultorio;
+    private FiltroFecha filtroFecha;
+    private FiltroHora filtroHora;
+
+    @FXML
+    private Button btn_reset;
 
     @FXML
     private Button btn_atras;
@@ -53,10 +56,10 @@ public class TurnosDisponiblesController implements Initializable {
     private ComboBox<?> cb_doctor;
 
     @FXML
-    private ComboBox<?> cb_fecha;
+    private DatePicker dp_fecha;
 
     @FXML
-    private ComboBox<?> cb_hora;
+    private ComboBox<LocalTime> cb_hora;
 
     @FXML
     private ComboBox<String> cb_estudio;
@@ -96,6 +99,11 @@ public class TurnosDisponiblesController implements Initializable {
 
 
         this.filtroAnd = new FiltroAnd();
+        this.filtroConsultorio = new FiltroConsultorio();
+        this.filtroFecha = new FiltroFecha();
+        this.filtroHora = new FiltroHora();
+
+        this.cargarHorarios();
 
         StringConverter<Area> converterArea = new StringConverter<Area>() {
             @Override
@@ -123,6 +131,8 @@ public class TurnosDisponiblesController implements Initializable {
         };
         this.cb_consultorio.setConverter(converterConsultorio);
 
+
+        //Cargar areas
         this.areas = FXCollections.observableArrayList();
         this.areas.addAll((ArrayList<Area>) Main.manager.createQuery("FROM Area WHERE idRecepcionista =" +Main.usuarioLogeado.getDni()).getResultList());
         this.cb_area.setItems(this.areas);
@@ -136,31 +146,45 @@ public class TurnosDisponiblesController implements Initializable {
 
         this.cb_consultorio.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                if (this.filtroAnd.contieneFiltro(filtroConsultorio)){
-                    this.filtroAnd.eliminarFiltro(filtroConsultorio);
-                    this.filtroConsultorio.setConsultorio(this.cb_consultorio.getSelectionModel().getSelectedItem());
-                    this.filtroAnd.agregarFiltro(filtroConsultorio);
-                }
-                else{
-                    this.filtroAnd.eliminarFiltro(filtroConsultorio);
-                }
-
+                    if (this.filtroAnd.contieneFiltro(filtroConsultorio)) {
+                        this.filtroAnd.eliminarFiltro(filtroConsultorio);
+                        this.filtroConsultorio.setConsultorio(cb_consultorio.getSelectionModel().getSelectedItem());
+                        this.filtroAnd.agregarFiltro(filtroConsultorio);
+                    } else {
+                        this.filtroConsultorio.setConsultorio(cb_consultorio.getSelectionModel().getSelectedItem());
+                        this.filtroAnd.agregarFiltro(filtroConsultorio);
+                    }
                 actualizarTabla();
 
             }
         });
 
-        this.cb_fecha.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
+        this.dp_fecha.valueProperty().addListener((ov, oldValue, newValue) -> {
+            if(newValue != null){
+                if (this.filtroAnd.contieneFiltro(filtroFecha)) {
+                    this.filtroAnd.eliminarFiltro(filtroFecha);
+                    this.filtroFecha.setFecha(dp_fecha.getValue());
+                    this.filtroAnd.agregarFiltro(filtroFecha);
+                } else {
+                    this.filtroFecha.setFecha(dp_fecha.getValue());
+                    this.filtroAnd.agregarFiltro(filtroFecha);
+                }
                 actualizarTabla();
-
             }
         });
+
 
         this.cb_hora.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                if (this.filtroAnd.contieneFiltro(filtroHora)) {
+                    this.filtroAnd.eliminarFiltro(filtroHora);
+                    this.filtroHora.setHora(cb_hora.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroHora);
+                } else {
+                    this.filtroHora.setHora(cb_hora.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroHora);
+                }
                 actualizarTabla();
-
             }
         });
 
@@ -244,5 +268,42 @@ public class TurnosDisponiblesController implements Initializable {
         m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarTurno.fxml", "Asignar Turno");
     }
 
+    @FXML
+    void resetButtonClicked(ActionEvent event) {
+        this.cb_hora.getSelectionModel().clearSelection();
+        this.cb_estudio.getSelectionModel().clearSelection();
+        this.cb_doctor.getSelectionModel().clearSelection();
+        this.cb_estudio.getSelectionModel().clearSelection();
+        this.cb_obrasocial.getSelectionModel().clearSelection();
+        this.cb_precio.getSelectionModel().clearSelection();
+        this.cb_consultorio.getSelectionModel().clearSelection();
+        this.dp_fecha.getEditor().clear();
+        this.filtroAnd.removerFiltros();
+        this.actualizarTabla();
+
+    }
+
+    public void cargarHorarios(){
+        this.horarios = FXCollections.observableArrayList();
+        List<LocalTime> horas = new ArrayList<>();
+
+        //Carga de horarios
+        int h = 9;
+        boolean enPunto = true;
+        while (h <= 15) {
+
+            if (enPunto) {
+                horas.add(LocalTime.of(h, 0));
+                enPunto = false;
+            } else {
+                horas.add(LocalTime.of(h, 30));
+                h++;
+                enPunto = true;
+            }
+        }
+        this.horarios.addAll(horas);
+        this.cb_hora.setItems(this.horarios);
+
+    }
 
 }

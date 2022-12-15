@@ -7,11 +7,18 @@ public class FiltroConsultorio implements Filtro{
 
     private Consultorio consultorio;
 
+
     public FiltroConsultorio(Consultorio consultorio){
         this.consultorio = consultorio;
     }
 
-    public FiltroConsultorio(){};
+    public FiltroConsultorio(){
+        this.consultorio = null;
+    };
+
+    public Consultorio getConsultorio() {
+        return consultorio;
+    }
 
     public void setConsultorio(Consultorio consultorio) {
         this.consultorio = consultorio;

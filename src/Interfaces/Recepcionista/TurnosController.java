@@ -6,13 +6,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import modelos.*;
+import modelos.FiltrosTurnos.FiltroAnd;
+import modelos.FiltrosTurnos.FiltroAsignado;
+import modelos.FiltrosTurnos.FiltroConsultorio;
 
 
 import javax.persistence.Query;
@@ -28,12 +28,17 @@ public class TurnosController implements Initializable {
     private ObservableList<Area> areas;
     private ObservableList<Consultorio> consultorios;
     private Area area;
+    private FiltroAnd filtroAnd;
+    private FiltroConsultorio filtroConsultorio;
 
     @FXML
     private Button btn_agregar;
 
     @FXML
     private Button btn_eliminar;
+
+    @FXML
+    private Button btn_reset;
 
     @FXML
     private ComboBox<Area> cb_area;
@@ -43,6 +48,9 @@ public class TurnosController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> col_doctor;
+
+    @FXML
+    private TableColumn<?, ?> col_consultorio;
 
     @FXML
     private TableColumn<?, ?> col_fecha;
@@ -74,8 +82,11 @@ public class TurnosController implements Initializable {
         this.col_pago.setCellValueFactory(new PropertyValueFactory<>("Pagado"));
         this.col_precio.setCellValueFactory(new PropertyValueFactory<>("Precio"));
         this.col_doctor.setCellValueFactory(new PropertyValueFactory<>("Doctor"));
+        this.col_consultorio.setCellValueFactory(new PropertyValueFactory<>("Consultorio"));
 
-
+        this.filtroConsultorio = new FiltroConsultorio();
+        this.filtroAnd = new FiltroAnd();
+        this.filtroAnd.agregarFiltro(new FiltroAsignado());
 
         StringConverter<Area> converterArea = new StringConverter<Area>() {
             @Override
@@ -107,7 +118,11 @@ public class TurnosController implements Initializable {
         areas.addAll((ArrayList<Area>) Main.manager.createQuery("FROM Area WHERE idRecepcionista =" +Main.usuarioLogeado.getDni()).getResultList());
         this.cb_area.setItems(areas);
 
-
+        table_turnos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                btn_eliminar.setVisible(true);
+            }
+        });
 
         cb_area.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -118,8 +133,17 @@ public class TurnosController implements Initializable {
 
         cb_consultorio.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                actualizarTabla();
+                if (this.filtroAnd.contieneFiltro(filtroConsultorio)) {
+                    this.filtroAnd.eliminarFiltro(filtroConsultorio);
+                    this.filtroConsultorio.setConsultorio(cb_consultorio.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroConsultorio);
+                } else {
+                    this.filtroConsultorio.setConsultorio(cb_consultorio.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroConsultorio);
+                }
+
             }
+            actualizarTabla();
         });
 
         actualizarTabla();
@@ -136,22 +160,17 @@ public class TurnosController implements Initializable {
         List<Turno> listaTurnos;
 
         if(this.cb_area.getSelectionModel().getSelectedItem() == null){
-            listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno where asignado = true").getResultList();
+            this.table_turnos.setItems(null);
         }
         else{
-            if (cb_consultorio.getSelectionModel().getSelectedItem() == null){
-                listaTurnos = (ArrayList<Turno>) Main.manager.createQuery("FROM Turno WHERE Area = :nombreArea AND asignado = true").setParameter("nombreArea", cb_area.getSelectionModel().getSelectedItem()).getResultList();
-            }
-            else{
-                Query query = Main.manager.createQuery("FROM Turno WHERE Area = :nombreArea AND Consultorio = :nombreConsultorio AND asignado = true");
-                query.setParameter("nombreArea",cb_area.getSelectionModel().getSelectedItem());
-                query.setParameter("nombreConsultorio",cb_consultorio.getSelectionModel().getSelectedItem());
-                listaTurnos = query.getResultList();
-            }
+
+                listaTurnos = this.cb_area.getSelectionModel().getSelectedItem().getTurnosFiltrados(this.filtroAnd);
+                this.turnos = FXCollections.observableArrayList(listaTurnos);
+                this.table_turnos.setItems(this.turnos);
+
+
         }
 
-        this.turnos = FXCollections.observableArrayList(listaTurnos);
-        this.table_turnos.setItems(this.turnos);
         this.table_turnos.refresh();
     }
 
@@ -163,7 +182,23 @@ public class TurnosController implements Initializable {
 
     @FXML
     void eliminarButtonClicked(ActionEvent event) throws IOException {
+        if (table_turnos.getSelectionModel().getSelectedItem() != null) {
+            Turno turnoSeleccionado = (Turno) this.table_turnos.getSelectionModel().getSelectedItem();
 
+
+            if (!Main.manager.getTransaction().isActive())
+                Main.manager.getTransaction().begin();
+
+            turnoSeleccionado.setAsignado(false);
+            turnoSeleccionado.setPaciente(null);
+            Main.manager.merge(turnoSeleccionado);
+            Main.manager.getTransaction().commit();
+        }
+        else{
+            Main m = new Main();
+            m.sendAlert(Alert.AlertType.ERROR,"No selecciono turno","No se selecciono un turno. Inténtelo de nuevo");
+        }
+        this.actualizarTabla();
     }
 
     @FXML
@@ -171,5 +206,15 @@ public class TurnosController implements Initializable {
         Main m = new Main();
         m.changeScene("src/Interfaces/Recepcionista/MenuPrincipalRecepcionista.fxml", "Menu Gamma");
     }
+
+    @FXML
+    void resetButtonClicked(ActionEvent event) {
+        this.cb_area.getSelectionModel().clearSelection();
+        this.cb_consultorio.getSelectionModel().clearSelection();
+        this.filtroAnd.removerFiltros();
+        this.filtroAnd.agregarFiltro(new FiltroAsignado());
+        this.actualizarTabla();
+    }
+
 
 }
