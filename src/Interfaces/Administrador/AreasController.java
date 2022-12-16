@@ -372,7 +372,7 @@ public class AreasController implements Initializable {
                 this.txt_idConsultorio.setText(Integer.toString(Main.consultorioSeleccionado.getId()));
                 this.txt_nombreElemento.setText(Main.consultorioSeleccionado.getNombre());
                 if (Main.consultorioSeleccionado.getDoctor() != null)
-                    this.txt_dniPersona.setText(Integer.toString(Main.consultorioSeleccionado.getDoctor().getDni()));
+                    this.txt_dniPersona.setText(Main.consultorioSeleccionado.getDoctor().toString());
                 else
                     this.txt_dniPersona.setText("Sin doctor por el momento");
                 if (Main.consultorioSeleccionado.isOcupado())

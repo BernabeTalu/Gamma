@@ -69,4 +69,9 @@ public class Doctor extends Empleado implements Serializable{
         if(this.pacientes.contains(p))
             this.pacientes.remove(p);
     }
+
+    @Override
+    public String toString() {
+        return this.getDni() +"-"+this.getNombre()+" "+this.getApellido();
+    }
 }

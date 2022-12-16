@@ -93,6 +93,12 @@ public class Consultorio extends Elemento implements Serializable {
             this.estudiosBrindados.add(nuevoEstudio);
     }
 
+    public void eliminarEstudio(String e){
+        if(this.estudiosBrindados.contains(e)){
+            this.estudiosBrindados.remove(e);
+        }
+    }
+
     public boolean consultarDisponibilidadDeEstudio(String estudio){ //Consulto si un consultorio brinda un estudio en particular.
         if(this.estudiosBrindados.contains(estudio))
             return true;
@@ -115,6 +121,8 @@ public class Consultorio extends Elemento implements Serializable {
         }
         return false;
     }
+
+
 
     public double getGananciaMensual() {
         return this.gananciaMensual;

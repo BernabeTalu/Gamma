@@ -10,12 +10,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import modelos.Area;
 import modelos.Consultorio;
 import modelos.Doctor;
 import modelos.Recepcionista;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.print.Doc;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,22 @@ public class EditarElementoController implements Initializable {
     private Button btn_verificarSeleccion;
 
     @FXML
-    private ComboBox<Integer> cbox_doctores;
+    private Button btn_eliminarCobertura;
 
     @FXML
-    private ComboBox<Integer> cbox_recepcionistas;
+    private Button btn_eliminarEstudio;
+
+    @FXML
+    private ComboBox<String> cbox_coberturasactuales;
+
+    @FXML
+    private ComboBox<String> cbox_estudiosActuales;
+
+    @FXML
+    private ComboBox<Doctor> cbox_doctores;
+
+    @FXML
+    private ComboBox<Recepcionista> cbox_recepcionistas;
 
     @FXML
     private TextField txt_coberturas;
@@ -123,7 +137,7 @@ public class EditarElementoController implements Initializable {
                     break;
                 case "Doctor":
                     if (this.cbox_doctores.getSelectionModel().getSelectedItem() != null)
-                        Main.nuevoDoctor = Main.manager.find(Doctor.class, this.cbox_doctores.getSelectionModel().getSelectedItem());
+                        Main.nuevoDoctor = this.cbox_doctores.getSelectionModel().getSelectedItem();
                     if(Main.consultorioSeleccionado.getDoctor() != Main.nuevoDoctor) {
                         if (!Main.manager.getTransaction().isActive())
                             Main.manager.getTransaction().begin();
@@ -194,10 +208,14 @@ public class EditarElementoController implements Initializable {
                     case "Coberturas":
                         this.txt_coberturas.setVisible(true);
                         this.btn_addCobertura.setVisible(true);
+                        this.cbox_coberturasactuales.setVisible(true);
+                        this.btn_eliminarCobertura.setVisible(true);
                         break;
                     case "Estudios":
                         this.txt_estudios.setVisible(true);
                         this.btn_addEstudio.setVisible(true);
+                        this.cbox_estudiosActuales.setVisible(true);
+                        this.btn_eliminarEstudio.setVisible(true);
                         break;
                     case "Doctor":
                         this.cbox_doctores.setVisible(true);
@@ -262,6 +280,32 @@ public class EditarElementoController implements Initializable {
         //this.txt_recepCreado.setVisible(true);
     }
 
+    @FXML
+    void eliminarCobButtonClicked(ActionEvent event) {
+        if(this.cbox_coberturasactuales.getSelectionModel().getSelectedItem() != null){
+            if (!Main.manager.getTransaction().isActive())
+                Main.manager.getTransaction().begin();
+            Main.consultorioSeleccionado.eliminarCoberturaMedica(this.cbox_coberturasactuales.getSelectionModel().getSelectedItem());
+            Main.manager.merge(Main.consultorioSeleccionado);
+            Main.manager.getTransaction().commit();
+        }
+        this.cbox_coberturasactuales.setVisible(false);
+        this.btn_eliminarCobertura.setVisible(false);
+    }
+
+    @FXML
+    void eliminarEstudioButtonClicked(ActionEvent event) {
+        if(this.cbox_estudiosActuales.getSelectionModel().getSelectedItem() != null){
+            if (!Main.manager.getTransaction().isActive())
+                Main.manager.getTransaction().begin();
+            Main.consultorioSeleccionado.eliminarEstudio(this.cbox_estudiosActuales.getSelectionModel().getSelectedItem());
+            Main.manager.merge(Main.consultorioSeleccionado);
+            Main.manager.getTransaction().commit();
+        }
+        this.cbox_estudiosActuales.setVisible(false);
+        this.btn_eliminarEstudio.setVisible(false);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> atributosConsultorio = null;
@@ -278,18 +322,51 @@ public class EditarElementoController implements Initializable {
         else if(Main.editandoConsultorio)
             this.cbox_seleccionAtributos.setItems(atributosConsultorio);
 
-        ObservableList<Integer> recepcionistas = FXCollections.observableArrayList();
+        StringConverter<Recepcionista> converterRecepcionista = new StringConverter<Recepcionista>() {
+            @Override
+            public String toString(Recepcionista recepcionista) {
+                return recepcionista.getDni()+"-"+recepcionista.getNombre();
+            }
+
+            @Override
+            public Recepcionista fromString(String string) {
+                return null;
+            }
+        };
+        this.cbox_recepcionistas.setConverter(converterRecepcionista);
+        ObservableList<Recepcionista> recepcionistas = FXCollections.observableArrayList();
         List<Recepcionista> recepcionistasLibres = Main.manager.createQuery("FROM Recepcionista WHERE dni NOT IN (SELECT recepcionista FROM Area )").getResultList();
 
         for(Recepcionista r:recepcionistasLibres){
-            recepcionistas.add(r.getDni());
+            recepcionistas.add(r);
         }
         this.cbox_recepcionistas.setItems(recepcionistas);
 
-        ObservableList<Integer> consultorios = FXCollections.observableArrayList();
-        List<Consultorio> consultoriosSinDoctor = Main.manager.createQuery("FROM Doctor WHERE dni NOT IN (SELECT doctor FROM Consultorio )").getResultList();
-        for(Consultorio c :consultoriosSinDoctor)
-            consultorios.add(c.getId());
-        this.cbox_doctores.setItems(consultorios);
+        StringConverter<Doctor> converterDoctor = new StringConverter<Doctor>() {
+            @Override
+            public String toString(Doctor doctor) {
+                return doctor.getDni()+"-"+doctor.getNombre();
+            }
+
+            @Override
+            public Doctor fromString(String string) {
+                return null;
+            }
+        };
+        this.cbox_doctores.setConverter(converterDoctor);
+
+        ObservableList<Doctor> doctores = FXCollections.observableArrayList();
+        List<Doctor> doctoresLibres = Main.manager.createQuery("FROM Doctor WHERE dni NOT IN (SELECT doctor FROM Consultorio )").getResultList();
+        for(Doctor d : doctoresLibres)
+            doctores.add(d);
+        this.cbox_doctores.setItems(doctores);
+
+        ObservableList<String> estudiosBrindados = FXCollections.observableArrayList();
+        estudiosBrindados.addAll(Main.consultorioSeleccionado.getEstudiosBrindados());
+        this.cbox_estudiosActuales.setItems(estudiosBrindados);
+
+        ObservableList<String> cobMedicas= FXCollections.observableArrayList();
+        cobMedicas.addAll(Main.consultorioSeleccionado.getCoberturasMedicas());
+        this.cbox_coberturasactuales.setItems(cobMedicas);
     }
 }

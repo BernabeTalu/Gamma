@@ -42,6 +42,10 @@
             <ComboBox fx:id="cbox_seleccionAtributos" layoutX="25.0" layoutY="79.0" prefHeight="25.0" prefWidth="255.0" promptText="Seleccione atributo a modificar" />
             <TextField fx:id="txt_nombreArea" layoutX="26.0" layoutY="114.0" promptText="Nuevo nombre" visible="false" />
             <Button fx:id="btn_verificarSeleccion" layoutX="288.0" layoutY="79.0" mnemonicParsing="false" onAction="#verificarSeleccionButtonClicked" prefHeight="25.0" prefWidth="40.0" style="-fx-background-color: #82255d;" text="✓" textFill="#fff7f7" />
+            <ComboBox fx:id="cbox_coberturasactuales" layoutX="25.0" layoutY="145.0" prefHeight="25.0" prefWidth="149.0" promptText="Coberturas actuales" visible="false" />
+            <Button fx:id="btn_eliminarCobertura" layoutX="192.0" layoutY="145.0" mnemonicParsing="false" onAction="#eliminarCobButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="-" textFill="WHITE" visible="false" />
+            <ComboBox fx:id="cbox_estudiosActuales" layoutX="25.0" layoutY="145.0" prefHeight="25.0" prefWidth="149.0" promptText="Estudios actuales" visible="false" />
+            <Button fx:id="btn_eliminarEstudio" layoutX="192.0" layoutY="145.0" mnemonicParsing="false" onAction="#eliminarEstudioButtonClicked" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: #82255d;" text="-" textFill="WHITE" visible="false" />
          </children>
       </AnchorPane>
    </children>
