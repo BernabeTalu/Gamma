@@ -1,11 +1,8 @@
 package modelos;
 
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "Consulta")

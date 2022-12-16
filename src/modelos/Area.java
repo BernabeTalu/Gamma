@@ -82,7 +82,7 @@ public class Area extends Elemento implements Serializable{
     }
 
     @Override
-    public void setTurno(Turno t){ //Los turnos duran hora siempre.
+    public void setTurno(Turno t){
         for(Elemento e : this.componentes){
             if(!e.turnoOcupado(t.getFecha(),t.getHora()))
                 e.setTurno(t);

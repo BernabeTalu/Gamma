@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import modelos.*;
 
 import java.net.URL;
@@ -287,7 +288,7 @@ public class AreasController implements Initializable {
     public void actualizarTreeView(){
         List<Elemento> listaElems= (ArrayList<Elemento>)Main.manager.createQuery("FROM Elemento ").getResultList();
         Area areaGral =(Area) Main.manager.createQuery("SELECT a FROM Area a join Elemento e on e.id = a.id where e.nombre like : nameArea").setParameter("nameArea","Area").getSingleResult();
-        TreeItem<String> rootItem = new TreeItem<>(areaGral.getNombre());
+        TreeItem<String> rootItem = new TreeItem<>(areaGral.getNombre(),new ImageView(getClass().getResource("hospital.png").toExternalForm()));
         this.generarTreeItems(listaElems,rootItem);
         this.cod_treeView.setRoot(rootItem);
     }
@@ -304,7 +305,7 @@ public class AreasController implements Initializable {
                     if(!asociacionConRoot.isEmpty()) { //Si no esta vacia, quiere decir que esta area tiene asociacion con rootItem, es decir, es hija.
                         Area areaPadre = (Area)asociacionConRoot.get(0);
                         if(areaPadre.getNombre().equals(rootItem.getValue())) {
-                            TreeItem<String> childrenElement = new TreeItem<>(areaCons.getNombre());
+                            TreeItem<String> childrenElement = new TreeItem<>(areaCons.getNombre(), new ImageView(getClass().getResource("areaaa.png").toExternalForm()));
                             if (!areaCons.getComponentes().isEmpty()) {
                                 List<Elemento> childrenElements = areaCons.getComponentes();
                                 generarTreeItems(childrenElements, childrenElement); //Llamado recursivo para generar subAreas.
@@ -324,7 +325,7 @@ public class AreasController implements Initializable {
                             for (Elemento elem : a.getComponentes()) {
                                 if (elem.getId() == e.getId()) {
                                     Consultorio cons = Main.manager.find(Consultorio.class, e.getId());
-                                    TreeItem<String> childrenElement = new TreeItem<>(cons.getNombre());
+                                    TreeItem<String> childrenElement = new TreeItem<>(cons.getNombre(), new ImageView(getClass().getResource("examination.png").toExternalForm()));
                                     rootItem.getChildren().add(childrenElement);
                                     this.elementosTree.add(cons.getId());
                                 }

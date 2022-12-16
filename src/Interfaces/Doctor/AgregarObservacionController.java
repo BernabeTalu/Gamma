@@ -3,16 +3,15 @@ package Interfaces.Doctor;
 import Interfaces.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import modelos.Consulta;
 
-import java.net.URL;
+
 import java.time.LocalDate;
-import java.util.ResourceBundle;
+
 
 public class AgregarObservacionController  {
 
