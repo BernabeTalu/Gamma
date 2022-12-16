@@ -265,6 +265,8 @@ public class EditarElementoController implements Initializable {
             e.printStackTrace();
         }
         Main.agregandoDoctor = false;
+
+       this.cargarDoctores();
     }
 
     @FXML
@@ -325,7 +327,7 @@ public class EditarElementoController implements Initializable {
         StringConverter<Recepcionista> converterRecepcionista = new StringConverter<Recepcionista>() {
             @Override
             public String toString(Recepcionista recepcionista) {
-                return recepcionista.getDni()+"-"+recepcionista.getNombre();
+                return recepcionista.getDni()+"-"+recepcionista.getNombre() + " " + recepcionista.getApellido();
             }
 
             @Override
@@ -345,7 +347,7 @@ public class EditarElementoController implements Initializable {
         StringConverter<Doctor> converterDoctor = new StringConverter<Doctor>() {
             @Override
             public String toString(Doctor doctor) {
-                return doctor.getDni()+"-"+doctor.getNombre();
+                return doctor.getDni()+"-"+doctor.getNombre()+ " " + doctor.getApellido();
             }
 
             @Override
@@ -355,18 +357,26 @@ public class EditarElementoController implements Initializable {
         };
         this.cbox_doctores.setConverter(converterDoctor);
 
+       this.cargarDoctores();
+
+
+        if(Main.editandoConsultorio ) {
+            ObservableList<String> estudiosBrindados = FXCollections.observableArrayList();
+            estudiosBrindados.addAll(Main.consultorioSeleccionado.getEstudiosBrindados());
+            this.cbox_estudiosActuales.setItems(estudiosBrindados);
+
+            ObservableList<String> cobMedicas = FXCollections.observableArrayList();
+            cobMedicas.addAll(Main.consultorioSeleccionado.getCoberturasMedicas());
+            this.cbox_coberturasactuales.setItems(cobMedicas);
+        }
+
+    }
+
+    public void cargarDoctores(){
         ObservableList<Doctor> doctores = FXCollections.observableArrayList();
         List<Doctor> doctoresLibres = Main.manager.createQuery("FROM Doctor WHERE dni NOT IN (SELECT doctor FROM Consultorio )").getResultList();
         for(Doctor d : doctoresLibres)
             doctores.add(d);
         this.cbox_doctores.setItems(doctores);
-
-        ObservableList<String> estudiosBrindados = FXCollections.observableArrayList();
-        estudiosBrindados.addAll(Main.consultorioSeleccionado.getEstudiosBrindados());
-        this.cbox_estudiosActuales.setItems(estudiosBrindados);
-
-        ObservableList<String> cobMedicas= FXCollections.observableArrayList();
-        cobMedicas.addAll(Main.consultorioSeleccionado.getCoberturasMedicas());
-        this.cbox_coberturasactuales.setItems(cobMedicas);
     }
 }

@@ -53,7 +53,6 @@ public class TurnosDoctorController implements Initializable {
         System.out.println(doc);
         if(doc.getConsultorio() != null) {
             List<Turno> listaTurnos = doc.getConsultorio().getTurnosFiltrados(new FiltroAsignado(true));
-            System.out.println(listaTurnos);
             ObservableList<Turno> turnos = FXCollections.observableArrayList(listaTurnos);
             turnos.addAll(listaTurnos);
             this.table_turnos.setItems(turnos);

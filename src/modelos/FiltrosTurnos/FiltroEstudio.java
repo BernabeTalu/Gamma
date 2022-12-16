@@ -10,6 +10,11 @@ public class FiltroEstudio implements Filtro{
         this.estudio = estudio;
     }
 
+    public FiltroEstudio(){};
+
+    public void setEstudio(String estudio){
+        this.estudio = estudio;
+    }
 
     @Override
     public boolean cumple(Turno t) {

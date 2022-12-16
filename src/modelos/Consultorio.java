@@ -60,7 +60,7 @@ public class Consultorio extends Elemento implements Serializable {
     }
 
     public List<String> getCoberturasMedicas() {
-        return new ArrayList<>(this.coberturasMedicas);
+        return this.coberturasMedicas;
     }
 
     public void setCoberturasMedicas(String nuevaCobertura) {
