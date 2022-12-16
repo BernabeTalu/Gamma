@@ -12,6 +12,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 import modelos.Area;
 import modelos.Consultorio;
+import modelos.Doctor;
 import modelos.FiltrosTurnos.*;
 import modelos.Turno;
 
@@ -31,11 +32,18 @@ public class TurnosDisponiblesController implements Initializable {
     private ObservableList<Area> areas;
     private ObservableList<Consultorio> consultorios;
     private ObservableList<LocalTime> horarios;
+    private ObservableList<String> estudios;
+    private ObservableList<String> coberturas;
+    private ObservableList<Doctor> doctores;
+
 
     private FiltroAnd filtroAnd;
     private FiltroConsultorio filtroConsultorio;
     private FiltroFecha filtroFecha;
     private FiltroHora filtroHora;
+    private FiltroEstudio filtroEstudio;
+    private FiltroObraSocial filtroObrasocial;
+    private FiltroDoctor filtroDoctor;
 
     @FXML
     private Button btn_reset;
@@ -53,7 +61,7 @@ public class TurnosDisponiblesController implements Initializable {
     private ComboBox<Consultorio> cb_consultorio;
 
     @FXML
-    private ComboBox<?> cb_doctor;
+    private ComboBox<Doctor> cb_doctor;
 
     @FXML
     private DatePicker dp_fecha;
@@ -65,10 +73,9 @@ public class TurnosDisponiblesController implements Initializable {
     private ComboBox<String> cb_estudio;
 
     @FXML
-    private ComboBox<?> cb_obrasocial;
+    private ComboBox<String> cb_obrasocial;
 
-    @FXML
-    private ComboBox<?> cb_precio;
+
 
     @FXML
     private TableColumn<?, ?> col_consultorio;
@@ -102,9 +109,15 @@ public class TurnosDisponiblesController implements Initializable {
         this.filtroConsultorio = new FiltroConsultorio();
         this.filtroFecha = new FiltroFecha();
         this.filtroHora = new FiltroHora();
+        this.filtroEstudio = new FiltroEstudio();
+        this.filtroObrasocial = new FiltroObraSocial();
+        this.filtroDoctor = new FiltroDoctor();
         this.filtroAnd.agregarFiltro(new FiltroAsignado(false));
-        this.cargarHorarios();
 
+        this.cargarHorarios();
+        this.cargarCoberturas();
+        this.cargarEstudios();
+        this.cargarDoctores();
         this.actualizarTabla();
 
         StringConverter<Area> converterArea = new StringConverter<Area>() {
@@ -132,6 +145,20 @@ public class TurnosDisponiblesController implements Initializable {
             }
         };
         this.cb_consultorio.setConverter(converterConsultorio);
+
+
+        StringConverter<Doctor> converterDoctor = new StringConverter<Doctor>() {
+            @Override
+            public String toString(Doctor doctor) {
+                return doctor.getNombre() +" "+ doctor.getApellido();
+            }
+
+            @Override
+            public Doctor fromString(String string) {
+                return null;
+            }
+        };
+        this.cb_doctor.setConverter(converterDoctor);
 
 
         //Cargar areas
@@ -192,31 +219,48 @@ public class TurnosDisponiblesController implements Initializable {
 
         this.cb_doctor.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                if (this.filtroAnd.contieneFiltro(filtroDoctor)) {
+                    this.filtroAnd.eliminarFiltro(filtroDoctor);
+                    this.filtroDoctor.setDoctor(cb_doctor.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroDoctor);
+                } else {
+                    this.filtroDoctor.setDoctor(cb_doctor.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroHora);
+                }
                 actualizarTabla();
-
             }
         });
 
         this.cb_estudio.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            FiltroEstudio filtroEstudio = new FiltroEstudio(cb_estudio.getSelectionModel().getSelectedItem());
             if (newSelection != null) {
-                this.filtroAnd.agregarFiltro(filtroEstudio);
-            }
-            else{
-                this.filtroAnd.eliminarFiltro(filtroEstudio);
+                if (this.filtroAnd.contieneFiltro(filtroEstudio)) {
+                    this.filtroAnd.eliminarFiltro(filtroEstudio);
+                    this.filtroEstudio.setEstudio(cb_estudio.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroEstudio);
+                } else {
+                    this.filtroEstudio.setEstudio(cb_estudio.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroEstudio);
+                }
             }
             actualizarTabla();
         });
 
         this.cb_obrasocial.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                if (this.filtroAnd.contieneFiltro(filtroObrasocial)) {
+                    this.filtroAnd.eliminarFiltro(filtroObrasocial);
+                    this.filtroObrasocial.setObraSocial(cb_obrasocial.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroObrasocial);
+                } else {
+                    this.filtroObrasocial.setObraSocial(cb_obrasocial.getSelectionModel().getSelectedItem());
+                    this.filtroAnd.agregarFiltro(filtroObrasocial);
+                }
                 actualizarTabla();
-                actualizarConsultorios();
             }
         });
 
 
-        actualizarTabla();
+
 
         table_turnos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -280,7 +324,6 @@ public class TurnosDisponiblesController implements Initializable {
         this.cb_doctor.getSelectionModel().clearSelection();
         this.cb_estudio.getSelectionModel().clearSelection();
         this.cb_obrasocial.getSelectionModel().clearSelection();
-        this.cb_precio.getSelectionModel().clearSelection();
         this.cb_consultorio.getSelectionModel().clearSelection();
         this.dp_fecha.getEditor().clear();
         this.filtroAnd.removerFiltros();
@@ -308,7 +351,44 @@ public class TurnosDisponiblesController implements Initializable {
         }
         this.horarios.addAll(horas);
         this.cb_hora.setItems(this.horarios);
-
     }
 
+    public void cargarEstudios(){
+        List<Consultorio> consultorios = Main.manager.createQuery("FROM Consultorio").getResultList();
+
+        List<String> estudios = new ArrayList<>();
+
+        for(Consultorio c:consultorios){
+            estudios.addAll(c.getEstudiosBrindados());
+        }
+        estudios = estudios.stream().distinct().collect(Collectors.toList());
+
+
+        this.estudios = FXCollections.observableArrayList();
+        this.estudios.addAll(estudios);
+        this.cb_estudio.setItems(this.estudios);
+    }
+
+    public void cargarCoberturas(){
+
+        List<Consultorio> consultorios = Main.manager.createQuery("FROM Consultorio").getResultList();
+        List<String> obrasSociales = new ArrayList<>();
+
+        for(Consultorio c:consultorios){
+            obrasSociales.addAll(c.getCoberturasMedicas());
+        }
+        obrasSociales = obrasSociales.stream().distinct().collect(Collectors.toList());
+
+
+        this.coberturas = FXCollections.observableArrayList();
+        this.coberturas.addAll(obrasSociales);
+        this.cb_obrasocial.setItems(this.coberturas);
+    }
+
+    public void cargarDoctores(){
+        List<Doctor> docs = Main.manager.createQuery("FROM Doctor").getResultList();
+        this.doctores =  FXCollections.observableArrayList();
+        this.doctores.addAll(docs);
+        this.cb_doctor.setItems(this.doctores);
+    }
 }

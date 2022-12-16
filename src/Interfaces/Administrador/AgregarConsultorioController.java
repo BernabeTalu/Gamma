@@ -67,6 +67,7 @@ public class AgregarConsultorioController implements Initializable {
                 Double.parseDouble(this.txt_precioTurno.getText())
         );
 
+        System.out.println(this.nuevasCoberturas);
         cons.agregarNuevasCoberturas(this.nuevasCoberturas);
         cons.agregarNuevosEstudios(this.nuevosEstudios);
 
@@ -77,6 +78,7 @@ public class AgregarConsultorioController implements Initializable {
         Main.manager.persist(cons);
         Main.manager.merge(Main.areaSeleccionada);
         Main.manager.getTransaction().commit();
+
 
         Main.cargarTurnos();
         Stage stage = (Stage) btn_agregar.getScene().getWindow();
@@ -94,7 +96,7 @@ public class AgregarConsultorioController implements Initializable {
 
     @FXML
     void addestudioButtonClicked(ActionEvent event) {
-        if(this.txt_estudios.getText().equals("")) {
+        if(!this.txt_estudios.getText().equals("")) {
             this.nuevosEstudios.add(this.txt_estudios.getText());
             this.txt_estudios.clear();
         }

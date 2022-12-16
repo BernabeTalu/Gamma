@@ -10,6 +10,11 @@ public class FiltroDoctor implements Filtro {
         this.doctor = doctor;
     }
 
+    public FiltroDoctor(){};
+
+    public void setDoctor(Doctor doctor){
+        this.doctor = doctor;
+    }
 
     @Override
     public boolean cumple(Turno t) {
