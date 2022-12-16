@@ -11,15 +11,21 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import modelos.Doctor;
+import modelos.FiltrosTurnos.FiltroAnd;
 import modelos.FiltrosTurnos.FiltroAsignado;
+import modelos.FiltrosTurnos.FiltroFechaMayor;
 import modelos.Turno;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class TurnosDoctorController implements Initializable {
+
+    private ObservableList<Turno> turnos;
 
     @FXML
     private Button btn_atras;
@@ -46,14 +52,15 @@ public class TurnosDoctorController implements Initializable {
     }
 
 
+    private FiltroAnd filtroAnd;
+
     public void actualizarTabla() {
 
 
         Doctor doc = Main.manager.find(Doctor.class,Main.usuarioLogeado.getDni());
-        System.out.println(doc);
         if(doc.getConsultorio() != null) {
-            List<Turno> listaTurnos = doc.getConsultorio().getTurnosFiltrados(new FiltroAsignado(true));
-            ObservableList<Turno> turnos = FXCollections.observableArrayList(listaTurnos);
+            List<Turno> listaTurnos = doc.getConsultorio().getTurnosFiltrados(this.filtroAnd);
+            turnos = FXCollections.observableArrayList();
             turnos.addAll(listaTurnos);
             this.table_turnos.setItems(turnos);
             this.table_turnos.refresh();
@@ -68,7 +75,9 @@ public class TurnosDoctorController implements Initializable {
         this.col_hora.setCellValueFactory(new PropertyValueFactory<>("Hora"));
         this.col_consultorio.setCellValueFactory(new PropertyValueFactory<>("Consultorio"));
         this.col_paciente.setCellValueFactory(new PropertyValueFactory<>("Paciente"));
-
+        this.filtroAnd = new FiltroAnd();
+        this.filtroAnd.agregarFiltro(new FiltroAsignado(true));
+        this.filtroAnd.agregarFiltro(new FiltroFechaMayor(LocalDate.now(), LocalTime.now()));
         this.actualizarTabla();
     }
 }

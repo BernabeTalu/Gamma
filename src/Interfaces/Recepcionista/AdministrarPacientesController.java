@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import modelos.Consultorio;
 import modelos.Paciente;
+import modelos.Turno;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -71,7 +73,19 @@ public class AdministrarPacientesController implements Initializable {
 
     @FXML
     void delPacienteButtonClicked(ActionEvent event) {
-        //TODO
+        if (!Main.manager.getTransaction().isActive())
+            Main.manager.getTransaction().begin();
+
+       List<Turno> turnos=  Main.manager.createQuery("FROM Turno WHERE paciente = :pacienteBorrado").setParameter("pacienteBorrado", this.table_pacientes.getSelectionModel().getSelectedItem()).getResultList();
+        for (Turno turno:turnos){
+            turno.setPaciente(null);
+            turno.setAsignado(false);
+            Main.manager.merge(turno);
+        }
+
+        Main.manager.remove(this.table_pacientes.getSelectionModel().getSelectedItem());
+        Main.manager.getTransaction().commit();
+        this.actualizarTabla();
     }
 
     public void actualizarTabla() {

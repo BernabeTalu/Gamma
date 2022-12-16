@@ -13,12 +13,14 @@ import modelos.*;
 import modelos.FiltrosTurnos.FiltroAnd;
 import modelos.FiltrosTurnos.FiltroAsignado;
 import modelos.FiltrosTurnos.FiltroConsultorio;
-
+import modelos.FiltrosTurnos.FiltroFechaMayor;
 
 
 import javax.persistence.Query;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -91,6 +93,7 @@ public class TurnosController implements Initializable {
         this.filtroConsultorio = new FiltroConsultorio();
         this.filtroAnd = new FiltroAnd();
         this.filtroAnd.agregarFiltro(new FiltroAsignado(true));
+        this.filtroAnd.agregarFiltro(new FiltroFechaMayor(LocalDate.now(), LocalTime.now()));
 
         StringConverter<Area> converterArea = new StringConverter<Area>() {
             @Override

@@ -18,7 +18,7 @@ public class FiltroDoctor implements Filtro {
 
     @Override
     public boolean cumple(Turno t) {
-        if(t.getConsultorio().getDoctor().equals(doctor.getDni())){
+        if(t.getConsultorio().getDoctor() == this.doctor){
             return true;
         }
         return false;

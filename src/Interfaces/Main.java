@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelos.*;
+import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +163,7 @@ public class Main extends Application {
 
         }
 
+        eliminarTurnosVencidos();
         cargarTurnos();
 
         launch(args);
@@ -212,15 +215,11 @@ public class Main extends Application {
 //    }
 
 
-
-
-
-
-
-
     //Metodo para asegurarse que haya turnos desde la fecha actual hasta 30 dias en adelante para todos los consultorios.
     public static void cargarTurnos() {
         LocalDate diaActual = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+
         List<Consultorio> consultorios = (ArrayList<Consultorio>) Main.manager.createQuery("FROM Consultorio").getResultList();
         if (consultorios.size() > 0) {
 
@@ -229,34 +228,46 @@ public class Main extends Application {
                 List<LocalDate> listaFechas = (ArrayList<LocalDate>) Main.manager.createQuery("SELECT max(fecha) FROM Turno WHERE consultorio = " + consultorio.getId()).getResultList();
                 LocalDate fechaUltimoTurno;
                 if (listaFechas.get(0) == null) {
-                    fechaUltimoTurno = diaActual;
+                    fechaUltimoTurno = diaActual.minusDays(1);
                 } else {
                     fechaUltimoTurno = listaFechas.get(0);
                 }
 
                 int i = 1;
+                int h;
                 while (i <= 30 && fechaUltimoTurno.isBefore(diaActual.plusDays(30))) {
-                    int h = 9;
+                    if(fechaUltimoTurno.isEqual(diaActual))
+                        h = horaActual.getHour() + 1;
+                    else
+                        h = 9;
+
                     boolean enPunto = true;
                     while (h <= 15) {
                         if (!Main.manager.getTransaction().isActive()) {
                             Main.manager.getTransaction().begin(); // La abro
                         }
                         if (enPunto) {
-                            turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio, false);
-                            Main.manager.merge(consultorio);
-                            Main.manager.persist(turno);
-                            consultorio.setTurno(turno);
-                            enPunto = false;
-                        }
+                            if (((!fechaUltimoTurno.isBefore(diaActual)) || (fechaUltimoTurno.isEqual(diaActual) && LocalTime.of(h, 0).isAfter(horaActual)))) {
+                                turno = new Turno(null, fechaUltimoTurno, LocalTime.of(h, 0), consultorio.getPrecioTurno(), false, consultorio, false);
+                                Main.manager.merge(consultorio);
+                                Main.manager.persist(turno);
+                                consultorio.setTurno(turno);
+                            }
+                                enPunto = false;
+
+                            }
+
                         else {
-                            turno = new Turno(null, fechaUltimoTurno.plusDays(1), LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio, false);
-                            Main.manager.merge(consultorio);
-                            Main.manager.persist(turno);
-                            consultorio.setTurno(turno);
-                            h++;
-                            enPunto = true;
-                        }
+                            if (((!fechaUltimoTurno.isBefore(diaActual)) || (fechaUltimoTurno.isEqual(diaActual) && LocalTime.of(h, 30).isAfter(horaActual)))) {
+                                turno = new Turno(null, fechaUltimoTurno, LocalTime.of(h, 30), consultorio.getPrecioTurno(), false, consultorio, false);
+                                Main.manager.merge(consultorio);
+                                Main.manager.persist(turno);
+                                consultorio.setTurno(turno);
+                            }
+                                h++;
+                                enPunto = true;
+                            }
+
 
                         Main.manager.getTransaction().commit();
                     }
@@ -307,4 +318,15 @@ public class Main extends Application {
         System.out.println("efewfwfwe");
     }
 
+    public static void eliminarTurnosVencidos(){
+
+//        Query query = (Query) Main.manager.createQuery("DELETE FROM Turno WHERE ((fecha < :fechaActual) OR (fecha = :fechaActual AND hora < :horaActual))");
+//        query.setParameter("fechaActual", LocalDate.now().plusDays(2));
+//        query.setParameter("horaActual", LocalTime.now());
+//        query.executeUpdate();
+
+
+
+
+    }
 }

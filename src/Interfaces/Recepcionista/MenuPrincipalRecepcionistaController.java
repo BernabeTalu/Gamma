@@ -13,8 +13,6 @@ public class MenuPrincipalRecepcionistaController {
     @FXML
     private Button btn_cerrarSesion;
 
-    @FXML
-    private Button btn_consultorios;
 
     @FXML
     private Button btn_pacientes;
@@ -45,11 +43,6 @@ public class MenuPrincipalRecepcionistaController {
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    void consultoriosButtonClicked(ActionEvent event) {
-        //TODO
     }
 
     @FXML

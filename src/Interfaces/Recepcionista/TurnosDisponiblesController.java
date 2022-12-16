@@ -113,6 +113,7 @@ public class TurnosDisponiblesController implements Initializable {
         this.filtroObrasocial = new FiltroCobertura();
         this.filtroDoctor = new FiltroDoctor();
         this.filtroAnd.agregarFiltro(new FiltroAsignado(false));
+        this.filtroAnd.agregarFiltro(new FiltroFechaMayor(LocalDate.now(), LocalTime.now()));
 
         this.cargarHorarios();
         this.cargarCoberturas();
@@ -225,7 +226,7 @@ public class TurnosDisponiblesController implements Initializable {
                     this.filtroAnd.agregarFiltro(filtroDoctor);
                 } else {
                     this.filtroDoctor.setDoctor(cb_doctor.getSelectionModel().getSelectedItem());
-                    this.filtroAnd.agregarFiltro(filtroHora);
+                    this.filtroAnd.agregarFiltro(filtroDoctor);
                 }
                 actualizarTabla();
             }
