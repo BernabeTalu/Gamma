@@ -85,7 +85,7 @@ public class Consultorio extends Elemento implements Serializable {
     }
 
     public List<String> getEstudiosBrindados() {
-        return new ArrayList<>(this.estudiosBrindados);
+        return this.estudiosBrindados;
     }
 
     public void setEstudiosBrindados(String nuevoEstudio) {
