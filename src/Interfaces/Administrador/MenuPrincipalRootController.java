@@ -25,9 +25,6 @@ public class MenuPrincipalRootController {
     private Button btn_salir;
 
     @FXML
-    private Button btn_turnos;
-
-    @FXML
     void areasButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
@@ -62,18 +59,18 @@ public class MenuPrincipalRootController {
 
     @FXML
     void resumenButtonClicked(ActionEvent event) {
-        //TODO
+        Main m = new Main();
+        try {
+            m.changeScene("src/Interfaces/Administrador/Resumen.fxml", "Resumen Gamma");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void salirButtonClicked(ActionEvent event) {
         Stage stage = (Stage) btn_salir.getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    void turnosButtonClicked(ActionEvent event) {
-        //TODO
     }
 
 }

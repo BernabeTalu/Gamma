@@ -33,11 +33,6 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btn_turnos" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" onAction="#turnosButtonClicked" prefHeight="35.0" prefWidth="252.0" style="-fx-border-color: #a64d79; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@../../values/style.css" text="Turnos" textFill="#fff6f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Button>
                   <Button fx:id="btn_cerrarSesion" layoutX="10.0" layoutY="115.0" mnemonicParsing="false" onAction="#cerrarSesionButtonClicked" prefHeight="35.0" prefWidth="252.0" style="-fx-border-color: #a64d79; -fx-border-width: 0px 0px 2px 0px;" stylesheets="@../../values/style.css" text="Cerrar Sesión" textFill="#fff6f6">
                      <font>
                         <Font name="System Bold" size="12.0" />

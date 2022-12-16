@@ -58,67 +58,73 @@ public class AgregarEmpleadoController implements Initializable {
 
     @FXML
     void agregarButtonClicked(ActionEvent event) {
-        if(this.cbox_tipoEmpleado.getSelectionModel().getSelectedItem() != null) {
-            if (this.cbox_tipoEmpleado.getSelectionModel().getSelectedItem().equals("Doctor")) {
-                Doctor nuevoDoctor = new Doctor(
-                        Integer.parseInt(this.txt_DNI.getText()),
-                        this.txt_nombre.getText(),
-                        this.txt_apellido.getText(),
-                        Integer.parseInt(this.txt_telefono.getText()),
-                        this.txt_password.getText(),
-                        Double.parseDouble(this.txt_sueldo.getText()),
-                        2333
-                );
-                if(Main.agregandoDoctor){
-                    Main.nuevoDoctor = nuevoDoctor;
-                }
-                if (!Main.manager.getTransaction().isActive())
-                    Main.manager.getTransaction().begin();
-
-                Main.manager.persist(nuevoDoctor);
-
-                if(this.cbox_consultorios.isVisible()) {
-                    if (this.cbox_consultorios.getSelectionModel().getSelectedItem() != null) { //Si elijo asignarle un consultorio al doctor.
-                        System.out.println("Agregue el doctor al consultorio");
-                        Consultorio c = Main.manager.find(Consultorio.class, this.cbox_consultorios.getSelectionModel().getSelectedItem());
-                        c.setDoctor(nuevoDoctor);
-                        Main.manager.merge(c);
-                    }
-                }
-                Main.manager.getTransaction().commit();
-            }else {
-                if (this.cbox_tipoEmpleado.getSelectionModel().getSelectedItem().equals("Recepcionista")) {
-                    Recepcionista nuevoRecepcionista = new Recepcionista(
+        if(!this.txt_DNI.getText().equals("") && !this.txt_nombre.getText().equals("") && !this.txt_telefono.getText().equals("") && !this.txt_apellido.getText().equals("") && !this.txt_password.getText().equals("") && !this.txt_sueldo.getText().equals("")) {
+            if (this.cbox_tipoEmpleado.getSelectionModel().getSelectedItem() != null) {
+                if (this.cbox_tipoEmpleado.getSelectionModel().getSelectedItem().equals("Doctor")) {
+                    Doctor nuevoDoctor = new Doctor(
                             Integer.parseInt(this.txt_DNI.getText()),
                             this.txt_nombre.getText(),
                             this.txt_apellido.getText(),
                             Integer.parseInt(this.txt_telefono.getText()),
                             this.txt_password.getText(),
-                            Double.parseDouble(this.txt_sueldo.getText())
+                            Double.parseDouble(this.txt_sueldo.getText()),
+                            2333
                     );
-                    if (Main.agregandoRecepcionista) {
-                        Main.nuevoRecepcionista = nuevoRecepcionista;
+                    if (Main.agregandoDoctor) {
+                        Main.nuevoDoctor = nuevoDoctor;
                     }
-                    if (!Main.manager.getTransaction().isActive()) {
+                    if (!Main.manager.getTransaction().isActive())
                         Main.manager.getTransaction().begin();
-                    }
-                    Main.manager.persist(nuevoRecepcionista);
 
-                    if(this.cbox_area.isVisible()) {
-                        if (this.cbox_area.getSelectionModel().getSelectedItem() != null) { //Si elijo asignarle un area al recepcionista.
-                            Area a = Main.manager.find(Area.class, this.cbox_area.getSelectionModel().getSelectedItem());
-                            a.setRecepcionista(nuevoRecepcionista);
-                            Main.manager.merge(a);
+                    Main.manager.persist(nuevoDoctor);
+
+                    if (this.cbox_consultorios.isVisible()) {
+                        if (this.cbox_consultorios.getSelectionModel().getSelectedItem() != null) { //Si elijo asignarle un consultorio al doctor.
+                            System.out.println("Agregue el doctor al consultorio");
+                            Consultorio c = Main.manager.find(Consultorio.class, this.cbox_consultorios.getSelectionModel().getSelectedItem());
+                            c.setDoctor(nuevoDoctor);
+                            Main.manager.merge(c);
                         }
                     }
                     Main.manager.getTransaction().commit();
+                } else {
+                    if (this.cbox_tipoEmpleado.getSelectionModel().getSelectedItem().equals("Recepcionista")) {
+                        Recepcionista nuevoRecepcionista = new Recepcionista(
+                                Integer.parseInt(this.txt_DNI.getText()),
+                                this.txt_nombre.getText(),
+                                this.txt_apellido.getText(),
+                                Integer.parseInt(this.txt_telefono.getText()),
+                                this.txt_password.getText(),
+                                Double.parseDouble(this.txt_sueldo.getText())
+                        );
+                        if (Main.agregandoRecepcionista) {
+                            Main.nuevoRecepcionista = nuevoRecepcionista;
+                        }
+                        if (!Main.manager.getTransaction().isActive()) {
+                            Main.manager.getTransaction().begin();
+                        }
+                        Main.manager.persist(nuevoRecepcionista);
+
+                        if (this.cbox_area.isVisible()) {
+                            if (this.cbox_area.getSelectionModel().getSelectedItem() != null) { //Si elijo asignarle un area al recepcionista.
+                                Area a = Main.manager.find(Area.class, this.cbox_area.getSelectionModel().getSelectedItem());
+                                a.setRecepcionista(nuevoRecepcionista);
+                                Main.manager.merge(a);
+                            }
+                        }
+                        Main.manager.getTransaction().commit();
+                    }
                 }
+                Stage stage = (Stage) btn_agregar.getScene().getWindow();
+                stage.close();
+            } else {
+                Main m = new Main();
+                m.sendAlert(Alert.AlertType.ERROR, "Error en seleccion de tipo", "Debe elegir el tipo de empleado a añadir.Intentelo de nuevo");
             }
-            Stage stage = (Stage) btn_agregar.getScene().getWindow();
-            stage.close();
-        }else{
+        }
+        else {
             Main m = new Main();
-            m.sendAlert(Alert.AlertType.ERROR,"Error en seleccion de tipo","Debe elegir el tipo de empleado a añadir.Intentelo de nuevo");
+            m.sendAlert(Alert.AlertType.ERROR, "Campos incompletos", "Faltan llenar algunos campos del empleado.");
         }
     }
 
