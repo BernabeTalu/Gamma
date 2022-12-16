@@ -57,49 +57,59 @@ public class AgregarConsultorioController implements Initializable {
     private List<String> nuevosEstudios = new ArrayList<>();
     @FXML
     void agregarButtonClicked(ActionEvent event) {
+        Main m = new Main();
+        if(!this.txt_nombreCons.getText().equals("") && !this.txt_precioTurno.getText().equals("")) {
 
-        if(this.cbox_doctores.getSelectionModel().getSelectedItem() != null){
-            Main.nuevoDoctor = Main.manager.find(Doctor.class,this.cbox_doctores.getSelectionModel().getSelectedItem());
+            if (this.cbox_doctores.getSelectionModel().getSelectedItem() != null) {
+                Main.nuevoDoctor = Main.manager.find(Doctor.class, this.cbox_doctores.getSelectionModel().getSelectedItem());
+            }
+            Consultorio cons = new Consultorio(
+                    this.txt_nombreCons.getText(),
+                    Main.nuevoDoctor,
+                    Double.parseDouble(this.txt_precioTurno.getText())
+            );
+
+            cons.agregarNuevasCoberturas(this.nuevasCoberturas);
+            cons.agregarNuevosEstudios(this.nuevosEstudios);
+
+            if (!Main.manager.getTransaction().isActive()) {
+                Main.manager.getTransaction().begin();
+            }
+            Main.areaSeleccionada.setComponente(cons);
+            Main.manager.persist(cons);
+            Main.manager.merge(Main.areaSeleccionada);
+            Main.manager.getTransaction().commit();
+
+
+            Main.cargarTurnos();
+            Stage stage = (Stage) btn_agregar.getScene().getWindow();
+            stage.close();
         }
-        Consultorio cons = new Consultorio(
-                this.txt_nombreCons.getText(),
-                Main.nuevoDoctor,
-                Double.parseDouble(this.txt_precioTurno.getText())
-        );
-
-        System.out.println(this.nuevasCoberturas);
-        cons.agregarNuevasCoberturas(this.nuevasCoberturas);
-        cons.agregarNuevosEstudios(this.nuevosEstudios);
-
-        if (!Main.manager.getTransaction().isActive()) {
-            Main.manager.getTransaction().begin();
+        else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Hay campos vacios. Reintente");
         }
-        Main.areaSeleccionada.setComponente(cons);
-        Main.manager.persist(cons);
-        Main.manager.merge(Main.areaSeleccionada);
-        Main.manager.getTransaction().commit();
-
-
-        Main.cargarTurnos();
-        Stage stage = (Stage) btn_agregar.getScene().getWindow();
-        stage.close();
-
     }
 
     @FXML
     void addCobButtonClicked(ActionEvent event) {
+        Main m = new Main();
         if(!this.txt_coberturas.getText().equals("")) {
             this.nuevasCoberturas.add(this.txt_coberturas.getText());
             this.txt_coberturas.clear();
         }
+        else
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe cargar la cobertura antes de querer agregarla.");
     }
 
     @FXML
     void addestudioButtonClicked(ActionEvent event) {
+        Main m = new Main();
         if(!this.txt_estudios.getText().equals("")) {
             this.nuevosEstudios.add(this.txt_estudios.getText());
             this.txt_estudios.clear();
         }
+        else
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe cargar el tipo de estudio antes de querer agregarlo.");
     }
 
     @FXML

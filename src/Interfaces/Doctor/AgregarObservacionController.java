@@ -3,15 +3,18 @@ package Interfaces.Doctor;
 import Interfaces.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import modelos.Consulta;
 
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class AgregarObservacionController {
+public class AgregarObservacionController  {
 
     @FXML
     private Button btn_agregar;
@@ -20,7 +23,7 @@ public class AgregarObservacionController {
     private TextField txt_observacion;
 
     @FXML
-    void agregarButtonClicked(ActionEvent event) {
+    void agregarButtonClicked(ActionEvent event){
         if(txt_observacion.getText().isEmpty()){
             Main m = new Main();
             m.sendAlert(Alert.AlertType.ERROR,"Observación vacia","Se debe ingresar datos en la observación");
@@ -39,5 +42,4 @@ public class AgregarObservacionController {
             stage.close();
         }
     }
-
 }

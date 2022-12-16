@@ -3,8 +3,10 @@ package Interfaces.Recepcionista;
 import Interfaces.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import modelos.Recepcionista;
 
 import java.io.IOException;
 
@@ -24,14 +26,16 @@ public class MenuPrincipalRecepcionistaController {
     private Button btn_turnos;
 
     @FXML
-    void adminPacientesClicked(ActionEvent event) {
+    void adminPacientesClicked(ActionEvent event) throws IOException {
+        Recepcionista rec = Main.manager.find(Recepcionista.class,Main.usuarioLogeado.getDni());
         Main m = new Main();
-        try {
-            m.changeScene("src/Interfaces/Recepcionista/AdministradorPacientes.fxml", "Login Gamma");
+        if(rec.getArea() != null) {
+            m.changeScene("src/Interfaces/Recepcionista/AdministradorPacientes.fxml", "Administrador de pacientes");
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Usted no tiene un area asignada todavia. Por favor espere.");
         }
+
     }
 
     @FXML
@@ -54,7 +58,13 @@ public class MenuPrincipalRecepcionistaController {
     @FXML
     void turnosButtonClicked(ActionEvent event) throws IOException {
         Main m = new Main();
-        m.changeScene("src/Interfaces/Recepcionista/Turnos.fxml", "Turnos");
+        Recepcionista rec = Main.manager.find(Recepcionista.class,Main.usuarioLogeado.getDni());
+        if(rec.getArea() != null) {
+            m.changeScene("src/Interfaces/Recepcionista/Turnos.fxml", "Turnos");
+        }
+        else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Usted no tiene un area asignada todavia. Por favor espere.");
+        }
     }
 
 }

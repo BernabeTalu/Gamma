@@ -2,10 +2,7 @@ package Interfaces;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import modelos.Empleado;
 
 
@@ -32,8 +29,9 @@ public class LoginControlller {
         try {
             Main m = new Main();
 
-            if(txt_nombreUsuario.getText().isEmpty() || txt_password.getText().isEmpty())
-                label_error.setText("Por favor ingresa tus datos.");
+            if(txt_nombreUsuario.getText().isEmpty() || txt_password.getText().isEmpty()){
+                m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe ingresar sus datos para poder acceder. Reintente.");
+            }
             else {
                 int dniIngresado = Integer.parseInt(txt_nombreUsuario.getText());
                 Main.usuarioLogeado = Main.manager.find(Empleado.class, dniIngresado);
@@ -55,12 +53,10 @@ public class LoginControlller {
                         }
 
                     } else {
-                        txt_password.setText("Contraseña incorrecta!");
-                        System.out.println("Contraseña incorrecta!");
+                        m.sendAlert(Alert.AlertType.ERROR, "Contraseña Incorrecta", "Contraseña incorrecta. Reintente.");
                     }
                 } else {
-                    txt_password.setText("Usuario inexistente");
-                    System.out.println("Usuario inexistente");
+                    m.sendAlert(Alert.AlertType.ERROR, "Error", "Usuario Inexistente");
                 }
             }
 

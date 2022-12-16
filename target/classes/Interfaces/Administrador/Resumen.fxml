@@ -55,17 +55,17 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txt_nroEmpleados" fill="#f2e5f0" layoutX="183.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="92.13671875">
+            <Text fx:id="txt_nroEmpleados" fill="#f2e5f0" layoutX="187.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="86.13671875">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txt_gananciaTotal" fill="#f2e5f0" layoutX="128.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="148.13671875">
+            <Text fx:id="txt_gananciaTotal" fill="#f2e5f0" layoutX="132.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="140.13671875">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txt_costoEmpleados" fill="#f2e5f0" layoutX="168.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="106.13671875">
+            <Text fx:id="txt_costoEmpleados" fill="#f2e5f0" layoutX="165.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="106.13671875">
                <font>
                   <Font size="15.0" />
                </font>
@@ -94,12 +94,12 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txt_nroConsultorios" fill="#f2e5f0" layoutX="201.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="80.13671875">
+            <Text fx:id="txt_nroConsultorios" fill="#f2e5f0" layoutX="194.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="72.13671875">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txt_consLibres" fill="#f2e5f0" layoutX="162.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="119.13671875">
+            <Text fx:id="txt_consLibres" fill="#f2e5f0" layoutX="156.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" wrappingWidth="119.13671875">
                <font>
                   <Font size="15.0" />
                </font>

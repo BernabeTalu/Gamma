@@ -315,6 +315,7 @@ public class TurnosDisponiblesController implements Initializable {
                 Main m = new Main();
                 m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarTurno.fxml", "Asignar Turno");
                 this.actualizarTabla();
+                m.sendAlert(Alert.AlertType.INFORMATION, "Turno creado", "Turno creado exitosamente.");
             }
     }
 

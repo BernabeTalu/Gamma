@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -85,103 +86,154 @@ public class EditarElementoController implements Initializable {
 
     private String seleccion;
 
+    private boolean agregueCobertura = false;
+
+    private boolean agregueEstudio = false;
+
+    private boolean seleccioneAtributo = false;
+
     @FXML
     void actualizarButtonClicked(ActionEvent event) {
-        if(Main.editandoConsultorio) {
-            switch (this.seleccion) {
-                case "NombreConsultorio":
-                    if (!this.txt_nombreCons.getText().equals("")) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.consultorioSeleccionado.setNombre(this.txt_nombreCons.getText());
-                        Main.manager.merge(Main.consultorioSeleccionado);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.txt_nombreCons.setVisible(false);
-                    this.seleccion = null;
-                    break;
-                case "Precio":
-                    if (!this.txt_precioTurno.getText().equals("")) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.consultorioSeleccionado.setPrecioTurno(Double.parseDouble(this.txt_precioTurno.getText()));
-                        Main.manager.merge(Main.consultorioSeleccionado);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.txt_precioTurno.setVisible(false);
-                    this.seleccion = null;
-                    break;
-                case "Coberturas":
-                    if (!this.nuevasCoberturas.isEmpty()) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.consultorioSeleccionado.agregarNuevasCoberturas(this.nuevasCoberturas);
-                        Main.manager.merge(Main.consultorioSeleccionado);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.txt_coberturas.setVisible(false);
-                    this.btn_addCobertura.setVisible(false);
-                    this.seleccion = null;
-                    break;
-                case "Estudios":
-                    if (!this.nuevosEstudios.isEmpty()) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.consultorioSeleccionado.agregarNuevosEstudios(this.nuevosEstudios);
-                        Main.manager.merge(Main.consultorioSeleccionado);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.txt_estudios.setVisible(false);
-                    this.btn_addEstudio.setVisible(false);
-                    this.seleccion = null;
-                    break;
-                case "Doctor":
-                    if (this.cbox_doctores.getSelectionModel().getSelectedItem() != null)
-                        Main.nuevoDoctor = this.cbox_doctores.getSelectionModel().getSelectedItem();
-                    if(Main.consultorioSeleccionado.getDoctor() != Main.nuevoDoctor) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.consultorioSeleccionado.setDoctor(Main.nuevoDoctor);
-                        Main.manager.merge(Main.consultorioSeleccionado);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.cbox_doctores.setVisible(false);
-                    this.btn_addDoctor.setVisible(false);
-                    this.seleccion = null;
-                    break;
-            }
-        }
-        else if(Main.editandoArea){
-            switch (this.seleccion) {
-                case "NombreArea":
-                    if (!this.txt_nombreArea.getText().equals("")) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.areaSeleccionada.setNombre(this.txt_nombreArea.getText());
-                        Main.manager.merge(Main.areaSeleccionada);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.txt_nombreArea.setVisible(false);
-                    this.seleccion = null;
-                    break;
-                case "Recepcionista":
-                    if (this.cbox_recepcionistas.getSelectionModel().getSelectedItem() != null)
-                        Main.nuevoRecepcionista = Main.manager.find(Recepcionista.class, this.cbox_recepcionistas.getSelectionModel().getSelectedItem());
-                    if(Main.areaSeleccionada.getRecepcionista() != Main.nuevoRecepcionista) {
-                        if (!Main.manager.getTransaction().isActive())
-                            Main.manager.getTransaction().begin();
-                        Main.areaSeleccionada.setRecepcionista(Main.nuevoRecepcionista);
-                        Main.manager.merge(Main.areaSeleccionada);
-                        Main.manager.getTransaction().commit();
-                    }
-                    this.cbox_recepcionistas.setVisible(false);
-                    this.btn_addRec.setVisible(false);
-                    this.seleccion = null;
-                    break;
-            }
-        }
+        Main m = new Main();
         Stage stage = (Stage) btn_agregar.getScene().getWindow();
-        stage.close();
+        if(this.cbox_seleccionAtributos.getSelectionModel().getSelectedItem() != null && this.seleccioneAtributo) {
+            if (Main.editandoConsultorio) {
+                switch (this.seleccion) {
+                    case "NombreConsultorio":
+                        if (!this.txt_nombreCons.getText().equals("")) {
+                            if (!Main.manager.getTransaction().isActive())
+                                Main.manager.getTransaction().begin();
+                            Main.consultorioSeleccionado.setNombre(this.txt_nombreCons.getText());
+                            Main.manager.merge(Main.consultorioSeleccionado);
+                            Main.manager.getTransaction().commit();
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "El campo del nuevo nombre esta vacio. Intente nuevamente.");
+                        }
+                        this.seleccion = null;
+                        this.txt_nombreCons.setVisible(false);
+                        break;
+                    case "Precio":
+                        if (!this.txt_precioTurno.getText().equals("")) {
+                            if (!Main.manager.getTransaction().isActive())
+                                Main.manager.getTransaction().begin();
+                            Main.consultorioSeleccionado.setPrecioTurno(Double.parseDouble(this.txt_precioTurno.getText()));
+                            Main.manager.merge(Main.consultorioSeleccionado);
+                            Main.manager.getTransaction().commit();
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "El campo del nuevo precio esta vacio. Intente nuevamente.");
+                        }
+                        this.txt_precioTurno.setVisible(false);
+                        this.seleccion = null;
+                        break;
+                    case "Coberturas":
+                        if (!this.nuevasCoberturas.isEmpty() && this.agregueCobertura) {
+                            if (!Main.manager.getTransaction().isActive())
+                                Main.manager.getTransaction().begin();
+                            Main.consultorioSeleccionado.agregarNuevasCoberturas(this.nuevasCoberturas);
+                            Main.manager.merge(Main.consultorioSeleccionado);
+                            Main.manager.getTransaction().commit();
+                            this.txt_coberturas.setVisible(false);
+                            this.btn_addCobertura.setVisible(false);
+                            this.agregueCobertura = false;
+                            this.seleccion = null;
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "No se cargaron nuevas coberturas. Reintente");
+                            this.txt_coberturas.clear();
+                        }
+                        break;
+                    case "Estudios":
+                        if (!this.nuevosEstudios.isEmpty() && this.agregueEstudio) {
+                            if (!Main.manager.getTransaction().isActive())
+                                Main.manager.getTransaction().begin();
+                            Main.consultorioSeleccionado.agregarNuevosEstudios(this.nuevosEstudios);
+                            Main.manager.merge(Main.consultorioSeleccionado);
+                            Main.manager.getTransaction().commit();
+                            this.txt_estudios.setVisible(false);
+                            this.btn_addEstudio.setVisible(false);
+                            this.agregueEstudio = false;
+                            this.seleccion = null;
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "No se cargaron nuevos estudios. Reintente");
+                            this.txt_estudios.clear();
+                        }
+                        break;
+                    case "Doctor":
+                        if (this.cbox_doctores.getSelectionModel().getSelectedItem() != null) {
+                            Main.nuevoDoctor = this.cbox_doctores.getSelectionModel().getSelectedItem();
+                            if (Main.consultorioSeleccionado.getDoctor() != Main.nuevoDoctor) {
+                                if (!Main.manager.getTransaction().isActive())
+                                    Main.manager.getTransaction().begin();
+                                Main.consultorioSeleccionado.setDoctor(Main.nuevoDoctor);
+                                Main.manager.merge(Main.consultorioSeleccionado);
+                                Main.manager.getTransaction().commit();
+                            }
+                            this.cbox_doctores.setVisible(false);
+                            this.btn_addDoctor.setVisible(false);
+                            this.seleccion = null;
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "No se selecciono ningun doctor. Intente nuevamente");
+                        }
+                        break;
+                }
+            } else if (Main.editandoArea) {
+                switch (this.seleccion) {
+                    case "NombreArea":
+                        if (!this.txt_nombreArea.getText().equals("")) {
+                            if (!Main.manager.getTransaction().isActive())
+                                Main.manager.getTransaction().begin();
+                            Main.areaSeleccionada.setNombre(this.txt_nombreArea.getText());
+                            Main.manager.merge(Main.areaSeleccionada);
+                            Main.manager.getTransaction().commit();
+                            this.txt_nombreArea.setVisible(false);
+                            this.seleccion = null;
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "El campo del nuevo nombre del area esta vacio. Intente nuevamente");
+                        }
+                        break;
+                    case "Recepcionista":
+                        if (this.cbox_recepcionistas.getSelectionModel().getSelectedItem() != null) {
+                            Main.nuevoRecepcionista = Main.manager.find(Recepcionista.class, this.cbox_recepcionistas.getSelectionModel().getSelectedItem().getDni());
+                            if (Main.areaSeleccionada.getRecepcionista() != Main.nuevoRecepcionista) {
+                                if (!Main.manager.getTransaction().isActive())
+                                    Main.manager.getTransaction().begin();
+                                Main.areaSeleccionada.setRecepcionista(Main.nuevoRecepcionista);
+                                Main.manager.merge(Main.areaSeleccionada);
+                                Main.manager.getTransaction().commit();
+                            }
+                            this.cbox_recepcionistas.setVisible(false);
+                            this.btn_addRec.setVisible(false);
+                            this.seleccion = null;
+                            this.seleccioneAtributo = false;
+                            stage.close();
+                        }
+                        else{
+                            m.sendAlert(Alert.AlertType.ERROR, "Error", "No se selecciono ningun recepcionista nuevo. Intente nuevamente");
+                        }
+                        break;
+                }
+            }
+        }
+        else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe elegir el atributo que quiere editar. Reintente.");
+        }
     }
 
     @FXML
@@ -236,22 +288,32 @@ public class EditarElementoController implements Initializable {
                 }
             }
         }
+        this.seleccioneAtributo = true;
     }
 
     @FXML
     void addCobButtonClicked(ActionEvent event) {
+        Main m = new Main();
         if(!this.txt_coberturas.getText().equals("")) {
             this.nuevasCoberturas.add(this.txt_coberturas.getText());
             this.txt_coberturas.clear();
-            System.out.println(nuevasCoberturas);
+            this.agregueCobertura = true;
+        }
+        else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe cargar la cobertura antes de querer agregarla. Intente nuevamente.");
         }
     }
 
     @FXML
     void addestudioButtonClicked(ActionEvent event) {
+        Main m = new Main();
         if(!this.txt_estudios.getText().equals("")) {
             this.nuevosEstudios.add(this.txt_estudios.getText());
             this.txt_estudios.clear();
+            this.agregueEstudio = true;
+        }
+        else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe cargar el estudio antes de querer agregarlo. Intente nuevamente.");
         }
     }
 
@@ -279,7 +341,7 @@ public class EditarElementoController implements Initializable {
             e.printStackTrace();
         }
         Main.agregandoRecepcionista = false;
-        //this.txt_recepCreado.setVisible(true);
+        this.cargarRecepcionistas();
     }
 
     @FXML
@@ -378,5 +440,13 @@ public class EditarElementoController implements Initializable {
         for(Doctor d : doctoresLibres)
             doctores.add(d);
         this.cbox_doctores.setItems(doctores);
+    }
+
+    public void cargarRecepcionistas(){
+        ObservableList<Recepcionista> receps = FXCollections.observableArrayList();
+        List<Recepcionista> recepLibres = Main.manager.createQuery("FROM Recepcionista WHERE dni NOT IN (SELECT recepcionista FROM Area )").getResultList();
+        for(Recepcionista r: recepLibres)
+            receps.add(r);
+        this.cbox_recepcionistas.setItems(receps);
     }
 }

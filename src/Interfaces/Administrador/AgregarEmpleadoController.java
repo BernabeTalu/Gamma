@@ -80,7 +80,6 @@ public class AgregarEmpleadoController implements Initializable {
 
                     if (this.cbox_consultorios.isVisible()) {
                         if (this.cbox_consultorios.getSelectionModel().getSelectedItem() != null) { //Si elijo asignarle un consultorio al doctor.
-                            System.out.println("Agregue el doctor al consultorio");
                             Consultorio c = Main.manager.find(Consultorio.class, this.cbox_consultorios.getSelectionModel().getSelectedItem());
                             c.setDoctor(nuevoDoctor);
                             Main.manager.merge(c);

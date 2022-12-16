@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -38,21 +39,27 @@ public class AgregarPacienteController {
 
     @FXML
     void agregarButtonClicked(ActionEvent event) {
-        Paciente nuevoPaciente = new Paciente(
-                Integer.parseInt(this.txt_DNI.getText()),
-                this.txt_nombre.getText(),
-                this.txt_apellido.getText(),
-                Integer.parseInt(this.txt_telefono.getText()),
-                this.txt_cobertura.getText()
-        );
-        if (!Main.manager.getTransaction().isActive())
-            Main.manager.getTransaction().begin();
+        Main m = new Main();
+        if(!this.txt_DNI.getText().equals("") && !this.txt_nombre.getText().equals("") && !this.txt_apellido.getText().equals("") && !this.txt_telefono.getText().equals("")) {
+            Paciente nuevoPaciente = new Paciente(
+                    Integer.parseInt(this.txt_DNI.getText()),
+                    this.txt_nombre.getText(),
+                    this.txt_apellido.getText(),
+                    Integer.parseInt(this.txt_telefono.getText()),
+                    this.txt_cobertura.getText()
+            );
+            if (!Main.manager.getTransaction().isActive())
+                Main.manager.getTransaction().begin();
 
-        Main.manager.persist(nuevoPaciente);
-        Main.manager.getTransaction().commit();
+            Main.manager.persist(nuevoPaciente);
+            Main.manager.getTransaction().commit();
 
-        Stage stage = (Stage) btn_agregar.getScene().getWindow();
-        stage.close();
+            Stage stage = (Stage) btn_agregar.getScene().getWindow();
+            stage.close();
+        }
+        else {
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe rellenar todos los campos. La cobertura es opcional. Reintente");
+        }
     }
 
 }

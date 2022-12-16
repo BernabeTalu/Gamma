@@ -8,11 +8,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import modelos.Area;
 import modelos.Elemento;
+import modelos.Paciente;
 import modelos.Recepcionista;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -25,7 +28,7 @@ public class AgregarAreaController implements Initializable {
     private Button btn_addRecepcionista;
 
     @FXML
-    private ComboBox<Integer> cbox_recepcionistas;
+    private ComboBox<Recepcionista> cbox_recepcionistas;
 
     @FXML
     private TextField txt_idNuevaArea;
@@ -33,31 +36,39 @@ public class AgregarAreaController implements Initializable {
     @FXML
     private TextField txt_nuevaArea;
 
-    private ObservableList<Integer> recepcionistas;
+    private ObservableList<Recepcionista> recepcionistas;
 
     @FXML
     private Label txt_recepCreado;
 
     @FXML
     void addButtonClicked(ActionEvent event) {
+        Main m = new Main();
+        if(!this.txt_nuevaArea.getText().equals("")) {
+            if (this.cbox_recepcionistas.getSelectionModel().getSelectedItem() != null) {
+                Main.nuevoRecepcionista = Main.manager.find(Recepcionista.class, this.cbox_recepcionistas.getSelectionModel().getSelectedItem().getDni());
 
-        if (this.cbox_recepcionistas.getSelectionModel().getSelectedItem() != null) {
-            Main.nuevoRecepcionista = Main.manager.find(Recepcionista.class, this.cbox_recepcionistas.getSelectionModel().getSelectedItem());
+                Area nuevaArea = new Area(
+                        this.txt_nuevaArea.getText(),
+                        Main.nuevoRecepcionista
+                );
+
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
+                Main.areaSeleccionada.setComponente(nuevaArea);
+                Main.manager.persist(nuevaArea);
+                Main.manager.merge(Main.areaSeleccionada);
+                Main.manager.getTransaction().commit();
+
+                Stage stage = (Stage) btn_addArea.getScene().getWindow();
+                stage.close();
+            }
+            else{
+                m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe elegir un recepcionista para el area. Reintente");
+            }
+        }else{
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe ingresar el nombre del area. Reintente.");
         }
-        Area nuevaArea = new Area(
-                this.txt_nuevaArea.getText(),
-                Main.nuevoRecepcionista
-        );
-
-        if (!Main.manager.getTransaction().isActive())
-            Main.manager.getTransaction().begin();
-        Main.areaSeleccionada.setComponente(nuevaArea);
-        Main.manager.persist(nuevaArea);
-        Main.manager.merge(Main.areaSeleccionada);
-        Main.manager.getTransaction().commit();
-
-        Stage stage = (Stage) btn_addArea.getScene().getWindow();
-        stage.close();
     }
 
     @FXML
@@ -69,19 +80,31 @@ public class AgregarAreaController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.recepcionistas.addAll(Main.manager.createQuery("FROM Recepcionista WHERE dni NOT IN (SELECT recepcionista FROM Area )").getResultList());
+        this.cbox_recepcionistas.setItems(this.recepcionistas);
+        m.sendAlert(Alert.AlertType.INFORMATION, "Recepcionista creado", "Recepcionista creado existosamente.");
         Main.agregandoRecepcionista = false;
-        this.txt_recepCreado.setVisible(true);
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.recepcionistas = FXCollections.observableArrayList();
-        List<Recepcionista> recepcionistasLibres = Main.manager.createQuery("FROM Recepcionista WHERE dni NOT IN (SELECT recepcionista FROM Area )").getResultList();
-
-        for(Recepcionista r:recepcionistasLibres){
-            this.recepcionistas.add(r.getDni());
-        }
+        this.recepcionistas.addAll(Main.manager.createQuery("FROM Recepcionista WHERE dni NOT IN (SELECT recepcionista FROM Area )").getResultList());
         this.cbox_recepcionistas.setItems(this.recepcionistas);
+
+        StringConverter<Recepcionista> converterPaciente = new StringConverter<Recepcionista>() {
+            @Override
+            public String toString(Recepcionista recepcionista) {
+                return recepcionista.getDni() +" - "+recepcionista.getNombre();
+            }
+
+            @Override
+            public Recepcionista fromString(String string) {
+                return null;
+            }
+        };
+        this.cbox_recepcionistas.setConverter(converterPaciente);
+
     }
 }

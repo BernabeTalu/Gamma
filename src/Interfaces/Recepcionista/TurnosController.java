@@ -186,24 +186,34 @@ public class TurnosController implements Initializable {
     void agregarButtonClicked(ActionEvent event) throws IOException {
         Main m = new Main();
         m.changeScene("src/Interfaces/Recepcionista/TurnosDisponibles.fxml", "Menu Gamma");
+        m.sendAlert(Alert.AlertType.INFORMATION, "Filtrado", "Seleccione un area para filtrar turnos por el atributo que usted quiera, en el panel de la izquierda.");
     }
 
     @FXML
     void eliminarButtonClicked(ActionEvent event) throws IOException {
+        Main m = new Main();
         if (table_turnos.getSelectionModel().getSelectedItem() != null) {
             Turno turnoSeleccionado = (Turno) this.table_turnos.getSelectionModel().getSelectedItem();
 
-
-            if (!Main.manager.getTransaction().isActive())
+            if (!Main.manager.getTransaction().isActive()) {
                 Main.manager.getTransaction().begin();
+            }
 
+            /*if(turnoSeleccionado.getConsultorio()!= null) {
+                turnoSeleccionado.getConsultorio().cancelarTurno(turnoSeleccionado);
+                Main.manager.merge(turnoSeleccionado.getConsultorio());
+            }*/
             turnoSeleccionado.setAsignado(false);
+            Paciente p = turnoSeleccionado.getPaciente();
             turnoSeleccionado.setPaciente(null);
+            if(turnoSeleccionado.isPagado()) {
+                turnoSeleccionado.setPagado(false);
+            }
             Main.manager.merge(turnoSeleccionado);
             Main.manager.getTransaction().commit();
+            m.sendAlert(Alert.AlertType.ERROR,"Turno cancelado","El turno para el paciente con DNI:"+ p.getDni()+", para el dia "+turnoSeleccionado.getFecha()+" fue cancelado.");
         }
         else{
-            Main m = new Main();
             m.sendAlert(Alert.AlertType.ERROR,"No selecciono turno","No se selecciono un turno. Inténtelo de nuevo");
         }
         this.actualizarTabla();
@@ -226,6 +236,7 @@ public class TurnosController implements Initializable {
 
     @FXML
     void pagarButtonClicked(ActionEvent event) {
+        Main m = new Main();
         if (!Main.manager.getTransaction().isActive()) {
             Main.manager.getTransaction().begin();
         }
@@ -236,6 +247,8 @@ public class TurnosController implements Initializable {
         Main.manager.merge(turno);
         Main.manager.getTransaction().commit();
         this.actualizarTabla();
+
+        m.sendAlert(Alert.AlertType.INFORMATION, "Turno marcado como pago", "El turno fue marcado como pago, con un valor de "+turno.getPrecio());
     }
 
 }

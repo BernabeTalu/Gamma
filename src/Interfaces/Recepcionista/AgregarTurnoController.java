@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modelos.Area;
@@ -42,10 +39,9 @@ public class AgregarTurnoController implements Initializable {
         Main m = new Main();
 
         if(this.cbox_pacientes.getSelectionModel().getSelectedItem() == null) {
-            label_error.setText("Por favor ingresa el DNI del paciente");
+            m.sendAlert(Alert.AlertType.ERROR, "Error", "Debe elegir un paciente de los disponibles. Reintente");
         }
         else {
-
             Paciente paciente = this.cbox_pacientes.getSelectionModel().getSelectedItem();
             if (paciente != null) {
                 Main.turnoActual.setPaciente(paciente);
@@ -55,7 +51,6 @@ public class AgregarTurnoController implements Initializable {
                     Main.manager.persist(Main.turnoActual);
                     Main.manager.getTransaction().commit();
 
-                label_error.setText("Turno registrado exitosamente");
                 Main.manager.getTransaction().begin();
                 Main.turnoActual.setAsignado(true);
                 Main.manager.merge(Main.turnoActual);
@@ -63,9 +58,6 @@ public class AgregarTurnoController implements Initializable {
 
                 Stage stage = (Stage) btn_agregar.getScene().getWindow();
                 stage.close();
-            }
-            else {
-                label_error.setText("Paciente inexistente");
             }
         }
     }
