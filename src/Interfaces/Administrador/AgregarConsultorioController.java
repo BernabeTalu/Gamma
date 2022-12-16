@@ -112,10 +112,15 @@ public class AgregarConsultorioController implements Initializable {
             e.printStackTrace();
         }
         Main.agregandoDoctor = false;
+        this.cargarDoctores();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.cargarDoctores();
+    }
+
+    public void cargarDoctores(){
         this.doctores = FXCollections.observableArrayList();
         List<Doctor> docList = Main.manager.createQuery("FROM Doctor WHERE dni NOT IN (SELECT doctor FROM Consultorio )").getResultList();
 
