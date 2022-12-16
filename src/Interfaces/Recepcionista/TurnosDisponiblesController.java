@@ -42,7 +42,7 @@ public class TurnosDisponiblesController implements Initializable {
     private FiltroFecha filtroFecha;
     private FiltroHora filtroHora;
     private FiltroEstudio filtroEstudio;
-    private FiltroObraSocial filtroObrasocial;
+    private FiltroCobertura filtroObrasocial;
     private FiltroDoctor filtroDoctor;
 
     @FXML
@@ -110,7 +110,7 @@ public class TurnosDisponiblesController implements Initializable {
         this.filtroFecha = new FiltroFecha();
         this.filtroHora = new FiltroHora();
         this.filtroEstudio = new FiltroEstudio();
-        this.filtroObrasocial = new FiltroObraSocial();
+        this.filtroObrasocial = new FiltroCobertura();
         this.filtroDoctor = new FiltroDoctor();
         this.filtroAnd.agregarFiltro(new FiltroAsignado(false));
 
@@ -249,10 +249,10 @@ public class TurnosDisponiblesController implements Initializable {
             if (newSelection != null) {
                 if (this.filtroAnd.contieneFiltro(filtroObrasocial)) {
                     this.filtroAnd.eliminarFiltro(filtroObrasocial);
-                    this.filtroObrasocial.setObraSocial(cb_obrasocial.getSelectionModel().getSelectedItem());
+                    this.filtroObrasocial.setCobertura(cb_obrasocial.getSelectionModel().getSelectedItem());
                     this.filtroAnd.agregarFiltro(filtroObrasocial);
                 } else {
-                    this.filtroObrasocial.setObraSocial(cb_obrasocial.getSelectionModel().getSelectedItem());
+                    this.filtroObrasocial.setCobertura(cb_obrasocial.getSelectionModel().getSelectedItem());
                     this.filtroAnd.agregarFiltro(filtroObrasocial);
                 }
                 actualizarTabla();
