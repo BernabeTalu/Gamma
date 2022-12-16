@@ -47,7 +47,6 @@ public abstract class Elemento {
     }
 
     public abstract List<Turno> getTurnos(); //Done
-    public abstract List<Consultorio> getConsultoriosFiltrados();
     public abstract List<Consultorio> getConsultorios(); //Done
     public abstract boolean turnoOcupado(LocalDate date, LocalTime time); //Done
     public abstract void setTurno(Turno t); //Done

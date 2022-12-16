@@ -1,8 +1,11 @@
 package Interfaces.Administrador;
 
 import Interfaces.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -11,13 +14,17 @@ import javafx.stage.Stage;
 import modelos.Consultorio;
 import modelos.Doctor;
 import modelos.Elemento;
+import modelos.Recepcionista;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
-public class AgregarConsultorioController {
+public class AgregarConsultorioController implements Initializable {
 
+    private ObservableList doctores;
     @FXML
     private Button btn_addCobertura;
 
@@ -31,7 +38,7 @@ public class AgregarConsultorioController {
     private Button btn_agregar;
 
     @FXML
-    private ComboBox<?> cbox_doctores;
+    private ComboBox<Doctor> cbox_doctores;
 
     @FXML
     private TextField txt_coberturas;
@@ -105,5 +112,15 @@ public class AgregarConsultorioController {
         Main.agregandoDoctor = false;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.doctores = FXCollections.observableArrayList();
+        List<Doctor> docList = Main.manager.createQuery("FROM Doctor WHERE dni NOT IN (SELECT doctor FROM Consultorio )").getResultList();
+
+        for(Doctor d:docList){
+            this.doctores.add(d.getDni());
+        }
+        this.cbox_doctores.setItems(this.doctores);
+    }
 }
 

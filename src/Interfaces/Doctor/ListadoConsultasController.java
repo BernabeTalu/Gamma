@@ -9,11 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import modelos.Consulta;
 import modelos.Paciente;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ public class ListadoConsultasController implements Initializable {
     private TableView<Consulta> table_consultas;
 
     @FXML
-    private Text txt_detalles;
+    private TextArea txt_detalles;
 
     @FXML
     void backButonClicked(ActionEvent event) {
@@ -76,5 +78,12 @@ public class ListadoConsultasController implements Initializable {
                 this.txt_detalles.setText(seleccion.getDescripcion());
             }
         });
+    }
+
+    @FXML
+    void agregarButtonClicked(ActionEvent event) throws IOException {
+        Main m = new Main();
+        m.changeSceneOnParent("src/Interfaces/Doctor/AgregarObservacion.fxml", "Nueva Observación");
+        this.actualizarTabla();
     }
 }

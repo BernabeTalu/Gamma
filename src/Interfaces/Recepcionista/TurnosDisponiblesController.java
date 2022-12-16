@@ -266,9 +266,11 @@ public class TurnosDisponiblesController implements Initializable {
     @FXML
     void seleccionarButtonClicked(ActionEvent event) throws IOException {
         Main.turnoActual = (Turno) table_turnos.getSelectionModel().getSelectedItem();
-        Main m = new Main();
-        m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarTurno.fxml", "Asignar Turno");
-        this.actualizarTabla();
+            if(table_turnos.getSelectionModel().getSelectedItem() != null) {
+                Main m = new Main();
+                m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarTurno.fxml", "Asignar Turno");
+                this.actualizarTabla();
+            }
     }
 
     @FXML

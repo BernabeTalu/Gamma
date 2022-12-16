@@ -50,7 +50,13 @@ public class MenuPrincipalDoctorController {
 
     @FXML
     void turnosButtonClicked(ActionEvent event) {
-
+        Main m = new Main();
+        try {
+            m.changeScene("src/Interfaces/Doctor/TurnosDoctor.fxml", "Turnos");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

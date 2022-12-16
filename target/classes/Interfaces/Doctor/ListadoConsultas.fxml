@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="600.0" style="-fx-background-color: #53263C;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaces.Doctor.ListadoConsultasController">
     <children>
-        <TableView fx:id="table_consultas" layoutX="5.0" layoutY="57.0" prefHeight="313.0" prefWidth="409.0" style="-fx-background-color: #d2a6bc;">
+        <TableView fx:id="table_consultas" layoutX="5.0" layoutY="57.0" prefHeight="313.0" prefWidth="399.0" style="-fx-background-color: #d2a6bc;">
             <columns>
                 <TableColumn fx:id="col_idConsulta" prefWidth="96.0" text="Id Consulta" />
                 <TableColumn fx:id="col_dniPaciente" prefWidth="77.0" text="Dni Paciente" />
@@ -46,19 +47,20 @@
                         </ImageView>
                     </graphic></Button>
             </children></Pane>
-      <Pane layoutX="421.0" layoutY="57.0" prefHeight="313.0" prefWidth="172.0" style="-fx-background-color: #d2a6bc;">
-         <children>
-            <Text fill="#f2e5f0" layoutX="10.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" text="Detalles" textAlignment="CENTER" wrappingWidth="151.13671875">
-               <font>
-                  <Font size="29.0" />
-               </font>
-            </Text>
-            <Text fx:id="txt_detalles" fill="#f2e5f0" layoutX="10.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" textAlignment="CENTER" wrappingWidth="151.13671875">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-         </children>
-      </Pane>
+      <Button fx:id="btn_agregar" layoutX="434.0" layoutY="346.0" mnemonicParsing="false" onAction="#agregarButtonClicked" prefHeight="24.0" prefWidth="134.0" style="-fx-background-color: #a64d79;" text="Agregar Observacion" textFill="#f8f8f8">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Button>
+      <Text fill="#f2e5f0" layoutX="425.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fuente" text="Detalles" textAlignment="CENTER" wrappingWidth="151.13671875">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <TextArea fx:id="txt_detalles" layoutX="409.0" layoutY="90.0" prefHeight="240.0" prefWidth="187.0">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </TextArea>
     </children>
 </AnchorPane>

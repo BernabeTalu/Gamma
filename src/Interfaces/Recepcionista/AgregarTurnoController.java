@@ -74,6 +74,9 @@ public class AgregarTurnoController implements Initializable {
     void nuevoPacienteButtonClicked(ActionEvent event) throws IOException {
         Main m = new Main();
         m.changeSceneOnParent("src/Interfaces/Recepcionista/AgregarPaciente.fxml", "Agregar paciente");
+        this.listPacientes = FXCollections.observableArrayList();
+        this.listPacientes.addAll(Main.manager.createQuery("FROM Paciente ").getResultList());
+        this.cbox_pacientes.setItems(this.listPacientes);
 
     }
 

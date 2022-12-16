@@ -71,7 +71,7 @@ public class AdministrarPacientesController implements Initializable {
 
     @FXML
     void delPacienteButtonClicked(ActionEvent event) {
-
+        //TODO
     }
 
     public void actualizarTabla() {

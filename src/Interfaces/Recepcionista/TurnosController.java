@@ -38,6 +38,9 @@ public class TurnosController implements Initializable {
     private Button btn_eliminar;
 
     @FXML
+    private Button btn_pagar;
+
+    @FXML
     private Button btn_reset;
 
     @FXML
@@ -121,6 +124,7 @@ public class TurnosController implements Initializable {
         table_turnos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 btn_eliminar.setVisible(true);
+                btn_pagar.setVisible(true);
             }
         });
 
@@ -216,5 +220,18 @@ public class TurnosController implements Initializable {
         this.actualizarTabla();
     }
 
+    @FXML
+    void pagarButtonClicked(ActionEvent event) {
+        if (!Main.manager.getTransaction().isActive()) {
+            Main.manager.getTransaction().begin();
+        }
+
+        Turno turno = (Turno)this.table_turnos.getSelectionModel().getSelectedItem();
+        turno.setPagado(true);
+        turno.getConsultorio().setGananciaMensual(turno.getPrecioTurno());
+        Main.manager.merge(turno);
+        Main.manager.getTransaction().commit();
+        this.actualizarTabla();
+    }
 
 }

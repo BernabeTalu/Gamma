@@ -11,6 +11,8 @@ import java.time.LocalTime;
 @Table(name = "Consulta")
 public class Consulta {
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="consultaid_generator")
+    @SequenceGenerator(name = "consultaid_generator",initialValue=1,allocationSize=1,sequenceName="consultaid_seq")
     @Column(name = "IdConsulta")
     private int idConsulta;
 
@@ -31,8 +33,7 @@ public class Consulta {
     public Consulta(){
     }
 
-    public Consulta(int idConsulta, LocalDate fecha, String descripcion, Paciente p,int dniDoctor){
-        this.idConsulta = idConsulta;
+    public Consulta( LocalDate fecha, String descripcion, Paciente p,int dniDoctor){
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.paciente = p;

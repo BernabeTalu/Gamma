@@ -72,10 +72,6 @@ public class Area extends Elemento implements Serializable{
         return consultoriosArea;
     }
 
-    @Override
-    public List<Consultorio> getConsultoriosFiltrados(){
-        return null;
-    }
 
     @Override
     public boolean turnoOcupado(LocalDate date, LocalTime time) {

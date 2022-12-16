@@ -93,7 +93,7 @@ public class Main extends Application {
 //            Turno turno2 = new Turno(2, paciente, LocalDate.now(), LocalTime.now(),100.50, false, cons);
 //            Turno turno3 = new Turno(3, paciente2, LocalDate.now(), LocalTime.now(),100.50, false, cons3);
 //
-            Consulta consulta1 = new Consulta(404,LocalDate.now(),"Resonancia",paciente,123);
+
 //            paciente.setConsultaHistoriaClinica(consulta1);
 //
             Area areaGral = new Area("Area",null);
@@ -128,7 +128,7 @@ public class Main extends Application {
 //
             manager.persist(paciente);
 //            manager.persist(paciente);
-            manager.persist(consulta1);
+
 //            manager.persist(cons3);
 //            manager.persist(doc1);
 //            manager.persist(doc2);

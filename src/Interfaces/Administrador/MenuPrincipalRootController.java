@@ -62,7 +62,7 @@ public class MenuPrincipalRootController {
 
     @FXML
     void resumenButtonClicked(ActionEvent event) {
-        Main m = new Main();
+        //TODO
     }
 
     @FXML
@@ -73,13 +73,7 @@ public class MenuPrincipalRootController {
 
     @FXML
     void turnosButtonClicked(ActionEvent event) {
-        Main m = new Main();
-        try {
-            m.changeScene("src/Interfaces/Administrador/Turnos.fxml", "Turnos");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        //TODO
     }
 
 }

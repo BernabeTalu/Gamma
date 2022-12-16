@@ -129,7 +129,7 @@ public class Consultorio extends Elemento implements Serializable {
     }
 
     public void setGananciaMensual(double gananciaMensual) {
-        this.gananciaMensual = gananciaMensual;
+        this.gananciaMensual += gananciaMensual;
     }
 
     public void setOcupado(boolean ocupado) {
@@ -148,10 +148,6 @@ public class Consultorio extends Elemento implements Serializable {
         return salida;
     }
 
-    @Override
-    public List<Consultorio> getConsultoriosFiltrados(){ //Falta todavia.
-        return null;
-    }
 
     @Override
     public boolean turnoOcupado(LocalDate date, LocalTime time) {
@@ -164,17 +160,6 @@ public class Consultorio extends Elemento implements Serializable {
 
     @Override
     public void setTurno(Turno t) {
-        if(t.getConsultorio().equals(this)) {
-           /*
-            if (t.getPaciente() != null) {
-                if (this.coberturasMedicas.contains(t.getPaciente().getCoberturaMedica())) {
-                    this.turnos.add(t); //Seteo el turno para una fecha y hora libres, con chequeo previo desde Area.
-                    if (t.isPagado())
-                        this.gananciaMensual += t.getPrecioTurno();
-                }
-            }
-         */
-        }
         this.turnos.add(t);
     }
 

@@ -49,7 +49,7 @@ public class MenuPrincipalRecepcionistaController {
 
     @FXML
     void consultoriosButtonClicked(ActionEvent event) {
-
+        //TODO
     }
 
     @FXML
