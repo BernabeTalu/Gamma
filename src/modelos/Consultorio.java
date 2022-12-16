@@ -166,9 +166,8 @@ public class Consultorio extends Elemento implements Serializable {
     @Override
     public void cancelarTurno(Turno t){
         if(this.turnos.contains(t)){
-            this.turnos.remove(t);
             if(t.isPagado())
-                this.gananciaMensual -= t.getPrecioTurno();
+                this.gananciaMensual = this.gananciaMensual-  t.getPrecioTurno();
         }
     }
 

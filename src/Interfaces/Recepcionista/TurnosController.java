@@ -199,16 +199,22 @@ public class TurnosController implements Initializable {
                 Main.manager.getTransaction().begin();
             }
 
-            /*if(turnoSeleccionado.getConsultorio()!= null) {
-                turnoSeleccionado.getConsultorio().cancelarTurno(turnoSeleccionado);
-                Main.manager.merge(turnoSeleccionado.getConsultorio());
-            }*/
             turnoSeleccionado.setAsignado(false);
             Paciente p = turnoSeleccionado.getPaciente();
             turnoSeleccionado.setPaciente(null);
+
+
             if(turnoSeleccionado.isPagado()) {
+                if (!Main.manager.getTransaction().isActive())
+                    Main.manager.getTransaction().begin();
+                turnoSeleccionado.getConsultorio().cancelarTurno(turnoSeleccionado);
+                Main.manager.merge(turnoSeleccionado.getConsultorio());
+                Main.manager.getTransaction().commit();
                 turnoSeleccionado.setPagado(false);
+
             }
+            if (!Main.manager.getTransaction().isActive())
+                Main.manager.getTransaction().begin();
             Main.manager.merge(turnoSeleccionado);
             Main.manager.getTransaction().commit();
             m.sendAlert(Alert.AlertType.ERROR,"Turno cancelado","El turno para el paciente con DNI:"+ p.getDni()+", para el dia "+turnoSeleccionado.getFecha()+" fue cancelado.");

@@ -175,10 +175,6 @@ public class AreasController implements Initializable {
     void backButtonClicked(ActionEvent event) {
         Main m = new Main();
         try {
-            if(Main.areaSeleccionada!=null) {
-                this.adminEtiquetasArea();
-                this.adminEtiquetasConsultorio();
-            }
             m.changeScene("src/Interfaces/Administrador/MenuPrincipalRoot.fxml", "Menu Gamma");
         }
         catch (Exception e) {
