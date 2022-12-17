@@ -5,13 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelos.*;
-import org.hibernate.query.Query;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,11 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 public class Main extends Application {
     private static Stage stg;
@@ -71,103 +66,19 @@ public class Main extends Application {
                     0);
 
             if (!Main.manager.getTransaction().isActive())
-                Main.manager.getTransaction().begin(); // La abro
-                //manager.persist(paciente);
-                manager.persist(root);
-//
+                Main.manager.getTransaction().begin();
+
+            manager.persist(root);
             Paciente paciente = new Paciente(37852343,"Carlos", "Gomez",2424242, "OSDE");
-//            Paciente paciente2 = new Paciente(20807233,"Cesar", "Basualdo",343434, "IOMA");
-//
-//            Doctor doc1 = new Doctor(35678890,"Bernabe", "Talu", 24946014,"pass",25, 80000, 234789);
-//            Doctor doc2 = new Doctor(23664890,"Eduardo", "Veniabuscarajuancruz", 2223456,"pass", 26, 90000, 244767);
-//            Doctor doc3 = new Doctor(18908998,"Gustavo","Suarez",5556668,"pass", 27,100000,456788);
-//
-//            Recepcionista rec = new Recepcionista(27908889, "Javier", "Perez",22845677, "pass",27, 40000);
-//            Recepcionista rec2 = new Recepcionista(45678908,"Leo","Messi",345678,"pass",28,40000);
-//
-//            Consultorio cons2 = new Consultorio(02, "FalsoConsultorio2", doc2, 80.90);
-//            Consultorio cons3 = new Consultorio(03,"FalsoConsultorio3",doc3,100.00);
-//
-//            cons.setCoberturasMedicas("OSDE");
-//            cons2.setCoberturasMedicas("IOMA");
-//
-//            Turno turno = new Turno(1, paciente, LocalDate.now(), LocalTime.now(),100.50, true, cons);
-//            Turno turno2 = new Turno(2, paciente, LocalDate.now(), LocalTime.now(),100.50, false, cons);
-//            Turno turno3 = new Turno(3, paciente2, LocalDate.now(), LocalTime.now(),100.50, false, cons3);
-//
-
-//            paciente.setConsultaHistoriaClinica(consulta1);
-//
             Area areaGral = new Area("Area",null);
-            //Area area1 = new Area(51, "Kinesiologia", null);
-            //Area area2 = new Area(52, "Cardiologia",null);
-
-//            area1.setComponente(cons);
-//            area1.setComponente(cons2);
-//            area2.setComponente(cons3);
-//
-//            rec.setTurnosEnAgenda(turno);
-//            rec.setTurnosEnAgenda(turno2);
-//            rec.setTurnosEnAgenda(turno3);
-//
-//            doc1.setEspecialidades("Cardiologo");
-//            doc1.setEspecialidades("Cirujano");
-//            doc2.setEspecialidades("Obstetra");
-//            doc2.setEspecialidades("Kinesiologo");
-//
-//            doc1.agregarPaciente(paciente);
-//            doc2.agregarPaciente(paciente);
-//
-//            paciente.setDoctores(doc1);
-//            paciente.setDoctores(doc2);
-//
-//            rec.setArea(area1);
-//
-//            System.out.println(cons.getTurnos());
-//
-//            if (!Main.manager.getTransaction().isActive())
-//                Main.manager.getTransaction().begin(); // La abro
-//
             manager.persist(paciente);
-//            manager.persist(paciente);
-
-//            manager.persist(cons3);
-//            manager.persist(doc1);
-//            manager.persist(doc2);
-//            manager.persist(doc3);
-//            manager.persist(turno);
-//            manager.persist(turno2);
-//            //manager.persist(turno3);
-            //manager.persist(area1);
-            //manager.persist(area2);
             manager.persist(areaGral);
-//
-//            List<Persona> personas = (List<Persona>) manager.createQuery("FROM Persona").getResultList();
-//            System.out.println("En esta base de datos hay " + personas.size() + " personas");
-//            System.out.println(personas);
-//            System.out.println("#############################################");
-//
-//
-
-
-        /*
-        LocalTime hour = LocalTime.parse("18:00:00");
-        System.out.println(hour.getMinute());
-        System.out.println(hour.getSecond());
-        System.out.println("resta");
-        System.out.println(LocalTime.now().getHour() - hour.getHour());
-        System.out.println(LocalTime.now());
-         */
-
             Main.manager.getTransaction().commit();
-
         }
-
-        eliminarTurnosVencidos();
         cargarTurnos();
-
         launch(args);
     }
+
     public void changeScene(String fxml, String titulo) throws IOException {
 
         URL url = new File(fxml).toURI().toURL();
@@ -196,23 +107,6 @@ public class Main extends Application {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
-//    public void sendYesNoAlert(String title, String content){
-//        ButtonType foo = new ButtonType("foo", ButtonBar.ButtonData.OK_DONE);
-//        ButtonType bar = new ButtonType("bar", ButtonBar.ButtonData.CANCEL_CLOSE);
-//        Alert alert = new Alert(Alert.AlertType.WARNING,content,foo,bar);
-//        alert.setTitle(title);
-//
-//        alert.showAndWait().ifPresent(type -> {
-//            if (type == foo) {
-//                // do something
-//            }
-//            else
-//                if (type == bar) {
-//                    // do something
-//            }
-//        });
-//    }
 
 
     //Metodo para asegurarse que haya turnos desde la fecha actual hasta 30 dias en adelante para todos los consultorios.
@@ -318,15 +212,4 @@ public class Main extends Application {
         System.out.println("efewfwfwe");
     }
 
-    public static void eliminarTurnosVencidos(){
-
-//        Query query = (Query) Main.manager.createQuery("DELETE FROM Turno WHERE ((fecha < :fechaActual) OR (fecha = :fechaActual AND hora < :horaActual))");
-//        query.setParameter("fechaActual", LocalDate.now().plusDays(2));
-//        query.setParameter("horaActual", LocalTime.now());
-//        query.executeUpdate();
-
-
-
-
-    }
 }

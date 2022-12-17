@@ -149,27 +149,33 @@ public class AreasController implements Initializable {
     @FXML
     void editarElemButtonClicked(ActionEvent event) {
         Main m = new Main();
-        try {
-            if(this.editoConsultorio) {
-                Main.editandoConsultorio = true;
-                Main.editandoArea = false;
-            }
-            else{
-                if(this.editoArea){
-                    Main.editandoArea = true;
-                    Main.editandoConsultorio = false;
+        if (!Main.areaSeleccionada.getNombre().equals("Area")){
+
+            try {
+                if (this.editoConsultorio) {
+                    Main.editandoConsultorio = true;
+                    Main.editandoArea = false;
+                } else {
+                    if (this.editoArea) {
+                        Main.editandoArea = true;
+                        Main.editandoConsultorio = false;
+                    }
                 }
+                m.changeSceneOnParent("src/Interfaces/Administrador/EditarElemento.fxml", "Editar elemento existente");
+                this.elementosTree.clear();
+                this.actualizarTreeView();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            m.changeSceneOnParent("src/Interfaces/Administrador/EditarElemento.fxml", "Editar elemento existente");
-            this.elementosTree.clear();
-            this.actualizarTreeView();
-        } catch (Exception e) {
-            e.printStackTrace();
+            this.ocultarDatosArea();
+            this.ocultarDatosCons();
+            Main.editandoConsultorio = false;
+            Main.editandoArea = false;
         }
-        this.ocultarDatosArea();
-        this.ocultarDatosCons();
-        Main.editandoConsultorio = false;
-        Main.editandoArea = false;
+        else{
+            m.sendAlert(Alert.AlertType.ERROR,"Error Area","No se puede editar el area general");
+
+        }
     }
 
     @FXML
@@ -398,6 +404,7 @@ public class AreasController implements Initializable {
         this.btn_addSubArea.setVisible(true);
         this.btn_addConsultorio.setVisible(true);
         this.btn_eliminarSeleccion.setVisible(true);
+
         this.btn_editarElem.setVisible(true);
         this.labelArea.setVisible(true);
         this.labelNombreElemento.setVisible(true);
